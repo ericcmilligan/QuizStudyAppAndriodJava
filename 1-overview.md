@@ -5,10 +5,10 @@ Student ID: `C21040245`
 
 I wish to create a test quizzer app that allows a student to create quiz sets by entering up to 20 
 questions attached with four answer options of their choice for each set. With one option for the
-question to be marked as correct by the user. There will be tagging system implemented, 
-so question sets can be sorted into categories, allowing a question set to be included in more than
+question to be marked as correct by the student. There will be a tagging system implemented, 
+so question sets can be added to categories, allowing a question set to be included in more than
 one quiz I.e. a programming and C# assigned tag means the question set will be included in the C# 
-and programming quiz categories. 
+and programming categories. 
 
 The main purpose of the app is the use of the tags to generate quiz categories that the student can
 play through as a quiz with their score tracked. Features I want to include are a high score 
