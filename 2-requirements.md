@@ -16,3 +16,21 @@ quiz set.
 4. The app should allow students to add tags to their quiz sets to allow combination of tagged
 quiz sets in order to create playable categories.
 5. The app should allow the quiz sets to be edited and deleted. 
+
+### Quiz Gameplay
+
+1. The app should allow students to play quizzes sorted by created categories(tags assigned to sets).
+2. The quiz should allow the student to choose one answer option and report if correct or incorrect.
+3. The quiz should track the current score for the student's quiz.
+4. The quiz should have an end screen showing the score results to the student.
+5. The quiz should should allow the student to play again after they have finished the current quiz.
+
+### High score screen
+
+1. The app should have a high score screen that tracks the highest score for the user
+for a given quiz category.
+2. The high score should include the date achieved.
+3. The high score for the different categories should be shareable by email.
+4. The high score should be resettable.
+5. The high score if achieved should be saved when a student's quiz has finished and they 
+should be notified of this.
