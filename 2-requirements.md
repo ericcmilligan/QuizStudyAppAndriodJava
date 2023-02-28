@@ -34,3 +34,14 @@ for a given quiz category.
 4. The high score should be resettable.
 5. The high score if achieved should be saved when a student's quiz has finished and they 
 should be notified of this.
+
+## Non-Functional Requirements
+
+### Performance
+
+1. The app should respond to the user's question option click within 2 seconds
+2. The app should be able to handle a large number of quiz sets and categories without
+slowing down.
+3. The quiz should be optimized to use minimal system resources such as battery and 
+memory.
+4. The app should timeout of the quiz game after 10 seconds of non-user input.
