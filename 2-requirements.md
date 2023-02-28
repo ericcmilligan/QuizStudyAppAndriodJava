@@ -45,3 +45,34 @@ slowing down.
 3. The quiz should be optimized to use minimal system resources such as battery and 
 memory.
 4. The app should timeout of the quiz game after 10 seconds of non-user input.
+
+### Usability
+
+1. The app should have an easily navigable interface comprised of the different sections:
+play quiz section, quiz set manager section and high score section.
+2. The app should have clear and concise instructions for creating quiz sets and 
+playing quizzes.
+3. The app should use the same type of elements between the sections i.e. buttons, 
+icons and navigation menu.
+4. The app should alert the user to accept required permissions and state why they
+are needed.
+
+### Reliability
+
+1. The app should be stable and free of crashes or errors, with errors reported to the
+user.
+2. The app should be tested in different scenarios i.e. offline use
+
+### Compatibility
+
+1. The app design should be tested as compatible across different android devices. 
+2. The app should be compatible with different languages to allow use in different
+regions.
+
+### Design
+
+1. The app should have a consistent colour scheme and style.
+2. The app should use the same font styles across the sections.
+3. The app should use the same navigation tab across the sections for switching
+between sections.
+4. The app should allow a night mode to be used by the user.
