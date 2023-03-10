@@ -12,9 +12,9 @@ and programming categories.
 
 The main purpose of the app is the use of the tags to generate quiz categories that the student can
 play through as a quiz with their score tracked. Features I want to include are a high score 
-tab to track/compare quiz scores over time, along with a share option for student's to share 
+tab to view/compare quiz scores over time, along with a share option for student's to share 
 their quiz scores I.e. by email.
 
 The motivation to develop this app comes from experience of using existing revision tools to help
-memorize information for a test. The reason I wish to create an app for this purpose 
+memorize information for tests. The reason I wish to create an app for this purpose 
 is that I would like a simplified interface without the extraneous features of existing apps. 
