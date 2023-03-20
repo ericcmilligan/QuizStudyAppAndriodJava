@@ -12,12 +12,22 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_nav_home_to_nav_question_manager"
-            app:destination="@id/nav_question_manager" />
+            app:destination="@id/nav_question_manager"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment
         android:id="@+id/nav_question_manager"
         android:name="com.example.mob_dev_portfolio.Fragments.QuestionManager.QuestionManagerFragment"
         android:label="@string/menu_question_manager"
-        tools:layout="@layout/fragment_question_manager" />
+        tools:layout="@layout/fragment_question_manager" >
+        <action
+            android:id="@+id/action_nav_question_manager_to_nav_home"
+            app:destination="@id/nav_home"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/nav_question_manager"
+            app:popUpToInclusive="true"/>
+    </fragment>
 </navigation>
