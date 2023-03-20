@@ -4,19 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="Activities.Home.HomeFragment">
+    tools:context="Fragments.Home.HomeFragment">
 
-    <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+    <Button
+        android:id="@+id/play_quiz_button"
+        android:layout_width="243dp"
+        android:layout_height="102dp"
+        android:background="@color/purple_500"
+        android:text="Play Quiz"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/question_manager_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.724"
+       />
+
+    <Button
+        android:id="@+id/question_manager_button"
+        android:layout_width="243dp"
+        android:layout_height="102dp"
+        android:background="@color/purple_500"
+        android:text="Question Manager"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.473"
+        />
+
+    <Button
+        android:id="@+id/high_score_button"
+        android:layout_width="243dp"
+        android:layout_height="102dp"
+        android:layout_marginTop="153dp"
+        android:background="@color/purple_500"
+        android:text="High Scores"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/question_manager_button"
+        app:layout_constraintVertical_bias="0.0"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
