@@ -22,7 +22,7 @@
         android:id="@+id/nav_question_manager"
         android:name="com.example.mob_dev_portfolio.Fragments.QuestionManager.QMFragment"
         android:label="@string/menu_question_manager"
-        tools:layout="@layout/fragment_question_manager" >
+        tools:layout="@layout/fragment_qm">
         <action
             android:id="@+id/action_nav_question_manager_to_nav_home"
             app:destination="@id/nav_home"
