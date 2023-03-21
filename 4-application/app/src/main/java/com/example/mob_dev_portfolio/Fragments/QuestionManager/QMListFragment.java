@@ -12,17 +12,12 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.example.mob_dev_portfolio.Database.QuizDatabase;
-import com.example.mob_dev_portfolio.Entities.Answer;
 import com.example.mob_dev_portfolio.Entities.Question;
-import com.example.mob_dev_portfolio.Entities.Tag;
 import com.example.mob_dev_portfolio.R;
-import com.example.mob_dev_portfolio.databinding.FragmentQmBinding;
 import com.example.mob_dev_portfolio.databinding.FragmentQmListBinding;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * A fragment representing a list of Items.
