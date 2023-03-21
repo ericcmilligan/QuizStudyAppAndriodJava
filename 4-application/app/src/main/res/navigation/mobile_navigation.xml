@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/nav_question_manager"
-        android:name="com.example.mob_dev_portfolio.Fragments.QuestionManager.QuestionManagerFragment"
+        android:name="com.example.mob_dev_portfolio.Fragments.QuestionManager.QMFragment"
         android:label="@string/menu_question_manager"
         tools:layout="@layout/fragment_question_manager" >
         <action

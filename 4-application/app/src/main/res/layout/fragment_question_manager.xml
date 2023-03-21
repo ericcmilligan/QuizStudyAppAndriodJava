@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    tools:context="Fragments.QuestionManager.QuestionManagerFragment">
+    tools:context=".Fragments.QuestionManager.QMFragment">
 
     <TextView
         android:id="@+id/item_number"
