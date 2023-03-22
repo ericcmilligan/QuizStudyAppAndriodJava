@@ -9,4 +9,9 @@
     <string name="menu_home">Home</string>
     <string name="menu_question_manager">Question Manager</string>
     <string name="question_manager">Question Manager</string>
+    <string name="correct_answer_id">Correct Answer ID</string>
+    <string name="tag_id">Tag ID</string>
+    <string name="back_to_qm">Back to question manager</string>
+    <string name="submit_button">Submit Button</string>
+    <string name="question_title">Question Title</string>
 </resources>
