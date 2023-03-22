@@ -3,6 +3,7 @@ package com.example.mob_dev_portfolio.Fragments.QuestionManager;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.example.mob_dev_portfolio.Database.QuizDatabase;
 import com.example.mob_dev_portfolio.Entities.Question;
 import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentQmListBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +55,15 @@ public class QMListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_qm_list, container, false);
 
+        FloatingActionButton addQuestionButton = (FloatingActionButton) view.findViewById(R.id.addQuestionButton);
+
+        addQuestionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_nav_question_manager_to_nav_add_question);
+            }
+        });
+
         return view;
     }
 
@@ -83,4 +94,6 @@ public class QMListFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+
 }
