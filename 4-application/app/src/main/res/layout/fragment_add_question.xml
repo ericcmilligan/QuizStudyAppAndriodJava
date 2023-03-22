@@ -182,7 +182,9 @@
                 android:contentDescription="@string/correct_answer_id"
                 android:ems="10"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"
+                android:drawSelectorOnTop="true"
+                android:entries="@array/correct_answer_options"/>
         </LinearLayout>
 
         <LinearLayout
@@ -203,7 +205,6 @@
                 android:text="@string/submit_button"
                 android:textColor="@android:color/white" />
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
