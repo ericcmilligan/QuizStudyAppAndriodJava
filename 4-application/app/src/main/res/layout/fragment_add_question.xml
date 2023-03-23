@@ -6,11 +6,39 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     tools:context=".Fragments.QuestionManager.AddQMFrag">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/backToQMButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_margin="@dimen/fab_margin"
+                android:clickable="true"
+                android:contentDescription="@string/back_to_qm"
+                android:ems="10"
+                android:src="@drawable/ic_baseline_arrow_back_24" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/addQuestionHelperButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/fab_margin"
+                android:clickable="true"
+                android:contentDescription="Helper Button"
+                android:ems="10"
+                android:src="@drawable/ic_launcher_foreground" />
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -218,22 +246,5 @@
                 android:text="@string/submit_button"
                 android:textColor="@android:color/white" />
         </LinearLayout>
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/backToQMButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="@dimen/fab_margin"
-                android:clickable="true"
-                android:contentDescription="@string/back_to_qm"
-                android:ems="10"
-                android:src="@drawable/ic_baseline_arrow_back_24" />
-        </FrameLayout>
     </LinearLayout>
 </ScrollView>

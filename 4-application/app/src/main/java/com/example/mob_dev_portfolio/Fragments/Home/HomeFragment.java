@@ -11,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentHomeBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomeFragment extends Fragment {
 
@@ -24,12 +26,25 @@ public class HomeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
         Button questionManagerButton = binding.questionManagerButton;
         questionManagerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.action_nav_home_to_nav_question_manager);
             }
         });
+
+        FloatingActionButton homeHelperButton = binding.homeHelperButton;
+
+        homeHelperButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity().getApplicationContext(), "You are on the home page click one of the buttons to" +
+                                " go to a different section"
+                        , Toast.LENGTH_LONG).show();
+            }
+        });
+
         return root;
     }
 

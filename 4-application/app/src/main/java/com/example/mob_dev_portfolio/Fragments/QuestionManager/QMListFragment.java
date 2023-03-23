@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.mob_dev_portfolio.Database.QuizDatabase;
 import com.example.mob_dev_portfolio.Entities.Question;
@@ -61,6 +62,27 @@ public class QMListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.action_nav_question_manager_to_nav_add_question);
+            }
+        });
+
+        FloatingActionButton backToHomeButton = (FloatingActionButton) view.findViewById(R.id.backToHomeButton);
+
+        backToHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_nav_question_manager_to_nav_home);
+            }
+        });
+
+        FloatingActionButton qmHelperButton = (FloatingActionButton) view.findViewById(R.id.qmHelperButton);
+
+        qmHelperButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity().getApplicationContext(), "Click the plus icon to add a new question"
+                        , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Scroll the list to view questions in the system"
+                        , Toast.LENGTH_SHORT).show();
             }
         });
 

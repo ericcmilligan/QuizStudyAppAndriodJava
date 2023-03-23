@@ -150,6 +150,18 @@ public class AddQMFrag extends Fragment {
             }
         });
 
+        FloatingActionButton addQuestionHelperButton  = (FloatingActionButton) root.findViewById(R.id.addQuestionHelperButton);
+
+        addQuestionHelperButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity().getApplicationContext(), "Fill out the form and scroll down to click submit"
+                        , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "You can add a new tag by pressing the button"
+                        , Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return root;
     }
 
