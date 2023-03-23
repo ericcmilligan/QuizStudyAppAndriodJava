@@ -18,6 +18,9 @@ public interface QuestionDao {
     @Query("SELECT * FROM Question WHERE QuestionID = 1")
     Question getQuestionOne();
 
+    @Query("SELECT QuestionID FROM Question WHERE Title = :questionTitle")
+    Integer getQuestionIDByName(String questionTitle);
+
     @Insert
     void insertAll(Question...questions);
 

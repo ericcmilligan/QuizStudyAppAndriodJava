@@ -1,11 +1,14 @@
 package com.example.mob_dev_portfolio;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -16,14 +19,31 @@ import com.example.mob_dev_portfolio.Entities.Tag;
 import com.example.mob_dev_portfolio.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    ExecutorService executor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        QuizDatabase db = QuizDatabase.getInstance(getApplicationContext());
+        this.executor = Executors.newFixedThreadPool(4);
+        executor.execute(new Runnable() {
+                             @RequiresApi(api = Build.VERSION_CODES.O)
+                             @Override
+                             public void run() {
+                                 Tag defaultTagExists =  db.tagDao().checkIfDefaultTagExists("Default");
+                                 if(defaultTagExists == null){
+                                     db.tagDao().insertAll(new Tag("Default"));
+                                 }
+                             }
+                         });
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

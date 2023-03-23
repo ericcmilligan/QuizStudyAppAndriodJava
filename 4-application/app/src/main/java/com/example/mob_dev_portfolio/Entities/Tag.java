@@ -2,9 +2,11 @@ package com.example.mob_dev_portfolio.Entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(indices = {@Index(value = {"Name"},
+        unique = true)})
 public class Tag {
 
     @PrimaryKey(autoGenerate = true)
