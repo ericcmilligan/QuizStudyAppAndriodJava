@@ -94,6 +94,4 @@ public class QMListFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
-
 }
