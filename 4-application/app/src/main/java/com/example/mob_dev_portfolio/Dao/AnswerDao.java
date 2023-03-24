@@ -30,6 +30,6 @@ public interface AnswerDao {
     @Delete
     void delete(Answer answer);
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateAll(Answer...answers);
+    @Query("UPDATE answer SET QuestionID = :questionID, Text = :text WHERE AnswerID = :answerID")
+    void updateAnswer(Integer answerID, Integer questionID, String text);
 }

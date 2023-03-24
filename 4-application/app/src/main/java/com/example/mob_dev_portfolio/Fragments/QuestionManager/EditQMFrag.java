@@ -54,6 +54,13 @@ public class EditQMFrag extends Fragment {
         View root = binding.getRoot();
         QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
 
+        //Get question and answers from selected question
+        Bundle bundleReceived = this.getArguments();
+        String bundleReceivedString = this.getArguments().toString();
+        String bundleInt = bundleReceivedString.replaceAll("\\D+","");
+        Integer selectedQuestionID = Integer.parseInt(bundleInt);
+        Question selectedQuestion = db.questionDao().getQuestionByID(selectedQuestionID);
+
         FloatingActionButton backToQMButtonEdit = (FloatingActionButton) root.findViewById(R.id.backToQMButtonEdit);
 
         backToQMButtonEdit.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +110,8 @@ public class EditQMFrag extends Fragment {
                                     .show();
                         } else {
                             db.tagDao().insertAll(new Tag(input.getText().toString()));
-                            Navigation.findNavController(v).navigate(R.id.nav_edit_question);
+                            Navigation.findNavController(v).navigate(R.id.nav_edit_question,
+                                    bundleReceived);
                         }
                     }
                 });
@@ -133,11 +141,6 @@ public class EditQMFrag extends Fragment {
             spinnerTagAdapter.notifyDataSetChanged();
         }
 
-        //Get question and answers from selected question
-        String bundleReceived = this.getArguments().toString();
-        String bundleInt = bundleReceived.replaceAll("\\D+","");
-        Integer selectedQuestionID = Integer.parseInt(bundleInt);
-        Question selectedQuestion = db.questionDao().getQuestionByID(selectedQuestionID);
         List<Answer> getAnswersForSelectedQuestion =
                 db.answerDao().getAllAnswersForQuestion(selectedQuestionID);
         int correctAnswerNumber = db.questionDao().getCorrectAnswerIDByQuestionID(selectedQuestionID)
@@ -168,33 +171,37 @@ public class EditQMFrag extends Fragment {
                 isAllFieldsChecked = CheckAllFields();
 
                 if(isAllFieldsChecked) {
-                    db.questionDao().updateAll(
-                            new Question(
+
+                    db.questionDao().updateQuestion(
+                                    selectedQuestionID,
                                     db.tagDao().getTagIDByName(
-                                            binding.spinnerTagEditID.getSelectedItem().toString()
-                                    ),
-                                    null,
-                                    binding.editTextQuestionTitleEdit.getText().toString())
+                                            binding.spinnerTagEditID.getSelectedItem().toString()),
+                                    binding.editTextQuestionTitleEdit.getText().toString()
                     );
 
-                    db.answerDao().updateAll(
-                            new Answer(
-                                    db.questionDao().getQuestionIDByName(
-                                            binding.editTextQuestionTitleEdit.getText().toString()
-                                    ),
-                                    binding.editTextAnswer1Edit.getText().toString()),
-                            new Answer(db.questionDao().getQuestionIDByName(
-                                    binding.editTextQuestionTitleEdit.getText().toString()
-                            ),
-                                    binding.editTextAnswer2Edit.getText().toString()),
-                            new Answer(db.questionDao().getQuestionIDByName(
-                                    binding.editTextQuestionTitleEdit.getText().toString()
-                            ),
-                                    binding.editTextAnswer3Edit.getText().toString()),
-                            new Answer(db.questionDao().getQuestionIDByName(
-                                    binding.editTextQuestionTitleEdit.getText().toString()
-                            ),
-                                    binding.editTextAnswer4Edit.getText().toString())
+
+                    db.answerDao().updateAnswer(
+                                    getAnswersForSelectedQuestion.get(0).getAnswerID(),
+                                    getAnswersForSelectedQuestion.get(0).getQuestionID(),
+                                    binding.editTextAnswer1Edit.getText().toString()
+                    );
+
+                    db.answerDao().updateAnswer(
+                            getAnswersForSelectedQuestion.get(1).getAnswerID(),
+                            getAnswersForSelectedQuestion.get(1).getQuestionID(),
+                            binding.editTextAnswer2Edit.getText().toString()
+                    );
+
+                    db.answerDao().updateAnswer(
+                            getAnswersForSelectedQuestion.get(2).getAnswerID(),
+                            getAnswersForSelectedQuestion.get(2).getQuestionID(),
+                            binding.editTextAnswer3Edit.getText().toString()
+                    );
+
+                    db.answerDao().updateAnswer(
+                            getAnswersForSelectedQuestion.get(3).getAnswerID(),
+                            getAnswersForSelectedQuestion.get(3).getQuestionID(),
+                            binding.editTextAnswer4Edit.getText().toString()
                     );
 
                     db.questionDao().updateQuestionCorrectAnswer(

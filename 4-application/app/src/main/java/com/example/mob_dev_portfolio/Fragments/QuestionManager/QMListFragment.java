@@ -84,7 +84,7 @@ public class QMListFragment extends Fragment {
             public void onClick(View v) {
                 Toast.makeText(getActivity().getApplicationContext(), "Click the plus icon to add a new question"
                         , Toast.LENGTH_SHORT).show();
-                Toast.makeText(getActivity().getApplicationContext(), "Scroll the list to view questions in the system"
+                Toast.makeText(getActivity().getApplicationContext(), "Scroll the list to view questions in the system and click a question to edit"
                         , Toast.LENGTH_SHORT).show();
             }
         });

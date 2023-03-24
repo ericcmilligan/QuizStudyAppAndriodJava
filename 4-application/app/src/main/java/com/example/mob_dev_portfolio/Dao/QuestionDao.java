@@ -32,12 +32,12 @@ public interface QuestionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Question...questions);
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateAll(Question...questions);
+    @Query("UPDATE question SET TagID = :tagID , Title = :title WHERE QuestionID = :id")
+    void updateQuestion(Integer id, Integer tagID, String title);
 
     @Delete
     void delete(Question question);
 
     @Query("UPDATE question SET correctAnswerID = :correctAnswerID WHERE QuestionID = :id")
-    public abstract int updateQuestionCorrectAnswer(Integer correctAnswerID, Integer id);
+    void updateQuestionCorrectAnswer(Integer correctAnswerID, Integer id);
 }
