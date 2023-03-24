@@ -13,8 +13,6 @@ import android.os.Bundle;
 import android.view.Menu;
 
 import com.example.mob_dev_portfolio.Database.QuizDatabase;
-import com.example.mob_dev_portfolio.Entities.Answer;
-import com.example.mob_dev_portfolio.Entities.Question;
 import com.example.mob_dev_portfolio.Entities.Tag;
 import com.example.mob_dev_portfolio.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationView;

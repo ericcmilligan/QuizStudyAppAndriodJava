@@ -61,6 +61,7 @@ public class EditQMFrag extends Fragment {
         Integer selectedQuestionID = Integer.parseInt(bundleInt);
         Question selectedQuestion = db.questionDao().getQuestionByID(selectedQuestionID);
 
+        //Set up floating action buttons for navigation and help
         FloatingActionButton backToQMButtonEdit = (FloatingActionButton) root.findViewById(R.id.backToQMButtonEdit);
 
         backToQMButtonEdit.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +83,35 @@ public class EditQMFrag extends Fragment {
             }
         });
 
+        //Allow deletion of the question
+        FloatingActionButton deleteQuestionButton = binding.editQuestionDeleteButton;
+
+        deleteQuestionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
+                        R.style.Theme_Mobdevportfolio);
+
+                alert.setTitle("Are you sure you want to delete this question and it's related answers: ");
+                alert.setMessage(selectedQuestion.getTitle());
+
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        db.answerDao().deleteAnswersByQuestionID(selectedQuestionID);
+                        db.questionDao().deleteQuestionByID(selectedQuestionID);
+                        Navigation.findNavController(v).navigate(R.id.action_nav_edit_question_to_nav_question_manager);
+                    }
+                });
+
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled
+                    }
+                });
+
+                alert.show();
+            }
+        });
 
         //Register buttons
         Button submitQMButtonEdit = (Button) root.findViewById(R.id.submitButtonEdit);

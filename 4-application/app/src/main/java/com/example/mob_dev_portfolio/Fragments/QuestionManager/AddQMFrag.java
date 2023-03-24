@@ -3,14 +3,12 @@ package com.example.mob_dev_portfolio.Fragments.QuestionManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -25,7 +23,6 @@ import com.example.mob_dev_portfolio.Entities.Question;
 import com.example.mob_dev_portfolio.Entities.Tag;
 import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentAddQuestionBinding;
-import com.example.mob_dev_portfolio.databinding.FragmentHomeBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
