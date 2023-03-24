@@ -3,9 +3,13 @@ package com.example.mob_dev_portfolio.Entities;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys = {@ForeignKey(entity = Tag.class,
+@Entity(
+        indices = {@Index(value = {"Title"},
+                unique = true)},
+        foreignKeys = {@ForeignKey(entity = Tag.class,
         parentColumns = "TagID",
         childColumns = "TagID",
         onDelete = ForeignKey.SET_NULL),
