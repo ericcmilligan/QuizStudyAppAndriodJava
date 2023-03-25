@@ -12,10 +12,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.mob_dev_portfolio.Database.QuizDatabase;
 import com.example.mob_dev_portfolio.Entities.Question;
+import com.example.mob_dev_portfolio.Entities.Tag;
 import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentQmListBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,7 +37,7 @@ public class QMListFragment extends Fragment {
 
     List<Question> questionsList = new ArrayList<>();
 
-    ListAdapter adapter;
+    ArrayAdapter adapter;
 
     ListView lv;
 
@@ -114,7 +116,7 @@ public class QMListFragment extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                // getting question title from selected item and passing to edit fragment
+                //Getting question title from selected item and passing to edit fragment
                 String selectedQuestionTitle = (String) adapter.getItem(position).toString();
 
                 Integer questionID = db.questionDao().getQuestionIDByName(selectedQuestionTitle);
@@ -124,6 +126,58 @@ public class QMListFragment extends Fragment {
 
                 Navigation.findNavController(v).navigate(R.id.action_nav_question_manager_to_nav_edit_question
                         , bundle);
+            }
+        });
+
+        //Populate tag drop-down with tags in the system
+        Spinner spinnerTagChooser = (Spinner)view.findViewById(R.id.tagChooserSpinner);
+
+        ArrayAdapter<String> spinnerTagAdapter = new ArrayAdapter<String>(
+                getContext(), android.R.layout.simple_spinner_item, new ArrayList<>());
+        spinnerTagAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTagChooser.setAdapter(spinnerTagAdapter);
+
+        spinnerTagAdapter.add("All");
+
+        List<Tag> tagsList = db.tagDao().getAllTags();
+
+        for(Tag tag : tagsList){
+            spinnerTagAdapter.addAll(tag.getName());
+            spinnerTagAdapter.notifyDataSetChanged();
+        }
+
+        //Change list selection on drop-down change
+        spinnerTagChooser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (spinnerTagChooser.getSelectedItem().toString().equals("All")){
+                    questionTitleList.clear();
+
+                    questionsList = db.questionDao().getAllQuestions();
+
+                    for (int i = 0; i < questionsList.size(); i++) {
+                        questionTitleList.add(i, questionsList.get(i).getTitle());
+                    }
+
+                    adapter.notifyDataSetChanged();
+                } else {
+                    questionTitleList.clear();
+
+                    Integer selectedTagID = db.tagDao().getTagIDByName(spinnerTagChooser.getSelectedItem().toString());
+
+                    questionsList = db.questionDao().getQuestionsByTagID(selectedTagID);
+
+                    for (int i = 0; i < questionsList.size(); i++) {
+                        questionTitleList.add(i, questionsList.get(i).getTitle());
+                    }
+
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                    //Not needed as the spinner is populated with the tags all and default by default
             }
         });
     }

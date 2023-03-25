@@ -24,6 +24,9 @@ public interface QuestionDao {
     @Query("SELECT CorrectAnswerID FROM Question WHERE QuestionID = :questionID")
     Integer getCorrectAnswerIDByQuestionID(Integer questionID);
 
+    @Query("SELECT * FROM Question WHERE TagID = :tagID")
+    List<Question> getQuestionsByTagID(Integer tagID);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Question...questions);
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,16 +8,11 @@
     android:fillViewport="true"
     android:orientation="vertical"
     tools:context=".Fragments.QuestionManager.QMListFragment">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-
         <ListView
             android:id="@+id/question_list_view"
             android:layout_width="match_parent"
@@ -25,25 +21,34 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50sp">
+        android:layout_height="100dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tagChooserLabel"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="Choose to show questions for tag: " />
 
         <Spinner
             android:id="@+id/tagChooserSpinner"
             android:layout_width="match_parent"
-            android:layout_height="60sp" />
+            android:layout_height="60dp" />
 
     </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="110sp">
+        android:layout_height="110dp">
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/backToHomeButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_margin="10sp"
+            android:layout_margin="10dp"
             android:layout_gravity="left|center"
             android:layout_weight="1"
             android:clickable="true"
@@ -56,7 +61,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:layout_margin="10sp"
+            android:layout_margin="10dp"
             android:clickable="true"
             android:contentDescription="Helper button"
             android:src="@drawable/ic_launcher_foreground" />
@@ -67,10 +72,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="right|center"
             android:layout_weight="1"
-            android:layout_margin="10sp"
+            android:layout_margin="10dp"
             android:clickable="true"
             android:contentDescription="Add question"
             android:src="@drawable/ic_baseline_add_circle_outline_24" />
     </FrameLayout>
 </LinearLayout>
-</ScrollView>
