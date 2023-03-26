@@ -28,7 +28,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * A fragment to allow the user to add a question.
+ */
 public class AddQMFrag extends Fragment {
 
     private FragmentAddQuestionBinding binding;
@@ -50,11 +52,12 @@ public class AddQMFrag extends Fragment {
         View root = binding.getRoot();
         QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
 
+        //Register the buttons used for the question submission and the adding a tag popup
         Button submitQMButton = (Button) root.findViewById(R.id.submitButton);
 
         Button addTagButton = (Button) root.findViewById(R.id.addTagButton);
 
-        //Allow user to add a tag
+        //Allow user to add a tag in a separate popup window
         addTagButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +71,7 @@ public class AddQMFrag extends Fragment {
                     EditText input = new EditText(getActivity().getApplicationContext());
                     alert.setView(input);
 
+                    //Accept the user inputted tag on ok press if the name is not null and unique.
                     alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                                 if (input.getText().length() == 0) {
@@ -81,6 +85,7 @@ public class AddQMFrag extends Fragment {
                         }
                     });
 
+                    //Allow the user to exit the add tag pop-up without adding a tag
                     alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             // Canceled.
@@ -97,7 +102,10 @@ public class AddQMFrag extends Fragment {
             public void onClick(View v) {
                 isAllFieldsChecked = CheckAllFields();
 
+                //Check the fields for validation errors before submission into the database
                 if(isAllFieldsChecked) {
+
+                    //Insert the user's details for the question into the database
                     db.questionDao().insertAll(
                             new Question(
                                     db.tagDao().getTagIDByName(
@@ -107,6 +115,7 @@ public class AddQMFrag extends Fragment {
                                     binding.editTextQuestionTitle.getText().toString())
                     );
 
+                    //Insert the user's details for the answer into the database
                     db.answerDao().insertAll(
                             new Answer(
                                     db.questionDao().getQuestionIDByName(
@@ -127,17 +136,21 @@ public class AddQMFrag extends Fragment {
                                     binding.editTextAnswer4.getText().toString())
                     );
 
+                    //After the answers have been submitted assign the correct answer for the question
+                    //From the selected answer number in the spinner
                     db.questionDao().updateQuestionCorrectAnswer(
                             Integer.parseInt(binding.spinnerCorrectAnswerID.getSelectedItem().toString())
                             , db.questionDao().getQuestionIDByName(
                                     binding.editTextQuestionTitle.getText().toString()
                             ));
 
+                    //Go back to the question manager screen
                     Navigation.findNavController(v).navigate(R.id.action_nav_add_question_to_nav_question_manager);
                 }
             }
         });
 
+        //Allow the user to go back to the question manager when this button is clicked
         FloatingActionButton backToQMButton = (FloatingActionButton) root.findViewById(R.id.backToQMButton);
 
         backToQMButton.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +160,8 @@ public class AddQMFrag extends Fragment {
             }
         });
 
+        //Provide explanation of the functionality for this screen to the user when this button is
+        //clicked
         FloatingActionButton addQuestionHelperButton  = (FloatingActionButton) root.findViewById(R.id.addQuestionHelperButton);
 
         addQuestionHelperButton.setOnClickListener(new View.OnClickListener() {
@@ -162,6 +177,7 @@ public class AddQMFrag extends Fragment {
         return root;
     }
 
+    //Validate the fields the user has inputted
     private boolean CheckAllFields() {
         //Register all the EditText fields with their IDs.
         EditText editTextQuestionTitle = (EditText) binding.editTextQuestionTitle;
@@ -195,12 +211,14 @@ public class AddQMFrag extends Fragment {
             return false;
         }
 
-        // after all validation return true.
+        // after all validation is complete with no errors return true.
         return true;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
+        //Populate the tag spinner with the tags present in the database
         QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
         Spinner spinnerTagID = (Spinner)view.findViewById(R.id.spinnerTagID);
 

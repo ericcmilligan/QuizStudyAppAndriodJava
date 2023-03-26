@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A fragment representing a list of Items.
+ * A fragment representing a list of questions.
  */
 public class QMListFragment extends Fragment {
 
@@ -59,6 +59,7 @@ public class QMListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_qm_list, container, false);
 
+        //Set up button to allow user to add a question
         FloatingActionButton addQuestionButton = (FloatingActionButton) view.findViewById(R.id.addQuestionButton);
 
         addQuestionButton.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +69,7 @@ public class QMListFragment extends Fragment {
             }
         });
 
+        //Set up button to allow user to go back to the home-screen
         FloatingActionButton backToHomeButton = (FloatingActionButton) view.findViewById(R.id.backToHomeButton);
 
         backToHomeButton.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +79,7 @@ public class QMListFragment extends Fragment {
             }
         });
 
+        //Set up button for providing help to the user for the current screen
         FloatingActionButton qmHelperButton = (FloatingActionButton) view.findViewById(R.id.qmHelperButton);
 
         qmHelperButton.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +99,7 @@ public class QMListFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Populate the list will all questions by default
         QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
 
         questionsList = db.questionDao().getAllQuestions();
@@ -121,9 +125,11 @@ public class QMListFragment extends Fragment {
 
                 Integer questionID = db.questionDao().getQuestionIDByName(selectedQuestionTitle);
 
+                //Put the question id into a bundle
                 Bundle bundle = new Bundle();
                 bundle.putInt("questionID", questionID);
 
+                //Go to the edit fragment page using the bundle to pass the selected question's data
                 Navigation.findNavController(v).navigate(R.id.action_nav_question_manager_to_nav_edit_question
                         , bundle);
             }
@@ -146,11 +152,12 @@ public class QMListFragment extends Fragment {
             spinnerTagAdapter.notifyDataSetChanged();
         }
 
-        //Change list selection on drop-down change
+        //Change the question list on drop-down change to list questions for chosen tag.
         spinnerTagChooser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (spinnerTagChooser.getSelectedItem().toString().equals("All")){
+                    //If the tag is "all" then show all the questions in the database
                     questionTitleList.clear();
 
                     questionsList = db.questionDao().getAllQuestions();
@@ -161,6 +168,7 @@ public class QMListFragment extends Fragment {
 
                     adapter.notifyDataSetChanged();
                 } else {
+                    //Else show the questions for the current selected tag
                     questionTitleList.clear();
 
                     Integer selectedTagID = db.tagDao().getTagIDByName(spinnerTagChooser.getSelectedItem().toString());

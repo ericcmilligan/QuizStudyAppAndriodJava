@@ -7,9 +7,11 @@ import androidx.room.TypeConverter;
 
 import java.time.LocalDateTime;
 
+/**
+ * A class to convert the time format between java and the room database.
+ */
 public class LocalDateTimeConverter {
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @TypeConverter
     public static LocalDateTime toDate(String dateString) {
         if (dateString == null) {

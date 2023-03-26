@@ -28,7 +28,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * A fragment to allow the user to edit a question.
+ */
 public class EditQMFrag extends Fragment {
 
     private FragmentEditQuestionBinding binding;
@@ -54,14 +56,14 @@ public class EditQMFrag extends Fragment {
         View root = binding.getRoot();
         QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
 
-        //Get question and answers from selected question
+        //Get the question and it's answers from the selected question within the question manager
         Bundle bundleReceived = this.getArguments();
         String bundleReceivedString = this.getArguments().toString();
         String bundleInt = bundleReceivedString.replaceAll("\\D+","");
         Integer selectedQuestionID = Integer.parseInt(bundleInt);
         Question selectedQuestion = db.questionDao().getQuestionByID(selectedQuestionID);
 
-        //Set up floating action buttons for navigation and help
+        //Set up floating action buttons for navigation and to provide help to the user
         FloatingActionButton backToQMButtonEdit = (FloatingActionButton) root.findViewById(R.id.backToQMButtonEdit);
 
         backToQMButtonEdit.setOnClickListener(new View.OnClickListener() {
@@ -83,9 +85,10 @@ public class EditQMFrag extends Fragment {
             }
         });
 
-        //Allow deletion of the question
+        //Allow deletion of the question from the database
         FloatingActionButton deleteQuestionButton = binding.editQuestionDeleteButton;
 
+        //Ask the user if they are sure they want to delete the record in the form of a pop-up
         deleteQuestionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +116,7 @@ public class EditQMFrag extends Fragment {
             }
         });
 
-        //Register buttons
+        //Register buttons for submission and adding a tag
         Button submitQMButtonEdit = (Button) root.findViewById(R.id.submitButtonEdit);
 
         Button addTagButtonEdit = (Button) root.findViewById(R.id.addTagButtonEdit);
@@ -156,7 +159,7 @@ public class EditQMFrag extends Fragment {
             }
         });
 
-        //Populate Tag List
+        //Populate tag spinner
         Spinner spinnerTagID = binding.spinnerTagEditID;
 
         ArrayAdapter<String> spinnerTagAdapter = new ArrayAdapter<String>(
@@ -177,7 +180,7 @@ public class EditQMFrag extends Fragment {
                 - 1;
         int questionTagID = selectedQuestion.getTagID() - 1;
 
-        //Pre-populate fields with the existing data
+        //Pre-populate fields with the existing data for the selected question
         Spinner spinnerTagEditID =  binding.spinnerTagEditID;
         EditText editTextQuestionTitleEdit = binding.editTextQuestionTitleEdit;
         EditText editTextAnswer1Edit =  binding.editTextAnswer1Edit;
@@ -285,6 +288,7 @@ public class EditQMFrag extends Fragment {
         return true;
     }
 
+    //Hide the toolbar while in this fragment as we have a custom toolbar
     @Override
     public void onResume() {
         super.onResume();

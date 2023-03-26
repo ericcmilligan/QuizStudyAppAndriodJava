@@ -17,6 +17,9 @@ import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentHomeBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+/**
+ * A fragment to provide navigation to the different screens in the app
+ */
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
@@ -27,6 +30,8 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        //Button set up with a onclick listener to take the user to the question manager screen
+        //on click
         Button questionManagerButton = binding.questionManagerButton;
         questionManagerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -34,6 +39,8 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //Button set up with a onclick listener to assist the user by providing a toast with
+        //explanation of the functionality for this screen.
         FloatingActionButton homeHelperButton = binding.homeHelperButton;
 
         homeHelperButton.setOnClickListener(new View.OnClickListener() {

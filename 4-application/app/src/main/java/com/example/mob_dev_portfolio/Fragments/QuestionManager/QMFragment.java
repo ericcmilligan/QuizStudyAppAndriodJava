@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 
 import com.example.mob_dev_portfolio.R;
 
-
+/**
+ * A fragment to hold the question listview.
+ */
 public class QMFragment extends Fragment {
 
 
@@ -22,7 +24,7 @@ public class QMFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        //This fragment contains the list fragment for question management
         return inflater.inflate(R.layout.fragment_qm, container, false);
     }
 }

@@ -30,10 +30,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Insert a default tag into the database if it does not exist
         QuizDatabase db = QuizDatabase.getInstance(getApplicationContext());
         this.executor = Executors.newFixedThreadPool(4);
         executor.execute(new Runnable() {
-                             @RequiresApi(api = Build.VERSION_CODES.O)
                              @Override
                              public void run() {
                                  Tag defaultTagExists =  db.tagDao().checkIfDefaultTagExists("Default");
