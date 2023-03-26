@@ -39,6 +39,16 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //Button set up with a onclick listener to take the user to the question category fragment
+        //on click
+        Button playQuizButton = binding.playQuizButton;
+        playQuizButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_nav_home_to_nav_quiz_category);
+            }
+        });
+
         //Button set up with a onclick listener to assist the user by providing a toast with
         //explanation of the functionality for this screen.
         FloatingActionButton homeHelperButton = binding.homeHelperButton;

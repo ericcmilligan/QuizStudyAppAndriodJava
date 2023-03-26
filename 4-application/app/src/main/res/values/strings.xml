@@ -15,10 +15,14 @@
     <string name="submit_button">Submit Button</string>
     <string name="question_title">Question Title</string>
     <string name="tag_for_question">Tag For Question</string>
+    <string name="quiz_categories">Quiz Categories</string>
+    <string name="play_quiz">Play Quiz</string>
     <string-array name="correct_answer_options">
         <item>1</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
