@@ -14,8 +14,9 @@
             android:id="@+id/action_nav_home_to_nav_question_manager"
             app:destination="@id/nav_question_manager"
             app:launchSingleTop="false"
-            app:popUpTo="@id/nav_home"
-            app:popUpToInclusive="true"/>
+            app:popUpTo="@id/nav_question_manager"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 
     <fragment
@@ -27,20 +28,22 @@
             android:id="@+id/action_nav_question_manager_to_nav_home"
             app:destination="@id/nav_home"
             app:launchSingleTop="false"
-            app:popUpTo="@id/nav_question_manager"
-            app:popUpToInclusive="true"/>
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="true"
+          />
         <action
             android:id="@+id/action_nav_question_manager_to_nav_add_question"
             app:destination="@id/nav_add_question"
             app:launchSingleTop="false"
-            app:popUpTo="@id/nav_question_manager"
-            app:popUpToInclusive="true"/>
+            app:popUpTo="@id/nav_add_question"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_nav_question_manager_to_nav_edit_question"
             app:destination="@id/nav_edit_question"
             app:launchSingleTop="false"
-            app:popUpTo="@id/nav_question_manager"
-            app:popUpToInclusive="true"/>
+            app:popUpTo="@id/nav_edit_question"
+            app:popUpToInclusive="true"
+           />
     </fragment>
 
     <fragment
@@ -52,8 +55,9 @@
             android:id="@+id/action_nav_add_question_to_nav_question_manager"
             app:destination="@id/nav_question_manager"
             app:launchSingleTop="false"
-            app:popUpTo="@id/nav_add_question"
-            app:popUpToInclusive="true"/>
+            app:popUpTo="@id/nav_question_manager"
+            app:popUpToInclusive="true"
+           />
     </fragment>
 
     <fragment
@@ -65,7 +69,8 @@
             android:id="@+id/action_nav_edit_question_to_nav_question_manager"
             app:destination="@id/nav_question_manager"
             app:launchSingleTop="false"
-            app:popUpTo="@id/nav_edit_question"
-            app:popUpToInclusive="true"/>
+            app:popUpTo="@id/nav_question_manager"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 </navigation>
