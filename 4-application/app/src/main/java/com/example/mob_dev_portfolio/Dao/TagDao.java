@@ -16,9 +16,6 @@ public interface TagDao {
     @Query("SELECT * FROM Tag")
     List<Tag> getAllTags();
 
-    @Query("SELECT Name FROM Tag")
-    List<Tag> getAllTagNames();
-
     @Query("SELECT TagID FROM Tag WHERE Name = :tagName")
     Integer getTagIDByName(String tagName);
 

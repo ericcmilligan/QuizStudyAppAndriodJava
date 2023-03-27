@@ -2,13 +2,14 @@ package com.example.mob_dev_portfolio.Fragments.QuizGame;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.text.method.CharacterPickerDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -58,7 +59,7 @@ public class QCListFragment extends Fragment {
         backToHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_nav_quiz_category_to_nav_quiz_home);
+                Navigation.findNavController(v).navigate(R.id.action_nav_quiz_category_to_nav_home);
             }
         });
 
@@ -80,10 +81,15 @@ public class QCListFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Clear the tag on view resume if already populated
+        if(tagsList.size() > 0){
+            tagsList.clear();
+        }
+
         //Populate the tag list with all tag names present in the database
         QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
 
-        List<Tag> tagList = db.tagDao().getAllTagNames();
+        List<Tag> tagList = db.tagDao().getAllTags();
 
         for(int i = 0; i < tagList.size(); i++){
             tagsList.add(i, tagList.get(i).getName());
@@ -98,12 +104,29 @@ public class QCListFragment extends Fragment {
         );
 
         lv.setAdapter(adapter);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Get number of questions for tags from database
+                Integer numOfQuestionsForTag = db.questionDao()
+                        .getQuestionsByTagID((tagList.get(position).getTagID()) - 1).size();
+
+                //Go to quiz start screen if number of questions for tags is at least 1
+                if(numOfQuestionsForTag.equals(0)){
+                    Toast.makeText(getActivity().getApplicationContext(), "Number of questions for tag must not be zero",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Navigation.findNavController(view).navigate(R.id.action_nav_quiz_category_to_nav_quiz_start);
+                }
+            }
+        });
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        binding.tagListView.setAdapter(null);
         binding = null;
     }
-
 }
