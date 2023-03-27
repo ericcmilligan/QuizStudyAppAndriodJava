@@ -9,8 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="30dp">
+        android:layout_margin="30dp"
+        android:layout_weight="1">
 
         <TextView
             android:id="@+id/quiz_start_category_text"
@@ -24,8 +24,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_margin="30dp"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
@@ -41,8 +41,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_margin="30dp"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <Button
@@ -51,8 +51,8 @@
             android:layout_height="match_parent"
             android:background="@color/purple_500"
             android:text="Start Quiz"
-            android:textSize="35sp"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="35sp" />
     </LinearLayout>
 
 </LinearLayout>

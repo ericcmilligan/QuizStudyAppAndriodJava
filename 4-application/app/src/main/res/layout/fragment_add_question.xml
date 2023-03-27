@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     tools:context=".Fragments.QuestionManager.AddQMFrag">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,11 +68,11 @@
                 android:id="@+id/addTagButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
                 android:background="@color/purple_500"
                 android:ems="10"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:text="Add tag"
                 android:textColor="@android:color/white" />
         </LinearLayout>
@@ -98,8 +98,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:hint="@string/question_title"/>
+                android:hint="@string/question_title"
+                android:inputType="textPersonName" />
         </LinearLayout>
 
         <LinearLayout
@@ -123,8 +123,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:hint="Answer 1" />
+                android:hint="Answer 1"
+                android:inputType="textPersonName" />
         </LinearLayout>
 
         <LinearLayout
@@ -145,11 +145,11 @@
                 android:id="@+id/editTextAnswer2"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:ems="10"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:inputType="textPersonName"
-                android:hint="Answer 2"  />
+                android:ems="10"
+                android:hint="Answer 2"
+                android:inputType="textPersonName" />
         </LinearLayout>
 
         <LinearLayout
@@ -170,11 +170,11 @@
                 android:id="@+id/editTextAnswer3"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:ems="10"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:inputType="textPersonName"
-                android:hint="Answer 3"  />
+                android:ems="10"
+                android:hint="Answer 3"
+                android:inputType="textPersonName" />
         </LinearLayout>
 
         <LinearLayout
@@ -195,11 +195,11 @@
                 android:id="@+id/editTextAnswer4"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:ems="10"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:inputType="textPersonName"
-                android:hint="Answer 4"  />
+                android:ems="10"
+                android:hint="Answer 4"
+                android:inputType="textPersonName" />
         </LinearLayout>
 
         <LinearLayout
@@ -220,12 +220,12 @@
                 android:id="@+id/spinnerCorrectAnswerID"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:contentDescription="@string/correct_answer_id"
-                android:ems="10"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:contentDescription="@string/correct_answer_id"
                 android:drawSelectorOnTop="true"
-                android:entries="@array/correct_answer_options"/>
+                android:ems="10"
+                android:entries="@array/correct_answer_options" />
         </LinearLayout>
 
         <LinearLayout
@@ -238,11 +238,11 @@
                 android:id="@+id/submitButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
                 android:background="@color/purple_500"
                 android:ems="10"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:text="@string/submit_button"
                 android:textColor="@android:color/white" />
         </LinearLayout>

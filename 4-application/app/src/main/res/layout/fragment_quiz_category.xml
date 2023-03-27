@@ -8,8 +8,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_quiz_category_list_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:name="com.example.mob_dev_portfolio.Fragments.QuizGame.QCListFragment"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
