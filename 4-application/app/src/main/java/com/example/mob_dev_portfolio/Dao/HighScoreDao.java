@@ -17,6 +17,9 @@ public interface HighScoreDao {
     @Query("SELECT * FROM Highscore WHERE HighScoreID = 1")
     Highscore getHighScoreOne();
 
+    @Query("SELECT Score FROM Highscore WHERE TagID = :tagID")
+    Integer getHighScorePointsByTagID(Integer tagID);
+
     @Insert
     void insertAll(Highscore...highScores);
 

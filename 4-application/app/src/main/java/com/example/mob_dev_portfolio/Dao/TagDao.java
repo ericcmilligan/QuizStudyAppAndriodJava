@@ -19,6 +19,9 @@ public interface TagDao {
     @Query("SELECT TagID FROM Tag WHERE Name = :tagName")
     Integer getTagIDByName(String tagName);
 
+    @Query("SELECT Name FROM Tag WHERE TagID = :tagID")
+    String getTagNameByID(Integer tagID);
+
     @Query("SELECT * FROM Tag WHERE Name == :tagName")
     Tag checkIfDefaultTagExists(String tagName);
 

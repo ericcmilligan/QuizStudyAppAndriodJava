@@ -109,15 +109,21 @@ public class QCListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Get number of questions for tags from database
+                Integer tagID = tagList.get(position).getTagID();
                 Integer numOfQuestionsForTag = db.questionDao()
-                        .getQuestionsByTagID((tagList.get(position).getTagID()) - 1).size();
+                        .getQuestionsByTagID(tagID).size();
 
                 //Go to quiz start screen if number of questions for tags is at least 1
                 if(numOfQuestionsForTag.equals(0)){
                     Toast.makeText(getActivity().getApplicationContext(), "Number of questions for tag must not be zero",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    Navigation.findNavController(view).navigate(R.id.action_nav_quiz_category_to_nav_quiz_start);
+                    //Put the tag id into a bundle
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("tagID", tagID);
+                    //Go the quiz start screen and pass the tag id
+                    Navigation.findNavController(view).navigate(R.id.action_nav_quiz_category_to_nav_quiz_start,
+                            bundle);
                 }
             }
         });
