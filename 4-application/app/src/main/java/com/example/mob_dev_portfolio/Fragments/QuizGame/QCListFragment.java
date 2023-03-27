@@ -3,15 +3,37 @@ package com.example.mob_dev_portfolio.Fragments.QuizGame;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import android.text.method.CharacterPickerDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import com.example.mob_dev_portfolio.Database.QuizDatabase;
+import com.example.mob_dev_portfolio.Entities.Tag;
 import com.example.mob_dev_portfolio.R;
+import com.example.mob_dev_portfolio.databinding.FragmentQcListBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * A fragment representing a list of quiz categories(tags).
+ */
 public class QCListFragment extends Fragment {
+
+    FragmentQcListBinding binding;
+
+    List<String> tagsList = new ArrayList<>();
+
+    ArrayAdapter adapter;
+
+    ListView lv;
 
     public QCListFragment() {
 
@@ -25,8 +47,63 @@ public class QCListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_qc_list, container, false);
+
+        binding = FragmentQcListBinding.inflate(inflater, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_qc_list, container, false);
+
+        //Set up button to allow user to go back to homepage
+        FloatingActionButton backToHomeButton = (FloatingActionButton) view.findViewById(R.id.backToHomeQCButton);
+
+        backToHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_nav_quiz_category_to_nav_quiz_home);
+            }
+        });
+
+        //Set up button for providing help to the user for the current screen
+        FloatingActionButton qcHelperButton = (FloatingActionButton) view.findViewById(R.id.qcHelperButton);
+
+        qcHelperButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity().getApplicationContext(), "Click a tag within the list" +
+                        " to proceed to play a quiz based on the category", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //Populate the tag list with all tag names present in the database
+        QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
+
+        List<Tag> tagList = db.tagDao().getAllTagNames();
+
+        for(int i = 0; i < tagList.size(); i++){
+            tagsList.add(i, tagList.get(i).getName());
+        }
+
+        this.lv = (ListView) view.findViewById(R.id.tag_list_view);
+
+        this.adapter = new ArrayAdapter<String>(
+                getContext(),
+                android.R.layout.simple_list_item_1,
+                tagsList
+        );
+
+        lv.setAdapter(adapter);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
 }
