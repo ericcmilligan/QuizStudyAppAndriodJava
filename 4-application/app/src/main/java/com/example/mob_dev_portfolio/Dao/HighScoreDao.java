@@ -20,6 +20,9 @@ public interface HighScoreDao {
     @Query("SELECT Score FROM Highscore WHERE TagID = :tagID")
     Integer getHighScorePointsByTagID(Integer tagID);
 
+    @Query("UPDATE Highscore SET Score = :score WHERE TagID = :tagID")
+    void updateHighScoreByTagID(Integer tagID, Integer score);
+
     @Insert
     void insertAll(Highscore...highScores);
 

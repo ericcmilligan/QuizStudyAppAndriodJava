@@ -18,11 +18,13 @@ import android.widget.Toast;
 
 import com.example.mob_dev_portfolio.Database.QuizDatabase;
 import com.example.mob_dev_portfolio.Entities.Answer;
+import com.example.mob_dev_portfolio.Entities.Highscore;
 import com.example.mob_dev_portfolio.Entities.Question;
 import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentQcListBinding;
 import com.example.mob_dev_portfolio.databinding.FragmentQuizGameBinding;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -220,6 +222,32 @@ public class QuizGameFragment extends Fragment {
     }
 
     private void finishQuiz(View view) {
+        //Get the Tag ID passed from the bundle
+        String bundleReceivedString = this.getArguments().toString();
+        String bundleInt = bundleReceivedString.replaceAll("\\D+","");
+        int tagID = Integer.parseInt(bundleInt);
+
+        //Initialize the database
+        QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
+        Integer highScore =  db.highScoreDao().getHighScorePointsByTagID(tagID);
+
+        //If high-score is null create a new record for high-score for this tag
+        if(highScore == null){
+            db.highScoreDao().insertAll(
+                    new Highscore(tagID, score, LocalDateTime.now())
+            );
+        } else if (score >= highScore & score > 0){
+            //Else update the high-score if the game score is more/the same as the current high-score saved
+            //for the tag
+            Toast.makeText(getContext(), "Well done, high score achieved!",
+                    Toast.LENGTH_SHORT).show();
+            db.highScoreDao().updateHighScoreByTagID(tagID, score);
+        } else {
+            //Else inform the user that they did not beat or match the high-score
+            Toast.makeText(getContext(), "Unlucky! high score not achieved, better luck next time",
+                    Toast.LENGTH_SHORT).show();
+        }
+
         Navigation.findNavController(view).navigate(R.id.action_nav_quiz_game_to_nav_quiz_category);
     }
 
