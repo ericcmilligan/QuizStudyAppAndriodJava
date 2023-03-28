@@ -74,9 +74,10 @@ public class AddQMFrag extends Fragment {
                     //Accept the user inputted tag on ok press if the name is not null and unique.
                     alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                                if (input.getText().length() == 0) {
+                                if (input.getText().length() == 0 || input.getText().length() > 30) {
                                     Toast.makeText(getContext(),
-                                            "Tag name must not be null", Toast.LENGTH_SHORT)
+                                            "Tag name must not be null or over 30 characters",
+                                                    Toast.LENGTH_SHORT)
                                             .show();
                                 } else {
                                     db.tagDao().insertAll(new Tag(input.getText().toString()));
@@ -189,25 +190,40 @@ public class AddQMFrag extends Fragment {
         if (editTextQuestionTitle.length() <= 3) {
             editTextQuestionTitle.setError("This field is required to be over 3 characters");
             return false;
+        } else if(editTextQuestionTitle.length() > 50){
+            editTextQuestionTitle.setError("This field is not allowed to be over 50 characters");
+            return false;
         }
 
         if (editTextAnswer1.length() == 0) {
             editTextAnswer1.setError("This field is required to be entered");
+            return false;
+        } else if(editTextAnswer1.length() > 20){
+            editTextAnswer1.setError("This field is not allowed to be over 20 characters");
             return false;
         }
 
         if (editTextAnswer2.length() == 0) {
             editTextAnswer2.setError("This field is required to be entered");
             return false;
+        } else if(editTextAnswer2.length() > 20){
+            editTextAnswer2.setError("This field is not allowed to be over 20 characters");
+            return false;
         }
 
         if (editTextAnswer3.length() == 0) {
             editTextAnswer3.setError("This field is required to be entered");
             return false;
+        } else if(editTextAnswer3.length() > 20){
+            editTextAnswer3.setError("This field is not allowed to be over 20 characters");
+            return false;
         }
 
         if (editTextAnswer4.length() == 0) {
             editTextAnswer4.setError("This field is required to be entered");
+            return false;
+        } else if(editTextAnswer4.length() > 20){
+            editTextAnswer4.setError("This field is not allowed to be over 20 characters");
             return false;
         }
 
