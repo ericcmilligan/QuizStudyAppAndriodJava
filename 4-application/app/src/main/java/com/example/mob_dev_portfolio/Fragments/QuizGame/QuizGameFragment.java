@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +28,15 @@ import com.example.mob_dev_portfolio.databinding.FragmentQuizGameBinding;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 
 public class QuizGameFragment extends Fragment {
 
     FragmentQuizGameBinding binding;
+
+    //Set up countdown variable
+    private static final long COUNTDOWN_IN_MILLIS = 30000;
 
     //Set up the variables for the various views in the quiz game
     private TextView textViewQuestion;
@@ -45,8 +50,12 @@ public class QuizGameFragment extends Fragment {
     private RadioButton rb4;
     private Button buttonConfirmNext;
 
-    //Save default text color
+    //Save default text and countdown color
     private ColorStateList textColorDefaultRb;
+    private ColorStateList textColorDefaultCd;
+
+    private CountDownTimer countDownTimer;
+    private long timeLeftInMillis;
 
     //Get questions from database and save into a list
     private List<Question> questionsList;
@@ -84,6 +93,7 @@ public class QuizGameFragment extends Fragment {
         buttonConfirmNext = view.findViewById(R.id.quiz_game_confirm_button);
 
         textColorDefaultRb = rb1.getTextColors();
+        textColorDefaultCd = textViewCountdown.getTextColors();
 
         return view;
     }
@@ -168,9 +178,42 @@ public class QuizGameFragment extends Fragment {
 
            answered = false;
            buttonConfirmNext.setText("Confirm");
+
+           timeLeftInMillis  = COUNTDOWN_IN_MILLIS;
+           startCountDown();
        } else {
            finishQuiz(view);
        }
+    }
+
+    private void startCountDown() {
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeLeftInMillis = millisUntilFinished;
+                updateCountDownText();
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+    }
+
+    private void updateCountDownText() {
+        int minutes = (int) (timeLeftInMillis / 1000) / 60;
+        int seconds = (int) (timeLeftInMillis / 1000) % 60;
+
+        String timeFormatted = String.format(Locale.getDefault(),"%02d:&02d", minutes, seconds);
+
+        textViewCountdown.setText(timeFormatted);
+
+        if(timeLeftInMillis < 10000){
+            textViewCountdown.setTextColor(Color.RED);
+        } else {
+            textViewCountdown.setTextColor(textColorDefaultCd);
+        }
     }
 
     private void checkAnswer(View view) {
