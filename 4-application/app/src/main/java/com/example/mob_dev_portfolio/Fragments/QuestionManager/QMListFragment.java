@@ -33,9 +33,9 @@ public class QMListFragment extends Fragment {
 
     FragmentQmListBinding binding;
 
-    List<String> questionTitleList = new ArrayList<>();
+    ArrayList<String> questionTitleList = new ArrayList<>();
 
-    List<Question> questionsList = new ArrayList<>();
+    ArrayList<Question> questionsList = new ArrayList<>();
 
     ArrayAdapter adapter;
 
@@ -102,7 +102,7 @@ public class QMListFragment extends Fragment {
         //Populate the list will all questions by default
         QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
 
-        questionsList = db.questionDao().getAllQuestions();
+        questionsList = (ArrayList<Question>) db.questionDao().getAllQuestions();
 
         for (int i = 0; i < questionsList.size(); i++) {
             questionTitleList.add(i, questionsList.get(i).getTitle());
@@ -160,7 +160,7 @@ public class QMListFragment extends Fragment {
                     //If the tag is "all" then show all the questions in the database
                     questionTitleList.clear();
 
-                    questionsList = db.questionDao().getAllQuestions();
+                    questionsList = (ArrayList<Question>) db.questionDao().getAllQuestions();
 
                     for (int i = 0; i < questionsList.size(); i++) {
                         questionTitleList.add(i, questionsList.get(i).getTitle());
@@ -173,7 +173,7 @@ public class QMListFragment extends Fragment {
 
                     Integer selectedTagID = db.tagDao().getTagIDByName(spinnerTagChooser.getSelectedItem().toString());
 
-                    questionsList = db.questionDao().getQuestionsByTagID(selectedTagID);
+                    questionsList = (ArrayList<Question>) db.questionDao().getQuestionsByTagID(selectedTagID);
 
                     for (int i = 0; i < questionsList.size(); i++) {
                         questionTitleList.add(i, questionsList.get(i).getTitle());

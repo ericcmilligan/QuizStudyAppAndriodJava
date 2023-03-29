@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.os.CountDownTimer;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.example.mob_dev_portfolio.databinding.FragmentQcListBinding;
 import com.example.mob_dev_portfolio.databinding.FragmentQuizGameBinding;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -50,6 +52,13 @@ public class QuizGameFragment extends Fragment {
     private RadioButton rb4;
     private Button buttonConfirmNext;
 
+    //Save data on instance change variables
+    private static final String KEY_SCORE = "keyScore";
+    private static final String KEY_QUESTION_COUNT = "keyQuestionCount";
+    private static final String KEY_MILLIS_LEFT = "keyMillisLeft";
+    private static final String KEY_ANSWERED = "keyAnswered";
+    private static final String KEY_QUESTION_LIST = "keyQuestionList";
+
     //Save default text and countdown color
     private ColorStateList textColorDefaultRb;
     private ColorStateList textColorDefaultCd;
@@ -58,7 +67,7 @@ public class QuizGameFragment extends Fragment {
     private long timeLeftInMillis;
 
     //Get questions from database and save into a list
-    private List<Question> questionsList;
+    private ArrayList<Question> questionsList;
 
     //State variables for quiz game
     private int questionCounter;
@@ -66,7 +75,7 @@ public class QuizGameFragment extends Fragment {
     private Question currentQuestion;
 
     private int score;
-    private Boolean answered;
+    private Boolean answered = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,19 +121,36 @@ public class QuizGameFragment extends Fragment {
 
         //Populate question list with questions for passed tag if there are questions for the tag
         if(tagID != 0){
-            questionsList = db.questionDao().getQuestionsByTagID(tagID);
+            questionsList = (ArrayList<Question>) db.questionDao().getQuestionsByTagID(tagID);
         } else {
             Toast.makeText(getContext(), "Please make sure you have started a quiz for a valid" +
                     " tag with more than one question!", Toast.LENGTH_LONG).show();
         }
 
-        //Get question count total
-        questionCountTotal = questionsList.size();
+        if(savedInstanceState == null){
+            //Get question count total
+            questionCountTotal = questionsList.size();
 
-        //Randomize question output
-        Collections.shuffle(questionsList);
+            //Randomize question output
+            Collections.shuffle(questionsList);
 
-        showNextQuestion(view);
+            showNextQuestion(view);
+        } else {
+            questionsList = savedInstanceState.getParcelableArrayList(KEY_QUESTION_LIST);
+            questionCountTotal = questionsList.size();
+            questionCounter = savedInstanceState.getInt(KEY_QUESTION_COUNT);
+            currentQuestion = questionsList.get(questionCounter - 1);
+            score = savedInstanceState.getInt(KEY_SCORE);
+            timeLeftInMillis = savedInstanceState.getLong(KEY_MILLIS_LEFT);
+            answered = savedInstanceState.getBoolean(KEY_ANSWERED);
+
+            if(!answered){
+                startCountDown(view);
+            } else {
+                updateCountDownText();
+                showSolution();
+            }
+        }
 
         buttonConfirmNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -309,5 +335,19 @@ public class QuizGameFragment extends Fragment {
             countDownTimer.cancel();
         }
         binding = null;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        if(score == 0){
+            outState.putInt(KEY_SCORE, 0);
+        } else {
+            outState.putInt(KEY_SCORE, score);
+        }
+        outState.putInt(KEY_QUESTION_COUNT,questionCounter);
+        outState.putLong(KEY_MILLIS_LEFT, timeLeftInMillis);
+        outState.putBoolean(KEY_ANSWERED, answered);
+        outState.putParcelableArrayList(KEY_QUESTION_LIST, questionsList);
     }
 }

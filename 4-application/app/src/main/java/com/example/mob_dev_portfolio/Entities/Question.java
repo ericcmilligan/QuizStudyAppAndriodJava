@@ -1,5 +1,8 @@
 package com.example.mob_dev_portfolio.Entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -20,7 +23,7 @@ import androidx.room.PrimaryKey;
                 onDelete = ForeignKey.SET_NULL
         )
 })
-public class Question {
+public class Question implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     private Integer QuestionID;
 
@@ -38,6 +41,65 @@ public class Question {
         this.CorrectAnswerID = CorrectAnswerID;
         this.Title = Title;
     }
+
+    protected Question(Parcel in) {
+        if (in.readByte() == 0) {
+            QuestionID = null;
+        } else {
+            QuestionID = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            TagID = null;
+        } else {
+            TagID = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            CorrectAnswerID = null;
+        } else {
+            CorrectAnswerID = in.readInt();
+        }
+        Title = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (QuestionID == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(QuestionID);
+        }
+        if (TagID == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(TagID);
+        }
+        if (CorrectAnswerID == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(CorrectAnswerID);
+        }
+        dest.writeString(Title);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Question> CREATOR = new Creator<Question>() {
+        @Override
+        public Question createFromParcel(Parcel in) {
+            return new Question(in);
+        }
+
+        @Override
+        public Question[] newArray(int size) {
+            return new Question[size];
+        }
+    };
 
     @Override
     public String toString() {
