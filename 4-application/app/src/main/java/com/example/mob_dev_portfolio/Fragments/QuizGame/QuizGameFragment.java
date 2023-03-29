@@ -283,13 +283,18 @@ public class QuizGameFragment extends Fragment {
             db.highScoreDao().insertAll(
                     new Highscore(tagID, score, LocalDateTime.now())
             );
-        } else if (score >= highScore & score > 0){
-            //Else update the high-score if the game score is more/the same as the current high-score saved
+        } else if (score > highScore & score > 0){
+            //Else update the high-score if the game score is more than the current high-score saved
             //for the tag
             Toast.makeText(getContext(), "Well done, high score achieved!",
                     Toast.LENGTH_SHORT).show();
             db.highScoreDao().updateHighScoreByTagID(tagID, score);
-        } else {
+        } else if (score == highScore & score > 0){
+            //Else if the current score is the same as the previous high-score, inform the user
+            Toast.makeText(getContext(), "Achieved the same high-score!",
+                    Toast.LENGTH_SHORT).show();
+        }
+        else {
             //Else inform the user that they did not beat or match the high-score
             Toast.makeText(getContext(), "Unlucky! high score not achieved, better luck next time",
                     Toast.LENGTH_SHORT).show();

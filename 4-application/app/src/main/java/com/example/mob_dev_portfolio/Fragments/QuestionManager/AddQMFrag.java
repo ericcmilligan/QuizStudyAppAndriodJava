@@ -139,11 +139,22 @@ public class AddQMFrag extends Fragment {
 
                     //After the answers have been submitted assign the correct answer for the question
                     //From the selected answer number in the spinner
-                    db.questionDao().updateQuestionCorrectAnswer(
-                            Integer.parseInt(binding.spinnerCorrectAnswerID.getSelectedItem().toString())
-                            , db.questionDao().getQuestionIDByName(
-                                    binding.editTextQuestionTitle.getText().toString()
-                            ));
+                    if(binding.spinnerCorrectAnswerID.getSelectedItemPosition() == 0){
+                        //If a correct answer is not selected use 1 as the default to prevent crashing
+                        db.questionDao().updateQuestionCorrectAnswer(
+                                1
+                                , db.questionDao().getQuestionIDByName(
+                                        binding.editTextQuestionTitle.getText().toString()
+                                ));
+                    } else {
+                        //Else after the answers have been submitted assign the correct answer for the question
+                        //From the selected answer number in the spinner
+                        db.questionDao().updateQuestionCorrectAnswer(
+                                Integer.parseInt(binding.spinnerCorrectAnswerID.getSelectedItem().toString())
+                                , db.questionDao().getQuestionIDByName(
+                                        binding.editTextQuestionTitle.getText().toString()
+                                ));
+                    }
 
                     //Go back to the question manager screen
                     Navigation.findNavController(v).navigate(R.id.action_nav_add_question_to_nav_question_manager);

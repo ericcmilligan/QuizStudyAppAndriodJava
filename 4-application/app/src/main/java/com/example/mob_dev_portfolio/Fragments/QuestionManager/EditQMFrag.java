@@ -98,8 +98,15 @@ public class EditQMFrag extends Fragment {
                 alert.setTitle("Are you sure you want to delete this question and it's related answers: ");
                 alert.setMessage(selectedQuestion.getTitle());
 
+                Integer highScoreValue = db.highScoreDao().getHighScorePointsByTagID(selectedQuestion.getTagID());
+
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
+                        //Delete a point from the high-score as the question is deleted
+                        if(highScoreValue != null){
+                            db.highScoreDao().updateHighScoreByTagID(selectedQuestion.getTagID(),
+                                    (highScoreValue - 1));
+                        }
                         db.answerDao().deleteAnswersByQuestionID(selectedQuestionID);
                         db.questionDao().deleteQuestionByID(selectedQuestionID);
                         Navigation.findNavController(v).navigate(R.id.action_nav_edit_question_to_nav_question_manager);
@@ -238,11 +245,24 @@ public class EditQMFrag extends Fragment {
                             binding.editTextAnswer4Edit.getText().toString()
                     );
 
-                    db.questionDao().updateQuestionCorrectAnswer(
-                            Integer.parseInt(binding.spinnerCorrectAnswerEditID.getSelectedItem().toString())
-                            , db.questionDao().getQuestionIDByName(
-                                    binding.editTextQuestionTitleEdit.getText().toString()
-                            ));
+                    //After the answers have been submitted assign the correct answer for the question
+                    //From the selected answer number in the spinner
+                    if(binding.spinnerCorrectAnswerEditID.getSelectedItemPosition() == 0){
+                        //If a correct answer is not selected use 1 as the default to prevent crashing
+                        db.questionDao().updateQuestionCorrectAnswer(
+                                1
+                                , db.questionDao().getQuestionIDByName(
+                                        binding.editTextQuestionTitleEdit.getText().toString()
+                                ));
+                    } else {
+                        //Else after the answers have been submitted assign the correct answer for the question
+                        //From the selected answer number in the spinner
+                        db.questionDao().updateQuestionCorrectAnswer(
+                                Integer.parseInt(binding.spinnerCorrectAnswerEditID.getSelectedItem().toString())
+                                , db.questionDao().getQuestionIDByName(
+                                        binding.editTextQuestionTitleEdit.getText().toString()
+                                ));
+                    }
 
                     Navigation.findNavController(v).navigate(R.id.action_nav_edit_question_to_nav_question_manager);
                 }
