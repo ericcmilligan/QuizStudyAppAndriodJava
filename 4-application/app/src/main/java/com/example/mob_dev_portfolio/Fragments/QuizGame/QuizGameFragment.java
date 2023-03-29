@@ -180,13 +180,13 @@ public class QuizGameFragment extends Fragment {
            buttonConfirmNext.setText("Confirm");
 
            timeLeftInMillis  = COUNTDOWN_IN_MILLIS;
-           startCountDown();
+           startCountDown(view);
        } else {
            finishQuiz(view);
        }
     }
 
-    private void startCountDown() {
+    private void startCountDown(View view) {
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -196,7 +196,9 @@ public class QuizGameFragment extends Fragment {
 
             @Override
             public void onFinish() {
-
+                timeLeftInMillis = 0;
+                updateCountDownText();
+                checkAnswer(view);
             }
         }.start();
     }
@@ -205,7 +207,7 @@ public class QuizGameFragment extends Fragment {
         int minutes = (int) (timeLeftInMillis / 1000) / 60;
         int seconds = (int) (timeLeftInMillis / 1000) % 60;
 
-        String timeFormatted = String.format(Locale.getDefault(),"%02d:&02d", minutes, seconds);
+        String timeFormatted = String.format(Locale.getDefault(),"%02d:%02d", minutes, seconds);
 
         textViewCountdown.setText(timeFormatted);
 
@@ -218,6 +220,8 @@ public class QuizGameFragment extends Fragment {
 
     private void checkAnswer(View view) {
         answered = true;
+
+        countDownTimer.cancel();
 
         //Get selected answer and the index of the selected answer
         RadioButton rbSelected = view.findViewById(rbGroup.getCheckedRadioButtonId());
@@ -296,6 +300,9 @@ public class QuizGameFragment extends Fragment {
 
     public void onDestroyView() {
         super.onDestroyView();
+        if(countDownTimer != null){
+            countDownTimer.cancel();
+        }
         binding = null;
     }
 }
