@@ -1,7 +1,9 @@
 package com.example.mob_dev_portfolio.Fragments.QuestionManager;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -22,6 +25,7 @@ import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentQmListBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,8 +93,13 @@ public class QMListFragment extends Fragment {
                         , Toast.LENGTH_SHORT).show();
                 Toast.makeText(getActivity().getApplicationContext(), "Scroll the list to view questions in the system and click a question to edit"
                         , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Use the pen icon floating button to update the selected tag's name"
+                        , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Use the trash icon floating button to delete the tag and its questions"
+                        , Toast.LENGTH_SHORT).show();
             }
         });
+
 
         return view;
     }
@@ -186,6 +195,69 @@ public class QMListFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                     //Not needed as the spinner is populated with the tags all and default by default
+            }
+        });
+
+        //Set up button for editing the name of a tag
+        FloatingActionButton qmEditTagButton = (FloatingActionButton) view.findViewById(R.id.qmEditTagButton);
+
+        qmEditTagButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(spinnerTagChooser.getSelectedItem() == null){
+                    Toast.makeText(getContext(),
+                                    "Please select a tag in the spinner first",
+                                    Toast.LENGTH_SHORT)
+                            .show();
+                } else if (spinnerTagChooser.getSelectedItem().toString().equals("All")) {
+                    Toast.makeText(getContext(),
+                                    "Cannot edit the all tag name",
+                                    Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    Tag selectedTag =  db.tagDao().getTagByName(spinnerTagChooser.getSelectedItem().toString());
+
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
+                            R.style.Theme_Mobdevportfolio);
+
+                    alert.setTitle("Edit tag");
+
+                    alert.setMessage("Edit the tag: " + spinnerTagChooser.getSelectedItem());
+
+                    // Set an EditText view to get user input
+                    EditText input = new EditText(getActivity().getApplicationContext());
+                    alert.setView(input);
+
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            if (input.getText().length() == 0 || input.getText().length() > 30) {
+                                Toast.makeText(getContext(),
+                                                "Tag name must not be null or over 30 characters",
+                                                Toast.LENGTH_SHORT)
+                                        .show();
+                            } else {
+                                try{
+                                    db.tagDao().updateTagNameByID(selectedTag.getTagID(), input.getText().toString());
+                                } catch(Exception e){
+                                    Toast.makeText(getContext(),
+                                                    "Tag name must be unique, not saved",
+                                                    Toast.LENGTH_SHORT)
+                                            .show();
+                                }
+                                Navigation.findNavController(v).navigate(R.id.nav_question_manager);
+                            }
+                        }
+                    });
+
+                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            // Canceled.
+                        }
+                    });
+
+                    alert.show();
+                }
             }
         });
     }

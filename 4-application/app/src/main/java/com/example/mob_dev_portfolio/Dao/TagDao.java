@@ -25,6 +25,12 @@ public interface TagDao {
     @Query("SELECT * FROM Tag WHERE Name == :tagName")
     Tag checkIfDefaultTagExists(String tagName);
 
+    @Query("SELECT * FROM Tag WHERE Name == :tagName")
+    Tag getTagByName(String tagName);
+
+    @Query("UPDATE Tag SET Name = :tagName WHERE TagID = :tagID")
+    void updateTagNameByID(Integer tagID, String tagName);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Tag...tags);
 
