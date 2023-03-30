@@ -309,6 +309,8 @@ public class QuizGameFragment extends Fragment {
             db.highScoreDao().insertAll(
                     new Highscore(tagID, score, LocalDateTime.now())
             );
+            Toast.makeText(getContext(), "High score created, do try again!",
+                    Toast.LENGTH_SHORT).show();
         } else if (score > highScore & score > 0){
             //Else update the high-score if the game score is more than the current high-score saved
             //for the tag

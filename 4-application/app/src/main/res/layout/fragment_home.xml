@@ -1,72 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="Fragments.Home.HomeFragment">
-
-    <FrameLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right">
+        android:orientation="vertical">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/homeHelperButton"
-            android:layout_width="match_parent"
+        <FrameLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_margin="@dimen/fab_margin"
-            android:clickable="true"
-            android:contentDescription="Helper Button"
-            android:ems="10"
-            android:src="@drawable/ic_launcher_foreground" />
-    </FrameLayout>
+            android:layout_gravity="right">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="30dp"
-        android:layout_weight="1">
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/homeHelperButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="@dimen/fab_margin"
+                android:clickable="true"
+                android:contentDescription="Helper Button"
+                android:ems="10"
+                android:src="@drawable/ic_launcher_foreground" />
+        </FrameLayout>
 
-        <Button
-            android:id="@+id/play_quiz_button"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/purple_500"
-            android:text="Play Quiz"
-            android:textColor="@color/white" />
+            android:layout_margin="30dp"
+            android:layout_weight="1">
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/play_quiz_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/purple_500"
+                android:text="Play Quiz"
+                android:textColor="@color/white" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="30dp"
-        android:layout_weight="1">
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/question_manager_button"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/purple_500"
-            android:text="Question Manager"
-            android:textColor="@color/white" />
-    </LinearLayout>
+            android:layout_margin="30dp"
+            android:layout_weight="1">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="30dp"
-        android:layout_weight="1">
+            <Button
+                android:id="@+id/question_manager_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/purple_500"
+                android:text="Question Manager"
+                android:textColor="@color/white" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/high_score_button"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/purple_500"
-            android:text="High Scores"
-            android:textColor="@color/white" />
+            android:layout_margin="30dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/high_score_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/purple_500"
+                android:text="High Scores"
+                android:textColor="@color/white" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>
