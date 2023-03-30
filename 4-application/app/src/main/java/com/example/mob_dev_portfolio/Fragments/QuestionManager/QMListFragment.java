@@ -89,9 +89,11 @@ public class QMListFragment extends Fragment {
         qmHelperButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity().getApplicationContext(), "Click the plus icon to add a new question"
+                Toast.makeText(getActivity().getApplicationContext(), "Change the tag through the drop-down list to view questions for a given tag"
                         , Toast.LENGTH_SHORT).show();
-                Toast.makeText(getActivity().getApplicationContext(), "Scroll the list to view questions in the system and click a question to edit"
+                Toast.makeText(getActivity().getApplicationContext(), "Scroll the list to view questions for the chosen tag and click a question to edit"
+                        , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Click the plus icon to add a new question"
                         , Toast.LENGTH_SHORT).show();
                 Toast.makeText(getActivity().getApplicationContext(), "Use the pen icon floating button to update the selected tag's name"
                         , Toast.LENGTH_SHORT).show();
@@ -251,6 +253,75 @@ public class QMListFragment extends Fragment {
                     });
 
                     alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            // Canceled.
+                        }
+                    });
+
+                    alert.show();
+                }
+            }
+        });
+
+        //Set up button for deleting a tag
+        FloatingActionButton qmDeleteTagButton = (FloatingActionButton) view.findViewById(R.id.qmDeleteTagButton);
+        qmDeleteTagButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(spinnerTagChooser.getSelectedItem() == null) {
+                    Toast.makeText(getContext(),
+                                    "Please select a tag in the spinner first to delete",
+                                    Toast.LENGTH_SHORT)
+                            .show();
+                } else if (spinnerTagChooser.getSelectedItem().toString().equals("All")) {
+                    Toast.makeText(getContext(),
+                                    "Cannot delete the all tag",
+                                    Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    Tag selectedTag =  db.tagDao().getTagByName(spinnerTagChooser.getSelectedItem().toString());
+
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
+                            R.style.Theme_Mobdevportfolio);
+
+                    alert.setTitle("Delete tag");
+
+                    alert.setMessage("Are you sure you want to delete the tag: "
+                            + spinnerTagChooser.getSelectedItem() + " and all it's questions?");
+
+
+                    alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                                try{
+                                    //Get all questions for the tag and delete the answers for each question and the question
+                                    List<Question> questionsForTag = db.questionDao().getQuestionsByTagID(selectedTag.getTagID());
+                                    for(Question question : questionsForTag){
+                                        db.answerDao().deleteAnswersByQuestionID(question.getQuestionID());
+                                        db.questionDao().deleteQuestionByID(question.getQuestionID());
+                                    }
+                                    //Delete the tag
+                                    db.tagDao().deleteTagByID(selectedTag.getTagID());
+                                    Toast.makeText(getContext(),
+                                                    selectedTag.getName() + " is deleted with all it's questions",
+                                                    Toast.LENGTH_SHORT)
+                                            .show();
+                                } catch(Exception e){
+                                    //Tell the user why it can't be deleted
+                                    Toast.makeText(getContext(),
+                                                    "Cannot delete because",
+                                                    Toast.LENGTH_SHORT)
+                                            .show();
+                                    Toast.makeText(getContext(),
+                                                    e.toString(),
+                                                    Toast.LENGTH_SHORT)
+                                            .show();
+                                }
+                                Navigation.findNavController(v).navigate(R.id.nav_question_manager);
+                            }
+                        });
+
+
+                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             // Canceled.
                         }

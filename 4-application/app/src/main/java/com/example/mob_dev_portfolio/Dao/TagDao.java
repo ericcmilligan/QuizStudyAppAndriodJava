@@ -31,6 +31,9 @@ public interface TagDao {
     @Query("UPDATE Tag SET Name = :tagName WHERE TagID = :tagID")
     void updateTagNameByID(Integer tagID, String tagName);
 
+    @Query("DELETE FROM Tag WHERE TagID = :tagID")
+    void deleteTagByID(Integer tagID);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Tag...tags);
 
