@@ -36,28 +36,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:freezesText="true"
             android:text="00:30"
             android:textColor="@android:color/black"
-            android:textSize="40sp"
-            android:freezesText="true"/>
+            android:textSize="40sp" />
 
         <TextView
             android:id="@+id/quiz_game_question_text"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/quiz_game_radio_group"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="50dp"
+            android:layout_below="@id/quiz_game_countdown_text"
+            android:layout_centerHorizontal="true"
+            android:freezesText="true"
             android:text="Here will be the question text"
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:freezesText="true"/>
+            android:textSize="20sp" />
 
         <RadioGroup
             android:id="@+id/quiz_game_radio_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true"
+            android:layout_below="@id/quiz_game_question_text"
+            android:layout_marginTop="65dp">
 
             <RadioButton
                 android:id="@+id/quiz_game_radio_group_option1"
@@ -103,7 +106,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/quiz_game_radio_group"
             android:layout_marginTop="16dp"
-            android:text="Confirm"
-            android:freezesText="true"/>
+            android:freezesText="true"
+            android:minHeight="100dp"
+            android:text="Confirm" />
     </RelativeLayout>
 </ScrollView>
