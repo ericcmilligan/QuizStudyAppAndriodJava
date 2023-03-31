@@ -14,8 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mob_dev_portfolio.Database.QuizDatabase;
+import com.example.mob_dev_portfolio.Entities.Highscore;
 import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentQuizReplayBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * A fragment to display after the quiz game has finished that shows the user the high-score and
@@ -41,9 +43,17 @@ public class QuizReplayFragment extends Fragment {
         binding = FragmentQuizReplayBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        String bundleReceivedString = this.getArguments().toString();
-        String bundleInt = bundleReceivedString.replaceAll("\\D+","");
-        Integer quizScore = Integer.parseInt(bundleInt);
+        //Get the required data from the bundle
+        Bundle bundle = this.getArguments();
+        String bundleQuizScoreString = bundle.get("score").toString();
+        String bundleScoreInt = bundleQuizScoreString.replaceAll("\\D+","");
+        Integer quizScore = Integer.parseInt(bundleScoreInt);
+
+        String bundleReceivedTagIDString = bundle.get("tagID").toString();
+        String bundleTagIDInt = bundleReceivedTagIDString.replaceAll("\\D+","");
+        Integer tagID = Integer.parseInt(bundleTagIDInt);
+
+
 
         //Show the user the result of the quiz
         if(quizScore == null){
@@ -63,6 +73,34 @@ public class QuizReplayFragment extends Fragment {
             public void onClick(View v) {
                 //Go back to the quiz category screen
                 Navigation.findNavController(root).navigate(R.id.action_nav_quiz_replay_to_nav_quiz_category);
+            }
+        });
+
+        Button replayQuiz = root.findViewById(R.id.replay_quiz_button);
+
+        //When the replayQuiz button is clicked
+        replayQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Go to the quiz start screen and pass the tag ID within a bundle
+                Bundle bundle = new Bundle();
+                bundle.putInt("tagID", tagID);
+                Navigation.findNavController(root).navigate(R.id.action_nav_quiz_replay_to_nav_quiz_start,
+                        bundle);
+            }
+        });
+
+        FloatingActionButton helpButton = root.findViewById(R.id.quizReplayHelperButton);
+
+        //When the helper button is clicked
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Help the user
+                Toast.makeText(getContext(), "Click the replay quiz button to take the quiz again",
+                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Click the quit quiz button to quit the quiz",
+                        Toast.LENGTH_SHORT).show();
             }
         });
 
