@@ -49,6 +49,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="30dp"
+            android:layout_weight="1"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/quiz_replay_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="Score Image"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="30dp"
             android:layout_weight="1">
 
             <Button
