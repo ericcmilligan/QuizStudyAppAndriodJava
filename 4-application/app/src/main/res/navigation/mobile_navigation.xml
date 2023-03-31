@@ -135,5 +135,33 @@
             app:popUpTo="@id/nav_quiz_category"
             app:popUpToInclusive="true"
             />
+        <action
+            android:id="@+id/action_nav_quiz_game_to_nav_quiz_replay"
+            app:destination="@id/nav_quiz_replay"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/nav_quiz_replay"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_quiz_replay"
+        android:name="com.example.mob_dev_portfolio.Fragments.QuizGame.QuizReplayFragment"
+        android:label="Quiz Replay Screen"
+        tools:layout="@layout/fragment_quiz_replay">
+        <action
+            android:id="@+id/action_nav_quiz_replay_to_nav_quiz_category"
+            app:destination="@id/nav_quiz_category"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/nav_quiz_category"
+            app:popUpToInclusive="true"
+            />
+        <action
+            android:id="@+id/action_nav_quiz_replay_to_nav_quiz_start"
+            app:destination="@id/nav_quiz_start"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/nav_quiz_start"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 </navigation>

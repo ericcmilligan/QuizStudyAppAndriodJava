@@ -104,7 +104,8 @@ public class AddQMFrag extends Fragment {
                 isAllFieldsChecked = CheckAllFields();
 
                 //Check the fields for validation errors before submission into the database
-                if(isAllFieldsChecked) {
+                //and that the tag is not empty
+                if(isAllFieldsChecked & binding.spinnerTagID.getSelectedItem() != null) {
 
                     //Insert the user's details for the question into the database
                     db.questionDao().insertAll(
@@ -158,6 +159,9 @@ public class AddQMFrag extends Fragment {
 
                     //Go back to the question manager screen
                     Navigation.findNavController(v).navigate(R.id.action_nav_add_question_to_nav_question_manager);
+                } else {
+                    Toast.makeText(getContext(), "Please make sure a valid tag is added or selected",
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });

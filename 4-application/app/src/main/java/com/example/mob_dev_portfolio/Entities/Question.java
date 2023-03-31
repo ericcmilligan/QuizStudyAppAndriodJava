@@ -15,13 +15,7 @@ import androidx.room.PrimaryKey;
         foreignKeys = {@ForeignKey(entity = Tag.class,
         parentColumns = "TagID",
         childColumns = "TagID",
-        onDelete = ForeignKey.SET_NULL),
-        @ForeignKey(
-                entity = Answer.class,
-                parentColumns = "AnswerID",
-                childColumns = "CorrectAnswerID",
-                onDelete = ForeignKey.SET_NULL
-        )
+        onDelete = ForeignKey.SET_NULL)
 })
 public class Question implements Parcelable {
     @PrimaryKey(autoGenerate = true)

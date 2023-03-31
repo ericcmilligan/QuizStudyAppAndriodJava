@@ -332,7 +332,12 @@ public class QuizGameFragment extends Fragment {
                     Toast.LENGTH_SHORT).show();
         }
 
-        Navigation.findNavController(view).navigate(R.id.action_nav_quiz_game_to_nav_quiz_category);
+        //Put the score into a bundle to be accessed within the quiz replay fragment
+        Bundle bundle = new Bundle();
+        bundle.putInt("score", score);
+
+        //Go the quiz replay screen and pass the bundle
+        Navigation.findNavController(view).navigate(R.id.action_nav_quiz_game_to_nav_quiz_replay, bundle);
     }
 
     public void onDestroyView() {
