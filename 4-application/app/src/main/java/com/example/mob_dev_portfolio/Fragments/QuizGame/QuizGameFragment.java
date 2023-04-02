@@ -112,7 +112,7 @@ public class QuizGameFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //Let the user know it is a scroll screen
-        Toast.makeText(getContext(), "Please scroll to submit if you can not see the button",
+        Toast.makeText(getContext(), "Please scroll to confirm if you can not see the button",
                 Toast.LENGTH_LONG).show();
 
         //Initialize the database

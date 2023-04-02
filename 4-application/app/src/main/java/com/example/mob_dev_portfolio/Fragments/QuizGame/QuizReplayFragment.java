@@ -2,6 +2,7 @@ package com.example.mob_dev_portfolio.Fragments.QuizGame;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -103,6 +104,19 @@ public class QuizReplayFragment extends Fragment {
                         Toast.LENGTH_SHORT).show();
             }
         });
+
+        //Go back to quiz start screen on back press
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Bundle bundle = new Bundle();
+                bundle.putInt("tagID", tagID);
+                Navigation.findNavController(root).navigate(R.id.action_nav_quiz_replay_to_nav_quiz_start,
+                        bundle);
+            }
+        };
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
         return root;
     }
