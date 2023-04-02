@@ -14,11 +14,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mob_dev_portfolio.Database.QuizDatabase;
-import com.example.mob_dev_portfolio.Entities.Highscore;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.mob_dev_portfolio.API.DataModel;
 import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentQuizReplayBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * A fragment to display after the quiz game has finished that shows the user the high-score and
@@ -27,6 +36,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class QuizReplayFragment extends Fragment {
 
     private FragmentQuizReplayBinding binding;
+
+    //Variables for Giphy API
+    ArrayList<DataModel> dataModelArrayList = new ArrayList<>();
+    public static final String API_KEY = "UGeUJXTeOyZZXtzZXFFD87f9HIMX2bOJ";
+    public static final String BASE_URL = "https://api.giphy.com/v1/gifs/search?api_key=";
+    public static final String SEARCH_TERM = "&q=winning&limit=20&offset=0&rating=g&lang=en";
+
+    String url = BASE_URL + API_KEY + SEARCH_TERM;
 
     public QuizReplayFragment() {
 
@@ -103,6 +120,34 @@ public class QuizReplayFragment extends Fragment {
                 Toast.makeText(getContext(), "Click the quit quiz button to quit the quiz",
                         Toast.LENGTH_SHORT).show();
             }
+        });
+
+        //Getting the data from the API to display a winning or losing gif
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray dataArray = response.getJSONArray("data");
+                    for (int i = 0; i < dataArray.length(); i++) {
+                        JSONObject obj = dataArray.getJSONObject(i);
+                        JSONObject obj1 = obj.getJSONObject("images");
+                        JSONObject obj2 = obj1.getJSONObject("downsized_medium");
+
+                        String sourceUrl = obj2.getString("url");
+
+                        dataModelArrayList.add(new DataModel(sourceUrl));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+              }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getContext(), "Error occurred while getting gif: " +
+                            error.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
         });
 
         //Go back to quiz start screen on back press
