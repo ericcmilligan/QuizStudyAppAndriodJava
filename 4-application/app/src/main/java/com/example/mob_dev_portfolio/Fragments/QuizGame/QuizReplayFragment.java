@@ -1,5 +1,6 @@
 package com.example.mob_dev_portfolio.Fragments.QuizGame;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -24,7 +25,6 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.mob_dev_portfolio.API.DataModel;
 import com.example.mob_dev_portfolio.Database.QuizDatabase;
-import com.example.mob_dev_portfolio.Entities.Highscore;
 import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentQuizReplayBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,6 +35,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * A fragment to display after the quiz game has finished that shows the user the high-score and
@@ -124,6 +126,8 @@ public class QuizReplayFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Help the user
+                Toast.makeText(getContext(), "Scroll down if you cannot see the buttons",
+                        Toast.LENGTH_LONG).show();
                 Toast.makeText(getContext(), "Click the replay quiz button to take the quiz again",
                         Toast.LENGTH_SHORT).show();
                 Toast.makeText(getContext(), "Click the quit quiz button to quit the quiz",
@@ -159,6 +163,8 @@ public class QuizReplayFragment extends Fragment {
 
     public void getGif(RequestQueue requestQueue, String searchTerm){
         //Getting the data from the API to display a gif for either winning or losing
+        //Get imageview to pass
+        ImageView quizResultImage = binding.quizReplayImageView;
         SEARCH_TERM = searchTerm;
         String url = BASE_URL + API_KEY + BEFORE_SEARCH_URL + SEARCH_TERM  + AFTER_SEARCH_URL;
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -176,14 +182,12 @@ public class QuizReplayFragment extends Fragment {
                         dataModelArrayList.add(new DataModel(sourceUrl));
                     }
 
-                    //Get random gif image url for the array
+                    //Shuffle the data model array to get a random gif from giphy response
                     Collections.shuffle(dataModelArrayList);
-
-                    //Load gif into the image view with glide
-                    ImageView quizResultImage = getActivity().findViewById(R.id.quiz_replay_image_view);
 
                     Glide.with(getContext())
                             .asGif()
+                            .placeholder(R.drawable.placeholder)
                             .load(dataModelArrayList.get(1).getImageUrl())
                             .into(quizResultImage);
 
@@ -194,9 +198,20 @@ public class QuizReplayFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "Error occurred while getting gif, not loaded" +
-                                error.getMessage(),
-                        Toast.LENGTH_SHORT).show();
+                //Show local gifs for winning or losing instead if the API fails
+                if(Objects.equals(searchTerm, "win")){
+                    Glide.with(getContext())
+                            .asGif()
+                            .load(R.drawable.winning)
+                            .placeholder(R.drawable.winning)
+                            .into(quizResultImage);
+                } else if(Objects.equals(searchTerm, "lose")){
+                    Glide.with(getContext())
+                            .asGif()
+                            .placeholder(R.drawable.losing)
+                            .load(R.drawable.losing)
+                            .into(quizResultImage);
+                }
             }
         });
 
