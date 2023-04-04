@@ -24,7 +24,29 @@
             app:popUpTo="@id/nav_quiz_category"
             app:popUpToInclusive="true"
         />
+        <action
+            android:id="@+id/action_nav_home_to_nav_high_score"
+            app:destination="@id/nav_high_score"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/nav_high_score"
+            app:popUpToInclusive="true"
+            />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_high_score"
+        android:name="com.example.mob_dev_portfolio.Fragments.HighScore.HighScoreFragment"
+        android:label="High-Score Screen"
+        tools:layout="@layout/fragment_high_score">
+        <action
+            android:id="@+id/action_nav_quiz_high_score_to_nav_home"
+            app:destination="@id/nav_home"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
+
 
     <fragment
         android:id="@+id/nav_question_manager"

@@ -299,8 +299,10 @@ public class QMListFragment extends Fragment {
                                         db.answerDao().deleteAnswersByQuestionID(question.getQuestionID());
                                         db.questionDao().deleteQuestionByID(question.getQuestionID());
                                     }
-                                    //Delete the tag
+                                    //Delete the high-score and tag
+                                    db.highScoreDao().deleteHighScoreByTagID(selectedTag.getTagID());
                                     db.tagDao().deleteTagByID(selectedTag.getTagID());
+
                                     Toast.makeText(getContext(),
                                                     selectedTag.getName() + " is deleted with all it's questions",
                                                     Toast.LENGTH_SHORT)

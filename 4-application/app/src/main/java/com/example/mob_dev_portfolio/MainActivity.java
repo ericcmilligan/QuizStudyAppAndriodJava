@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_question_manager, R.id.nav_quiz_category)
+                R.id.nav_home, R.id.nav_question_manager, R.id.nav_quiz_category, R.id.nav_high_score)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);

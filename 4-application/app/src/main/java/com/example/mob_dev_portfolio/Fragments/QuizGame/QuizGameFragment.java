@@ -320,7 +320,7 @@ public class QuizGameFragment extends Fragment {
             //for the tag
             Toast.makeText(getContext(), "Well done, high score achieved!",
                     Toast.LENGTH_SHORT).show();
-            db.highScoreDao().updateHighScoreByTagID(tagID, score);
+            db.highScoreDao().updateHighScoreByTagID(tagID, score, LocalDateTime.now());
         } else if (score == highScore & score > 0){
             //Else if the current score is the same as the previous high-score, inform the user
             Toast.makeText(getContext(), "Achieved the same high-score!",

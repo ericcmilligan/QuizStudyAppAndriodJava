@@ -25,6 +25,7 @@ import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentEditQuestionBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,7 +105,7 @@ public class EditQMFrag extends Fragment {
                         //Delete a point from the high-score as the question is deleted
                         if(highScoreValue != null){
                             db.highScoreDao().updateHighScoreByTagID(selectedQuestion.getTagID(),
-                                    (highScoreValue - 1));
+                                    (highScoreValue - 1), LocalDateTime.now());
                         }
                         db.answerDao().deleteAnswersByQuestionID(selectedQuestionID);
                         db.questionDao().deleteQuestionByID(selectedQuestionID);
@@ -214,7 +215,7 @@ public class EditQMFrag extends Fragment {
 
                     if(questionTagID != spinnerTagID.getId() & highScoreValue != null){
                         db.highScoreDao().updateHighScoreByTagID(selectedQuestion.getTagID(),
-                                (highScoreValue - 1));
+                                (highScoreValue - 1), LocalDateTime.now());
                     }
 
                     db.questionDao().updateQuestion(

@@ -49,6 +49,16 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //Button set up with a onclick listener to take the user to the high score fragment
+        //on click
+        Button highScoreButton = binding.highScoreButton;
+        highScoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_nav_home_to_nav_high_score);
+            }
+        });
+
         //Button set up with a onclick listener to assist the user by providing a toast with
         //explanation of the functionality for this screen.
         FloatingActionButton homeHelperButton = binding.homeHelperButton;

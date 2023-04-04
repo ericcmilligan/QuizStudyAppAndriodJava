@@ -16,5 +16,9 @@
             android:id="@+id/nav_quiz_category"
             android:icon="@drawable/ic_baseline_play_arrow_24"
             android:title="@string/play_quiz" />
+        <item
+            android:id="@+id/nav_high_score"
+            android:icon="@drawable/ic_baseline_score_24"
+            android:title="@string/view_high_scores" />
     </group>
 </menu>
