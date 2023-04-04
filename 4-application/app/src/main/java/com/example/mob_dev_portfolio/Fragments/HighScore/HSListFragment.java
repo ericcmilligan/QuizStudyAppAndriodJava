@@ -4,18 +4,20 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.mob_dev_portfolio.Entities.Highscore;
 import com.example.mob_dev_portfolio.R;
-import com.example.mob_dev_portfolio.databinding.FragmentHighScoreBinding;
 import com.example.mob_dev_portfolio.databinding.FragmentHsListBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A fragment representing a list of quiz high scores
@@ -23,8 +25,9 @@ import java.util.List;
 public class HSListFragment extends Fragment {
 
     FragmentHsListBinding binding;
-
-    List<String> highScoresList = new ArrayList<>();
+    ArrayList<Highscore> highScoresList = new ArrayList<Highscore>();
+    HSListAdapter hsListAdapter;
+    RecyclerView recyclerView;
 
     public HSListFragment() {
 
@@ -52,8 +55,31 @@ public class HSListFragment extends Fragment {
             }
         });
 
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+
+
+        recyclerView = view.findViewById(R.id.high_score_list_view);
+
+        recyclerView.setLayoutManager(llm);
+
+        hsListAdapter = new HSListAdapter(getContext(), highScoresList);
+
+        recyclerView.setAdapter(hsListAdapter);
+
         return view;
     }
+
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+        highScoresList.add(new Highscore(1, 1, LocalDateTime.now()));
+        highScoresList.add(new Highscore(2, 2, LocalDateTime.now()));
+
+        hsListAdapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public void onDestroyView() {

@@ -32,4 +32,7 @@ public interface HighScoreDao {
 
     @Query("DELETE FROM Highscore WHERE TagID = :tagID")
     void deleteHighScoreByTagID(Integer tagID);
+
+    @Query("UPDATE Highscore SET Score = 0 WHERE HighScoreID = :highScoreID")
+    void resetHighScoreByID(Integer highScoreID);
 }
