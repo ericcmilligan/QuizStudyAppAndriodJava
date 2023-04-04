@@ -62,6 +62,7 @@ public class EditQMFrag extends Fragment {
         String bundleInt = bundleReceivedString.replaceAll("\\D+","");
         Integer selectedQuestionID = Integer.parseInt(bundleInt);
         Question selectedQuestion = db.questionDao().getQuestionByID(selectedQuestionID);
+        Integer highScoreValue = db.highScoreDao().getHighScorePointsByTagID(selectedQuestion.getTagID());
 
         //Set up floating action buttons for navigation and to provide help to the user
         FloatingActionButton backToQMButtonEdit = (FloatingActionButton) root.findViewById(R.id.backToQMButtonEdit);
@@ -97,8 +98,6 @@ public class EditQMFrag extends Fragment {
 
                 alert.setTitle("Are you sure you want to delete this question and it's related answers: ");
                 alert.setMessage(selectedQuestion.getTitle());
-
-                Integer highScoreValue = db.highScoreDao().getHighScorePointsByTagID(selectedQuestion.getTagID());
 
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -212,6 +211,11 @@ public class EditQMFrag extends Fragment {
                 isAllFieldsChecked = CheckAllFields();
 
                 if(isAllFieldsChecked) {
+
+                    if(questionTagID != spinnerTagID.getId() & highScoreValue != null){
+                        db.highScoreDao().updateHighScoreByTagID(selectedQuestion.getTagID(),
+                                (highScoreValue - 1));
+                    }
 
                     db.questionDao().updateQuestion(
                                     selectedQuestionID,
