@@ -10,7 +10,7 @@ sections within the app. Using a navigation drawer also allows the menu to be hi
 by a hamburger menu to not let the navigation section get in the way of the quiz gameplay.
 
 The app will make use of database features as it is designed to save questions and the answers, high scores and 
-tags. With the high score saved to allow the student to continue playing and improving their high scores for a tag. 
+tags. The high score us saved to allow the student to continue playing and improving their high scores for a tag. 
 The database will be separated into quiz question, quiz answers, quiz tag and quiz high score tables to save and store
 the required data for the app. I will be using Room to interact and save to the database as it is 
 Google's default persistence library for Android and therefore has abundant documentation.
