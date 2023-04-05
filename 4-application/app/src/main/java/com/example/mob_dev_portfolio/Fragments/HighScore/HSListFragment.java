@@ -58,6 +58,18 @@ public class HSListFragment extends Fragment {
             }
         });
 
+        //Set up helper button for high score screen
+        FloatingActionButton highScoreHelperButton = (FloatingActionButton) view.findViewById(R.id.hsHelperButton);
+        highScoreHelperButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Here you can reset/share a high-score by clicking the respective buttons",
+                        Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Scroll the list to see high-scores",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
         //Set up layout manager and custom adapter for high-score list
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
