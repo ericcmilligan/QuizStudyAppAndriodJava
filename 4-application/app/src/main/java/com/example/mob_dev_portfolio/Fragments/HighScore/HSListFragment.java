@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.mob_dev_portfolio.Database.QuizDatabase;
 import com.example.mob_dev_portfolio.Entities.Highscore;
 import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentHsListBinding;
@@ -18,6 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of quiz high scores
@@ -55,15 +58,16 @@ public class HSListFragment extends Fragment {
             }
         });
 
+
+        //Set up layout manager and custom adapter for high-score list
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
 
+        hsListAdapter = new HSListAdapter(getContext(), highScoresList);
 
         recyclerView = view.findViewById(R.id.high_score_list_view);
 
         recyclerView.setLayoutManager(llm);
-
-        hsListAdapter = new HSListAdapter(getContext(), highScoresList);
 
         recyclerView.setAdapter(hsListAdapter);
 
@@ -73,11 +77,22 @@ public class HSListFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        QuizDatabase db = QuizDatabase.getInstance(getContext());
 
-        highScoresList.add(new Highscore(1, 1, LocalDateTime.now()));
-        highScoresList.add(new Highscore(2, 2, LocalDateTime.now()));
+        List<Highscore> highScores = db.highScoreDao().getAllHighScores();
 
-        hsListAdapter.notifyDataSetChanged();
+        if(highScores.size() == 0){
+            Toast.makeText(getContext(), "Achieve a high-score first to see it here!",
+                    Toast.LENGTH_LONG).show();
+        } else {
+            for(Highscore highscore : highScores){
+                if(highscore.getTagID() != null){
+                    highScoresList.add(highscore);
+                }
+            }
+            hsListAdapter.notifyDataSetChanged();
+        }
+
     }
 
 

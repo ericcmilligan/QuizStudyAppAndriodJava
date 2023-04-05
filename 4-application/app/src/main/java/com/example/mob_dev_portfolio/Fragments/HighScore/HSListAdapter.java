@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mob_dev_portfolio.Database.QuizDatabase;
 import com.example.mob_dev_portfolio.Entities.Highscore;
 import com.example.mob_dev_portfolio.R;
+
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class HSListAdapter extends RecyclerView.Adapter<HSListViewHolder> {
@@ -31,8 +33,15 @@ public class HSListAdapter extends RecyclerView.Adapter<HSListViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull HSListViewHolder holder, int position) {
         Highscore highscore = highScoreList.get(position);
-        holder.highScoreTextView.setText("High-Score:" + highscore.getScore() + " Date Achieved:"
-                + highscore.getDateAchieved());
+
+        QuizDatabase db = QuizDatabase.getInstance(context);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        holder.highScoreTagTextView.setText("Tag Name: " + db.tagDao().getTagNameByID(highscore.getTagID()));
+        holder.highScoreTextView.setText("High-Score: " + highscore.getScore());
+        holder.highScoreDateTextView.setText("Date Achieved: " + highscore.getDateAchieved().format(formatter));
+
         holder.resetHighScoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

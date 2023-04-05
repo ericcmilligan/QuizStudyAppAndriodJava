@@ -11,13 +11,17 @@ import com.example.mob_dev_portfolio.R;
 
 public class HSListViewHolder extends RecyclerView.ViewHolder {
 
+    public TextView highScoreTagTextView;
     public TextView highScoreTextView;
+    public TextView highScoreDateTextView;
     public Button resetHighScoreButton;
     public Button shareHighScoreButton;
 
     public HSListViewHolder(@NonNull View itemView) {
         super(itemView);
+        highScoreTagTextView = itemView.findViewById(R.id.highScoreTagTextView);
         highScoreTextView = itemView.findViewById(R.id.highScoreTextView);
+        highScoreDateTextView = itemView.findViewById(R.id.highScoreDateTextView);
         resetHighScoreButton = itemView.findViewById(R.id.resetHighScoreButton);
         shareHighScoreButton = itemView.findViewById(R.id.shareHighScoreButton);
     }
