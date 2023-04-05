@@ -2,6 +2,7 @@ package com.example.mob_dev_portfolio.Fragments.HighScore;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +82,28 @@ public class HSListAdapter extends RecyclerView.Adapter<HSListViewHolder> {
                 });
 
                 alert.show();
+            }
+        });
+
+        //Share high-score via external email app
+        holder.shareHighScoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Set up variables to share in the email
+                QuizDatabase db = QuizDatabase.getInstance(context);
+                String tagName = db.tagDao().getTagNameByID(highscore.getTagID());
+                String emailSubject = "High-Score Achieved For: " + tagName;
+                String emailText = "I achieved a high-score of " + highscore.getScore() + " points for the quiz category "
+                        + tagName + "!";
+
+                //Create email intent
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
+                emailIntent.putExtra(Intent.EXTRA_TEXT, emailText);
+
+                //Open email intent
+                emailIntent.setType("message/rfc822");
+                v.getContext().startActivity(Intent.createChooser(emailIntent, "Choose an email client"));
             }
         });
     }
