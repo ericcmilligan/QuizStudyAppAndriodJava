@@ -58,7 +58,6 @@ public class HSListFragment extends Fragment {
             }
         });
 
-
         //Set up layout manager and custom adapter for high-score list
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
