@@ -1,9 +1,12 @@
 package com.example.mob_dev_portfolio.Fragments.QuestionManager;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -45,6 +48,10 @@ public class QMListFragment extends Fragment {
 
     ListView lv;
 
+    private NotificationManager notificationManager;
+
+    public static final String CHANNEL_DATABASE_ID = "channel1";
+
 
     public QMListFragment() {
     }
@@ -53,6 +60,8 @@ public class QMListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Set up notification manager
+        notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @Override
@@ -247,6 +256,13 @@ public class QMListFragment extends Fragment {
                                                     Toast.LENGTH_SHORT)
                                             .show();
                                 }
+
+                                //Send notification on tag name edited
+                                Tag tagCreated = db.tagDao().getTagByName(input.getText().toString());
+                                if(tagCreated != null){
+                                    sendOnChannel1Notification2(v, db.tagDao().getTagByName(input.getText().toString()));
+                                }
+
                                 Navigation.findNavController(v).navigate(R.id.nav_question_manager);
                             }
                         }
@@ -307,6 +323,7 @@ public class QMListFragment extends Fragment {
                                                     selectedTag.getName() + " is deleted with all it's questions",
                                                     Toast.LENGTH_SHORT)
                                             .show();
+                                    sendOnChannel1Notification1(v, selectedTag);
                                 } catch(Exception e){
                                     //Tell the user why it can't be deleted
                                     Toast.makeText(getContext(),
@@ -333,6 +350,34 @@ public class QMListFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public void sendOnChannel1Notification1(View v, Tag tag){
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(requireContext(), CHANNEL_DATABASE_ID);
+
+        notificationBuilder
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Deleted tag " + tag.getName() + " and all its questions from the database")
+                .setContentText("Successfully deleted tag " + tag.getName() + " and all its questions from the database")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setChannelId(CHANNEL_DATABASE_ID)
+                .setAutoCancel(true);
+
+        notificationManager.notify(0, notificationBuilder.build());
+    }
+
+    public void sendOnChannel1Notification2(View v, Tag tag){
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(requireContext(), CHANNEL_DATABASE_ID);
+
+        notificationBuilder
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Edited tag name to " + tag.getName())
+                .setContentText("Successfully edited tag name to " + tag.getName())
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setChannelId(CHANNEL_DATABASE_ID)
+                .setAutoCancel(true);
+
+        notificationManager.notify(0, notificationBuilder.build());
     }
 
     @Override

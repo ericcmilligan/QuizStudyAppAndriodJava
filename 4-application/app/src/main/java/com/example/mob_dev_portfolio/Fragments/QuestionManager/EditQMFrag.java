@@ -1,10 +1,13 @@
 package com.example.mob_dev_portfolio.Fragments.QuestionManager;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -36,6 +39,8 @@ public class EditQMFrag extends Fragment {
 
     private FragmentEditQuestionBinding binding;
     boolean isAllFieldsChecked = false;
+    private NotificationManager notificationManager;
+    public static final String CHANNEL_DATABASE_ID = "channel1";
 
 
     public EditQMFrag() {
@@ -46,6 +51,8 @@ public class EditQMFrag extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Set up notification manager
+        notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @Override
@@ -269,6 +276,12 @@ public class EditQMFrag extends Fragment {
                                 ));
                     }
 
+                    //Go back to the question manager screen and send notification on success
+                    sendOnChannel1(v,
+                            db.questionDao().getQuestionByTitle(
+                                    binding.editTextQuestionTitleEdit.getText().toString()),
+                            db.tagDao().getTagByName(binding.spinnerTagEditID.getSelectedItem().toString()));
+
                     Navigation.findNavController(v).navigate(R.id.action_nav_edit_question_to_nav_question_manager);
                 }
             }
@@ -327,6 +340,20 @@ public class EditQMFrag extends Fragment {
 
         // after all validation return true.
         return true;
+    }
+
+    public void sendOnChannel1(View v, Question question, Tag tag){
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(requireContext(), CHANNEL_DATABASE_ID);
+
+        notificationBuilder
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Edited question " + question.getTitle() + " for tag " + tag.getName())
+                .setContentText("Successfully edited question " + question.getTitle() + " for tag " + tag.getName())
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setChannelId(CHANNEL_DATABASE_ID)
+                .setAutoCancel(true);
+
+        notificationManager.notify(0, notificationBuilder.build());
     }
 
     //Hide the toolbar while in this fragment as we have a custom toolbar
