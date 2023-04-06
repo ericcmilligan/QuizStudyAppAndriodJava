@@ -1,9 +1,12 @@
 package com.example.mob_dev_portfolio.Fragments.QuizGame;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -22,6 +25,7 @@ import com.example.mob_dev_portfolio.Database.QuizDatabase;
 import com.example.mob_dev_portfolio.Entities.Answer;
 import com.example.mob_dev_portfolio.Entities.Highscore;
 import com.example.mob_dev_portfolio.Entities.Question;
+import com.example.mob_dev_portfolio.Entities.Tag;
 import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentQcListBinding;
 import com.example.mob_dev_portfolio.databinding.FragmentQuizGameBinding;
@@ -77,9 +81,15 @@ public class QuizGameFragment extends Fragment {
     private int score;
     private Boolean answered = false;
 
+    //Notification variables
+    private NotificationManager notificationManager;
+    public static final String CHANNEL_GAME_ID = "channel2";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Set up notification manager
+        notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @Override
@@ -317,10 +327,13 @@ public class QuizGameFragment extends Fragment {
                     Toast.LENGTH_SHORT).show();
         } else if (score > highScore & score > 0){
             //Else update the high-score if the game score is more than the current high-score saved
-            //for the tag
+            //for the tag and send a notification alerting the user
             Toast.makeText(getContext(), "Well done, high score achieved!",
                     Toast.LENGTH_SHORT).show();
+
             db.highScoreDao().updateHighScoreByTagID(tagID, score, LocalDateTime.now());
+
+            sendOnChannel2(view, db.highScoreDao().getHighScoreByTagID(tagID), db.tagDao().getTagByID(tagID));
         } else if (score == highScore & score > 0){
             //Else if the current score is the same as the previous high-score, inform the user
             Toast.makeText(getContext(), "Achieved the same high-score!",
@@ -339,6 +352,20 @@ public class QuizGameFragment extends Fragment {
 
         //Go the quiz replay screen and pass the bundle
         Navigation.findNavController(view).navigate(R.id.action_nav_quiz_game_to_nav_quiz_replay, bundle);
+    }
+
+    public void sendOnChannel2(View v, Highscore highscore, Tag tag){
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(requireContext(), CHANNEL_GAME_ID);
+
+        notificationBuilder
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("High-score achieved for tag " + tag.getName() + " with " + highscore.getScore() + " points!")
+                .setContentText("Successfully achieved high-score for tag " + tag.getName())
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setChannelId(CHANNEL_GAME_ID)
+                .setAutoCancel(true);
+
+        notificationManager.notify(0, notificationBuilder.build());
     }
 
     public void onDestroyView() {

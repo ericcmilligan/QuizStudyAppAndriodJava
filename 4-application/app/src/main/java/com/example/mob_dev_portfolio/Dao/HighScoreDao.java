@@ -36,6 +36,9 @@ public interface HighScoreDao {
     @Query("UPDATE Highscore SET Score = 0 WHERE HighScoreID = :highScoreID")
     void resetHighScoreByID(Integer highScoreID);
 
+    @Query("SELECT * FROM Highscore WHERE TagID = :tagID")
+    Highscore getHighScoreByTagID(Integer tagID);
+
     @Query("DELETE FROM Highscore WHERE HighScoreID == :highScoreID")
     void deleteHighScoreByID(Integer highScoreID);
 }
