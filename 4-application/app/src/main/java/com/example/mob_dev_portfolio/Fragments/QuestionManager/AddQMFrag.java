@@ -1,10 +1,17 @@
 package com.example.mob_dev_portfolio.Fragments.QuestionManager;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -35,6 +42,8 @@ public class AddQMFrag extends Fragment {
 
     private FragmentAddQuestionBinding binding;
     boolean isAllFieldsChecked = false;
+    private NotificationManager notificationManager;
+    public static final String CHANNEL_DATABASE_ID = "channel1";
 
     public AddQMFrag() {
 
@@ -43,6 +52,8 @@ public class AddQMFrag extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Set up notification manager
+        notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @Override
@@ -157,7 +168,12 @@ public class AddQMFrag extends Fragment {
                                 ));
                     }
 
-                    //Go back to the question manager screen
+                    //Go back to the question manager screen and send notification on success
+                    sendOnChannel1(v,
+                            db.questionDao().getQuestionByTitle(
+                                    binding.editTextQuestionTitle.getText().toString()),
+                            db.tagDao().getTagByName(binding.spinnerTagID.getSelectedItem().toString()));
+
                     Navigation.findNavController(v).navigate(R.id.action_nav_add_question_to_nav_question_manager);
                 } else {
                     Toast.makeText(getContext(), "Please make sure a valid tag is added or selected",
@@ -264,6 +280,20 @@ public class AddQMFrag extends Fragment {
             spinnerTagAdapter.addAll(tag.getName());
             spinnerTagAdapter.notifyDataSetChanged();
         }
+    }
+
+    public void sendOnChannel1(View v, Question question, Tag tag){
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(requireContext(), CHANNEL_DATABASE_ID);
+
+        notificationBuilder
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Added question " + question.getTitle() + " to tag " + tag.getName())
+                .setContentText("Successfully added question " + question.getTitle() + " to tag " + tag.getName())
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setChannelId(CHANNEL_DATABASE_ID)
+                .setAutoCancel(true);
+
+        notificationManager.notify(0, notificationBuilder.build());
     }
 
     @Override

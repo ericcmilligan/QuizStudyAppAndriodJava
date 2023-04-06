@@ -21,6 +21,9 @@ public interface QuestionDao {
     @Query("SELECT QuestionID FROM Question WHERE Title = :questionTitle")
     Integer getQuestionIDByName(String questionTitle);
 
+    @Query("SELECT * FROM Question WHERE Title = :questionTitle")
+    Question getQuestionByTitle(String questionTitle);
+
     @Query("SELECT CorrectAnswerID FROM Question WHERE QuestionID = :questionID")
     Integer getCorrectAnswerIDByQuestionID(Integer questionID);
 
