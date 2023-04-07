@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.core.app.NotificationCompat;
@@ -271,6 +272,11 @@ public class QuizGameFragment extends Fragment {
         if(answerNr == currentQuestion.getCorrectAnswerID()){
             score = score + 1;
             textViewScore.setText("Score: " + score);
+            MediaPlayer correctAnswerSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.correct);
+            correctAnswerSound.start();
+        } else {
+            MediaPlayer incorrectAnswerSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.incorrect);
+            incorrectAnswerSound.start();
         }
 
         showSolution();
