@@ -3,6 +3,7 @@ package com.example.mob_dev_portfolio.Fragments.QuestionManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -78,6 +79,15 @@ public class QMListFragment extends Fragment {
         addQuestionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 Navigation.findNavController(v).navigate(R.id.action_nav_question_manager_to_nav_add_question);
             }
         });
@@ -88,6 +98,15 @@ public class QMListFragment extends Fragment {
         backToHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 Navigation.findNavController(v).navigate(R.id.action_nav_question_manager_to_nav_home);
             }
         });
@@ -98,6 +117,16 @@ public class QMListFragment extends Fragment {
         qmHelperButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 Toast.makeText(getActivity().getApplicationContext(), "Change the tag through the drop-down list to view questions for a given tag"
                         , Toast.LENGTH_SHORT).show();
                 Toast.makeText(getActivity().getApplicationContext(), "Scroll the list to view questions for the chosen tag and click a question to edit"
@@ -216,6 +245,15 @@ public class QMListFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 if(spinnerTagChooser.getSelectedItem() == null){
                     Toast.makeText(getContext(),
                                     "Please select a tag in the spinner first",
@@ -284,6 +322,16 @@ public class QMListFragment extends Fragment {
         qmDeleteTagButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 if(spinnerTagChooser.getSelectedItem() == null) {
                     Toast.makeText(getContext(),
                                     "Please select a tag in the spinner first to delete",

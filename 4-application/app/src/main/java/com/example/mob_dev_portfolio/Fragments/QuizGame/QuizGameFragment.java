@@ -170,6 +170,16 @@ public class QuizGameFragment extends Fragment {
         buttonConfirmNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 if(!answered){
                     if(rb1.isChecked() || rb2.isChecked() || rb3.isChecked() || rb4.isChecked()){
                         checkAnswer(view);
@@ -272,11 +282,22 @@ public class QuizGameFragment extends Fragment {
         if(answerNr == currentQuestion.getCorrectAnswerID()){
             score = score + 1;
             textViewScore.setText("Score: " + score);
+
             MediaPlayer correctAnswerSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.correct);
-            correctAnswerSound.start();
+            if(correctAnswerSound != null) {
+                correctAnswerSound.start();
+                if(!correctAnswerSound.isPlaying()) {
+                    correctAnswerSound.release();
+                }
+            }
         } else {
             MediaPlayer incorrectAnswerSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.incorrect);
-            incorrectAnswerSound.start();
+            if(incorrectAnswerSound != null){
+                incorrectAnswerSound.start();
+                if(!incorrectAnswerSound.isPlaying()){
+                    incorrectAnswerSound.release();
+                }
+            }
         }
 
         showSolution();

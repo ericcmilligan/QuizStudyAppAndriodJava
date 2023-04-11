@@ -3,6 +3,7 @@ package com.example.mob_dev_portfolio.Fragments.QuestionManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -78,6 +79,15 @@ public class EditQMFrag extends Fragment {
         backToQMButtonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 Navigation.findNavController(v).navigate(R.id.action_nav_edit_question_to_nav_question_manager);
             }
         });
@@ -87,6 +97,16 @@ public class EditQMFrag extends Fragment {
         editQuestionHelperButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 Toast.makeText(getActivity().getApplicationContext(), "Fill out the form and scroll down to click submit to edit a question"
                         , Toast.LENGTH_SHORT).show();
                 Toast.makeText(getActivity().getApplicationContext(), "Click the trash icon to delete this question"
@@ -101,6 +121,15 @@ public class EditQMFrag extends Fragment {
         deleteQuestionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
                         R.style.Theme_Mobdevportfolio);
 
@@ -139,6 +168,15 @@ public class EditQMFrag extends Fragment {
         addTagButtonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
                         R.style.Theme_Mobdevportfolio);
 

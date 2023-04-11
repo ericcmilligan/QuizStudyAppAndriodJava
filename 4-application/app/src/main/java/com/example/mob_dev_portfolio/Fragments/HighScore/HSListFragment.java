@@ -1,5 +1,6 @@
 package com.example.mob_dev_portfolio.Fragments.HighScore;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -54,6 +55,15 @@ public class HSListFragment extends Fragment {
         backToHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 Navigation.findNavController(v).navigate(R.id.action_nav_quiz_high_score_to_nav_home);
             }
         });
@@ -63,6 +73,15 @@ public class HSListFragment extends Fragment {
         highScoreHelperButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 Toast.makeText(getContext(), "Here you can reset/share a high-score by clicking the respective buttons",
                         Toast.LENGTH_LONG).show();
                 Toast.makeText(getContext(), "Scroll the list to see high-scores",

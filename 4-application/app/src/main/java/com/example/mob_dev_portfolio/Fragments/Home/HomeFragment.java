@@ -1,5 +1,6 @@
 package com.example.mob_dev_portfolio.Fragments.Home;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,15 @@ public class HomeFragment extends Fragment {
         Button questionManagerButton = binding.questionManagerButton;
         questionManagerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 Navigation.findNavController(v).navigate(R.id.action_nav_home_to_nav_question_manager);
             }
         });
@@ -45,6 +55,15 @@ public class HomeFragment extends Fragment {
         playQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 Navigation.findNavController(v).navigate(R.id.action_nav_home_to_nav_quiz_category);
             }
         });
@@ -55,6 +74,15 @@ public class HomeFragment extends Fragment {
         highScoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 Navigation.findNavController(v).navigate(R.id.action_nav_home_to_nav_high_score);
             }
         });
@@ -66,6 +94,15 @@ public class HomeFragment extends Fragment {
         homeHelperButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 Toast.makeText(getActivity().getApplicationContext(), "You are on the home page click one of the buttons to" +
                                 " go to a different section"
                         , Toast.LENGTH_LONG).show();

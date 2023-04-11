@@ -1,5 +1,6 @@
 package com.example.mob_dev_portfolio.Fragments.QuizGame;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -70,6 +71,16 @@ public class QuizStartFragment extends Fragment {
         buttonStartQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 //Put the tag id into a bundle
                 Bundle bundle = new Bundle();
                 bundle.putInt("tagID", selectedTagID);

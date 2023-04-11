@@ -1,5 +1,6 @@
 package com.example.mob_dev_portfolio.Fragments.QuizGame;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -59,6 +60,16 @@ public class QCListFragment extends Fragment {
         backToHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 Navigation.findNavController(v).navigate(R.id.action_nav_quiz_category_to_nav_home);
             }
         });
@@ -69,6 +80,16 @@ public class QCListFragment extends Fragment {
         qcHelperButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 Toast.makeText(getActivity().getApplicationContext(), "Click a tag within the list" +
                         " to proceed to play a quiz based on the category", Toast.LENGTH_LONG).show();
             }
@@ -108,6 +129,15 @@ public class QCListFragment extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 //Get number of questions for tags from database
                 Integer tagID = tagList.get(position).getTagID();
                 Integer numOfQuestionsForTag = db.questionDao()

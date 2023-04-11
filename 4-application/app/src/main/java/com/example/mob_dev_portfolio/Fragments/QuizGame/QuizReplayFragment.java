@@ -1,6 +1,7 @@
 package com.example.mob_dev_portfolio.Fragments.QuizGame;
 
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -100,6 +101,16 @@ public class QuizReplayFragment extends Fragment {
         quitQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 //Go back to the quiz category screen
                 Navigation.findNavController(root).navigate(R.id.action_nav_quiz_replay_to_nav_quiz_category);
             }
@@ -111,6 +122,16 @@ public class QuizReplayFragment extends Fragment {
         replayQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 //Go to the quiz start screen and pass the tag ID within a bundle
                 Bundle bundle = new Bundle();
                 bundle.putInt("tagID", tagID);
@@ -125,6 +146,16 @@ public class QuizReplayFragment extends Fragment {
         helpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 //Help the user
                 Toast.makeText(getContext(), "Scroll down if you cannot see the buttons",
                         Toast.LENGTH_LONG).show();

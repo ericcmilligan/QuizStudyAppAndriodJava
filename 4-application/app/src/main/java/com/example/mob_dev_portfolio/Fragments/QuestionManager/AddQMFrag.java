@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -72,6 +73,15 @@ public class AddQMFrag extends Fragment {
         addTagButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                    MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                    if(buttonClickSound != null){
+                        buttonClickSound.start();
+                        if(!buttonClickSound.isPlaying()){
+                            buttonClickSound.release();
+                        }
+                    }
+
                     AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
                             R.style.Theme_Mobdevportfolio);
 
@@ -188,6 +198,15 @@ public class AddQMFrag extends Fragment {
         backToQMButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 Navigation.findNavController(v).navigate(R.id.action_nav_add_question_to_nav_question_manager);
             }
         });
@@ -199,6 +218,15 @@ public class AddQMFrag extends Fragment {
         addQuestionHelperButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 Toast.makeText(getActivity().getApplicationContext(), "Fill out the form and scroll down to click submit"
                         , Toast.LENGTH_SHORT).show();
                 Toast.makeText(getActivity().getApplicationContext(), "You can add a new tag by pressing the button"
