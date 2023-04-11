@@ -254,13 +254,24 @@ public class EditQMFrag extends Fragment {
         submitQMButtonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 isAllFieldsChecked = CheckAllFields();
 
                 if(isAllFieldsChecked) {
 
-                    if(questionTagID != spinnerTagID.getId() & highScoreValue != null){
-                        db.highScoreDao().updateHighScoreByTagID(selectedQuestion.getTagID(),
-                                (highScoreValue - 1), LocalDateTime.now());
+                    if(questionTagID != spinnerTagID.getId() & highScoreValue != null ){
+                        if(highScoreValue > 0){
+                            db.highScoreDao().updateHighScoreByTagID(selectedQuestion.getTagID(),
+                                    (highScoreValue - 1), LocalDateTime.now());
+                        }
                     }
 
                     db.questionDao().updateQuestion(

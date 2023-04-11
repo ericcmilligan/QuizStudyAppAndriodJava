@@ -3,6 +3,7 @@ package com.example.mob_dev_portfolio.Fragments.HighScore;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,15 @@ public class HSListAdapter extends RecyclerView.Adapter<HSListViewHolder> {
         holder.resetHighScoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(context.getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 QuizDatabase db = QuizDatabase.getInstance(context);
 
                 String tagName = db.tagDao().getTagNameByID(highscore.getTagID());
@@ -89,6 +99,15 @@ public class HSListAdapter extends RecyclerView.Adapter<HSListViewHolder> {
         holder.shareHighScoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(context.getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 //Set up variables to share in the email
                 QuizDatabase db = QuizDatabase.getInstance(context);
                 String tagName = db.tagDao().getTagNameByID(highscore.getTagID());

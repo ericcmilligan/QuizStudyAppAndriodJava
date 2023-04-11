@@ -122,6 +122,15 @@ public class AddQMFrag extends Fragment {
         submitQMButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
                 isAllFieldsChecked = CheckAllFields();
 
                 //Check the fields for validation errors before submission into the database
