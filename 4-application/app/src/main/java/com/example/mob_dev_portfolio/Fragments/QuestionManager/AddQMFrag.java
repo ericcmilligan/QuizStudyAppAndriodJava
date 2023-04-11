@@ -258,8 +258,8 @@ public class AddQMFrag extends Fragment {
         if (editTextQuestionTitle.length() <= 3) {
             editTextQuestionTitle.setError("This field is required to be over 3 characters");
             return false;
-        } else if(editTextQuestionTitle.length() > 50){
-            editTextQuestionTitle.setError("This field is not allowed to be over 50 characters");
+        } else if(editTextQuestionTitle.length() > 100){
+            editTextQuestionTitle.setError("This field is not allowed to be over 100 characters");
             return false;
         }
 
