@@ -17,7 +17,8 @@ to be correct.
 ### Quiz Gameplay
 
 1. The app should allow students to play quizzes sorted by created categories(questions assigned to a tag).
-2. The quiz should allow the student to choose one answer option and report if it is correct or incorrect.
+2. The quiz should allow the student to choose one answer option and then report to the student if it is correct 
+or incorrect.
 3. The quiz should track the current score for a student's quiz.
 4. The quiz should have an end screen showing the score results to the student along with a retrieved gif from an API.
 5. The quiz should allow the student to play again after they have finished their current quiz.

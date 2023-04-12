@@ -5,7 +5,7 @@ Student ID: `C21040245`
 
 I wish to create a test quizzer app that allows a student to create quiz sets by linking 
 questions attached with four answer options of their choice to a created tag. With one option for the
-question to be marked as the correct answer by the student. A tagging system will be implemented, 
+question to be marked as the correct answer by the student. The tagging system will be implemented, 
 so questions can be associated with tags, allowing questions to be included in a certain tag(category)
 to create a quiz I.e. questions for the programming tag are used to create a quiz with a category of programming. 
 
