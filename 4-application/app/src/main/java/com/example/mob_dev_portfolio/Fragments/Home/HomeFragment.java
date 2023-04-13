@@ -240,6 +240,25 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //Button set up with a onclick listener to take the user to the question manager tutorial fragment
+        //on click
+        Button tutorialButton = binding.tutorialButton;
+        tutorialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
+                Navigation.findNavController(v).navigate(R.id.action_nav_home_to_nav_question_manager_tutorial);
+            }
+        });
+
         //Button set up with a onclick listener to assist the user by providing a toast with
         //explanation of the functionality for this screen.
         FloatingActionButton homeHelperButton = binding.homeHelperButton;

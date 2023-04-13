@@ -88,5 +88,20 @@
                 android:text="High Scores"
                 android:textColor="@color/white" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/tutorial_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/purple_500"
+                android:text="Launch Tutorial"
+                android:textColor="@color/white" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
