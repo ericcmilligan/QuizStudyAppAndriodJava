@@ -129,7 +129,7 @@ public class QMListFragment extends Fragment {
 
                 Toast.makeText(getActivity().getApplicationContext(), "Change the tag through the drop-down list to view questions for a given tag"
                         , Toast.LENGTH_SHORT).show();
-                Toast.makeText(getActivity().getApplicationContext(), "Scroll the list to view questions for the chosen tag and click a question to edit"
+                Toast.makeText(getActivity().getApplicationContext(), "Scroll questions for the chosen tag in the list and click a question to go to the edit/delete form"
                         , Toast.LENGTH_SHORT).show();
                 Toast.makeText(getActivity().getApplicationContext(), "Click the plus icon to add a new question"
                         , Toast.LENGTH_SHORT).show();

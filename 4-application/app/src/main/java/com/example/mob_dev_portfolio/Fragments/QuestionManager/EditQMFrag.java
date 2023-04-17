@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.mob_dev_portfolio.Database.QuizDatabase;
 import com.example.mob_dev_portfolio.Entities.Answer;
+import com.example.mob_dev_portfolio.Entities.Highscore;
 import com.example.mob_dev_portfolio.Entities.Question;
 import com.example.mob_dev_portfolio.Entities.Tag;
 import com.example.mob_dev_portfolio.R;
@@ -142,6 +143,12 @@ public class EditQMFrag extends Fragment {
                         if(highScoreValue != null){
                             db.highScoreDao().updateHighScoreByTagID(selectedQuestion.getTagID(),
                                     (highScoreValue - 1), LocalDateTime.now());
+                            Toast.makeText(getContext(),
+                                            "Point knocked off high score for tag: " +
+                                                    db.tagDao().getTagNameByID(selectedQuestion.getTagID())
+                                                    +  " as question deleted",
+                                            Toast.LENGTH_SHORT)
+                                    .show();
                         }
                         db.answerDao().deleteAnswersByQuestionID(selectedQuestionID);
                         db.questionDao().deleteQuestionByID(selectedQuestionID);
@@ -196,6 +203,20 @@ public class EditQMFrag extends Fragment {
                                     .show();
                         } else {
                             db.tagDao().insertAll(new Tag(input.getText().toString()));
+
+                            //Initialize high-score for tag if not created
+                            Tag createdTag = db.tagDao().getTagByName(input.getText().toString());
+                            Integer highScore =  db.highScoreDao().getHighScorePointsByTagID(createdTag.getTagID());
+
+                            //If high-score is null create a new record for high-score for this tag
+                            if(highScore == null){
+                                db.highScoreDao().insertAll(
+                                        new Highscore(createdTag.getTagID(), 0, LocalDateTime.now())
+                                );
+                                Toast.makeText(getContext(), "High score initialized for tag: " + createdTag.getName(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+
                             Navigation.findNavController(v).navigate(R.id.nav_edit_question,
                                     bundleReceived);
                         }
@@ -271,6 +292,12 @@ public class EditQMFrag extends Fragment {
                         if(highScoreValue > 0){
                             db.highScoreDao().updateHighScoreByTagID(selectedQuestion.getTagID(),
                                     (highScoreValue - 1), LocalDateTime.now());
+                            Toast.makeText(getContext(),
+                                            "Point knocked off high score for tag: " +
+                                                    db.tagDao().getTagNameByID(selectedQuestion.getTagID())
+                                            +  " as question edited",
+                                            Toast.LENGTH_SHORT)
+                                    .show();
                         }
                     }
 

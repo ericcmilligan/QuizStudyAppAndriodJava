@@ -11,12 +11,15 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.example.mob_dev_portfolio.Database.QuizDatabase;
+import com.example.mob_dev_portfolio.Entities.Highscore;
 import com.example.mob_dev_portfolio.Entities.Tag;
 import com.example.mob_dev_portfolio.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationView;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -39,6 +42,16 @@ public class MainActivity extends AppCompatActivity {
                                  Tag defaultTagExists =  db.tagDao().checkIfDefaultTagExists("Default");
                                  if(defaultTagExists == null){
                                      db.tagDao().insertAll(new Tag("Default"));
+                                 }
+                                 //Initialize high-score for default tag if not created
+                                 Tag createdTag = db.tagDao().getTagByID(db.tagDao().getTagByName("Default").getTagID());
+                                 Integer highScore =  db.highScoreDao().getHighScorePointsByTagID(createdTag.getTagID());
+
+                                 //If high-score is null create a new record for high-score for this tag
+                                 if(highScore == null){
+                                     db.highScoreDao().insertAll(
+                                             new Highscore(createdTag.getTagID(), 0, LocalDateTime.now())
+                                     );
                                  }
                              }
                          });

@@ -18,12 +18,14 @@ import android.widget.Toast;
 
 import com.example.mob_dev_portfolio.Database.QuizDatabase;
 import com.example.mob_dev_portfolio.Entities.Answer;
+import com.example.mob_dev_portfolio.Entities.Highscore;
 import com.example.mob_dev_portfolio.Entities.Question;
 import com.example.mob_dev_portfolio.Entities.Tag;
 import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentHomeBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -111,6 +113,19 @@ public class HomeFragment extends Fragment {
                                 db.questionDao().updateQuestionCorrectAnswer(3, exampleTag1Questions.get(1).getQuestionID());
                                 db.questionDao().updateQuestionCorrectAnswer(1,exampleTag1Questions.get(2).getQuestionID());
                                 db.questionDao().updateQuestionCorrectAnswer(2,exampleTag1Questions.get(3).getQuestionID());
+
+                                //Initialize high-score for tag if not created
+                                Tag createdTag = db.tagDao().getTagByID(exampleTag1ID);
+                                Integer highScore =  db.highScoreDao().getHighScorePointsByTagID(createdTag.getTagID());
+
+                                //If high-score is null create a new record for high-score for this tag
+                                if(highScore == null){
+                                    db.highScoreDao().insertAll(
+                                            new Highscore(createdTag.getTagID(), 0, LocalDateTime.now())
+                                    );
+                                    Toast.makeText(getContext(), "High score initialized for tag: " + createdTag.getName(),
+                                            Toast.LENGTH_SHORT).show();
+                                }
                             }
 
                             //Add java development tag and its questions if it does not exist
@@ -153,6 +168,19 @@ public class HomeFragment extends Fragment {
                                 db.questionDao().updateQuestionCorrectAnswer(4, exampleTag2Questions.get(1).getQuestionID());
                                 db.questionDao().updateQuestionCorrectAnswer(2, exampleTag2Questions.get(2).getQuestionID());
                                 db.questionDao().updateQuestionCorrectAnswer(3, exampleTag2Questions.get(3).getQuestionID());
+
+                                //Initialize high-score for tag if not created
+                                Tag createdTag = db.tagDao().getTagByID(exampleTag2ID);
+                                Integer highScore =  db.highScoreDao().getHighScorePointsByTagID(createdTag.getTagID());
+
+                                //If high-score is null create a new record for high-score for this tag
+                                if(highScore == null){
+                                    db.highScoreDao().insertAll(
+                                            new Highscore(createdTag.getTagID(), 0, LocalDateTime.now())
+                                    );
+                                    Toast.makeText(getContext(), "High score initialized for tag: " + createdTag.getName(),
+                                            Toast.LENGTH_SHORT).show();
+                                }
                             }
 
                             //If both sets are already loaded into the app then alert the user

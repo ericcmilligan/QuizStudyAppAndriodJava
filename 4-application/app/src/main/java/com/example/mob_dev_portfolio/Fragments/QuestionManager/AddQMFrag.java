@@ -27,12 +27,14 @@ import android.widget.Toast;
 
 import com.example.mob_dev_portfolio.Database.QuizDatabase;
 import com.example.mob_dev_portfolio.Entities.Answer;
+import com.example.mob_dev_portfolio.Entities.Highscore;
 import com.example.mob_dev_portfolio.Entities.Question;
 import com.example.mob_dev_portfolio.Entities.Tag;
 import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentAddQuestionBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,7 +104,19 @@ public class AddQMFrag extends Fragment {
                                             .show();
                                 } else {
                                     db.tagDao().insertAll(new Tag(input.getText().toString()));
-                                    Navigation.findNavController(v).navigate(R.id.nav_add_question);
+
+                                    //Initialize high-score for tag if not created
+                                    Tag createdTag = db.tagDao().getTagByName(input.getText().toString());
+                                    Integer highScore =  db.highScoreDao().getHighScorePointsByTagID(createdTag.getTagID());
+
+                                    //If high-score is null create a new record for high-score for this tag
+                                    if(highScore == null){
+                                        db.highScoreDao().insertAll(
+                                                new Highscore(createdTag.getTagID(), 0, LocalDateTime.now())
+                                        );
+                                        Toast.makeText(getContext(), "High score initialized for tag: " + createdTag.getName(),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                         }
                     });
