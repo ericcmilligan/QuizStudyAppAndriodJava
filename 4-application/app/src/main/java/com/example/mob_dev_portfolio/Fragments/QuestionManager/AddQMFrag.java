@@ -69,69 +69,6 @@ public class AddQMFrag extends Fragment {
         //Register the buttons used for the question submission and the adding a tag popup
         Button submitQMButton = (Button) root.findViewById(R.id.submitButton);
 
-        Button addTagButton = (Button) root.findViewById(R.id.addTagButton);
-
-        //Allow user to add a tag in a separate popup window
-        addTagButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
-
-                    if(buttonClickSound != null){
-                        buttonClickSound.start();
-                        if(!buttonClickSound.isPlaying()){
-                            buttonClickSound.release();
-                        }
-                    }
-
-                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
-                            R.style.Theme_Mobdevportfolio);
-
-                    alert.setTitle("Add tag");
-                    alert.setMessage("Add a tag");
-
-                    // Set an EditText view to get user input
-                    EditText input = new EditText(getActivity().getApplicationContext());
-                    alert.setView(input);
-
-                    //Accept the user inputted tag on ok press if the name is not null and unique.
-                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                                if (input.getText().length() == 0 || input.getText().length() > 30) {
-                                    Toast.makeText(getContext(),
-                                            "Tag name must not be null or over 30 characters",
-                                                    Toast.LENGTH_SHORT)
-                                            .show();
-                                } else {
-                                    db.tagDao().insertAll(new Tag(input.getText().toString()));
-
-                                    //Initialize high-score for tag if not created
-                                    Tag createdTag = db.tagDao().getTagByName(input.getText().toString());
-                                    Integer highScore =  db.highScoreDao().getHighScorePointsByTagID(createdTag.getTagID());
-
-                                    //If high-score is null create a new record for high-score for this tag
-                                    if(highScore == null){
-                                        db.highScoreDao().insertAll(
-                                                new Highscore(createdTag.getTagID(), 0, LocalDateTime.now())
-                                        );
-                                        Toast.makeText(getContext(), "High score initialized for tag: " + createdTag.getName(),
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                        }
-                    });
-
-                    //Allow the user to exit the add tag pop-up without adding a tag
-                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            // Canceled.
-                        }
-                    });
-
-                    alert.show();
-                }
-        });
-
         //Submit question into the database
         submitQMButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -331,6 +268,85 @@ public class AddQMFrag extends Fragment {
             spinnerTagAdapter.addAll(tag.getName());
             spinnerTagAdapter.notifyDataSetChanged();
         }
+
+        Button addTagButton = (Button) view.findViewById(R.id.addTagButton);
+
+        //Allow user to add a tag in a separate popup window
+        addTagButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
+                        R.style.Theme_Mobdevportfolio);
+
+                alert.setTitle("Add tag");
+                alert.setMessage("Add a tag");
+
+                // Set an EditText view to get user input
+                EditText input = new EditText(getActivity().getApplicationContext());
+                alert.setView(input);
+
+                //Accept the user inputted tag on ok press if the name is not null and unique.
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        if (input.getText().length() == 0 || input.getText().length() > 30) {
+                            Toast.makeText(getContext(),
+                                            "Tag name must not be null or over 30 characters",
+                                            Toast.LENGTH_SHORT)
+                                    .show();
+                        } else {
+                            db.tagDao().insertAll(new Tag(input.getText().toString()));
+
+                            //Initialize high-score for tag if not created
+                            Tag createdTag = db.tagDao().getTagByName(input.getText().toString());
+                            Integer highScore =  db.highScoreDao().getHighScorePointsByTagID(createdTag.getTagID());
+
+                            //If high-score is null create a new record for high-score for this tag
+                            if(highScore == null){
+                                db.highScoreDao().insertAll(
+                                        new Highscore(createdTag.getTagID(), 0, LocalDateTime.now())
+                                );
+                                Toast.makeText(getContext(), "High score initialized for tag: " + createdTag.getName(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+
+                            //Set tag selector to newly created tag
+                            spinnerTagAdapter.addAll(createdTag.getName());
+                            spinnerTagAdapter.notifyDataSetChanged();
+                            List<Tag> tagList =  db.tagDao().getAllTags();
+                            int tagListLastIndex = tagList.size();
+                            try{
+                                binding.spinnerTagID.setSelection(tagListLastIndex);
+                                Toast.makeText(getContext(), "Set tag selector to newly created tag",
+                                        Toast.LENGTH_SHORT).show();
+                            } catch(Exception e){
+                                Toast.makeText(getContext(), "Error occurred selecting latest tag as: ",
+                                        Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), e.getMessage(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+
+                //Allow the user to exit the add tag pop-up without adding a tag
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+
+                alert.show();
+            }
+        });
     }
 
     public void sendOnChannel1(View v, Question question, Tag tag){

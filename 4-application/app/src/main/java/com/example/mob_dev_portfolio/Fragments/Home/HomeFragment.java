@@ -196,6 +196,9 @@ public class HomeFragment extends Fragment {
                                             "Error: " + e.getMessage(),
                                             Toast.LENGTH_SHORT).show();
                         }
+                        Toast.makeText(getContext(),
+                                "The example tags and their questions have been loaded into the app",
+                                Toast.LENGTH_SHORT).show();
                         Navigation.findNavController(v).navigate(R.id.action_nav_home_to_nav_question_manager);
                     }
                 });

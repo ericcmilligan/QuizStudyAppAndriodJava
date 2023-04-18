@@ -166,9 +166,47 @@ public class EditQMFrag extends Fragment {
             }
         });
 
+        //Populate tag spinner
+        Spinner spinnerTagID = binding.spinnerTagEditID;
+
+        ArrayAdapter<String> spinnerTagAdapter = new ArrayAdapter<String>(
+                getContext(), android.R.layout.simple_spinner_item, new ArrayList<>());
+        spinnerTagAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTagID.setAdapter(spinnerTagAdapter);
+
+        List<Tag> tagsList = db.tagDao().getAllTags();
+
+        for(Tag tag : tagsList){
+            spinnerTagAdapter.addAll(tag.getName());
+            spinnerTagAdapter.notifyDataSetChanged();
+        }
+
+        List<Answer> getAnswersForSelectedQuestion =
+                db.answerDao().getAllAnswersForQuestion(selectedQuestionID);
+        int correctAnswerNumber = db.questionDao().getCorrectAnswerIDByQuestionID(selectedQuestionID)
+                - 1;
+        int questionTagID = selectedQuestion.getTagID() - 1;
+
+        //Pre-populate fields with the existing data for the selected question
+        Spinner spinnerTagEditID =  binding.spinnerTagEditID;
+        EditText editTextQuestionTitleEdit = binding.editTextQuestionTitleEdit;
+        EditText editTextAnswer1Edit =  binding.editTextAnswer1Edit;
+        EditText editTextAnswer2Edit =  binding.editTextAnswer2Edit;
+        EditText editTextAnswer3Edit =  binding.editTextAnswer3Edit;
+        EditText editTextAnswer4Edit =  binding.editTextAnswer4Edit;
+        Spinner spinnerCorrectAnswerEditID =  binding.spinnerCorrectAnswerEditID;
+
+        spinnerTagEditID.setSelection(questionTagID);
+        editTextQuestionTitleEdit.setText(selectedQuestion.getTitle());
+        editTextAnswer1Edit.setText(getAnswersForSelectedQuestion.get(0).getText());
+        editTextAnswer2Edit.setText(getAnswersForSelectedQuestion.get(1).getText());
+        editTextAnswer3Edit.setText(getAnswersForSelectedQuestion.get(2).getText());
+        editTextAnswer4Edit.setText(getAnswersForSelectedQuestion.get(3).getText());
+        spinnerCorrectAnswerEditID.setSelection(correctAnswerNumber);
+
+
         //Register buttons for submission and adding a tag
         Button submitQMButtonEdit = (Button) root.findViewById(R.id.submitButtonEdit);
-
         Button addTagButtonEdit = (Button) root.findViewById(R.id.addTagButtonEdit);
 
         //Allow user to add a tag
@@ -217,8 +255,21 @@ public class EditQMFrag extends Fragment {
                                         Toast.LENGTH_SHORT).show();
                             }
 
-                            Navigation.findNavController(v).navigate(R.id.nav_edit_question,
-                                    bundleReceived);
+                            //Set tag selector to newly created tag
+                            spinnerTagAdapter.addAll(createdTag.getName());
+                            spinnerTagAdapter.notifyDataSetChanged();
+                            List<Tag> tagList =  db.tagDao().getAllTags();
+                            int tagListLastIndex = tagList.size();
+                            try{
+                                binding.spinnerTagEditID.setSelection(tagListLastIndex);
+                                Toast.makeText(getContext(), "Set tag selector to newly created tag",
+                                        Toast.LENGTH_SHORT).show();
+                            } catch(Exception e){
+                                Toast.makeText(getContext(), "Error occurred selecting latest tag as: ",
+                                        Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), e.getMessage(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });
@@ -232,44 +283,6 @@ public class EditQMFrag extends Fragment {
                 alert.show();
             }
         });
-
-        //Populate tag spinner
-        Spinner spinnerTagID = binding.spinnerTagEditID;
-
-        ArrayAdapter<String> spinnerTagAdapter = new ArrayAdapter<String>(
-                getContext(), android.R.layout.simple_spinner_item, new ArrayList<>());
-        spinnerTagAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerTagID.setAdapter(spinnerTagAdapter);
-
-        List<Tag> tagsList = db.tagDao().getAllTags();
-
-        for(Tag tag : tagsList){
-            spinnerTagAdapter.addAll(tag.getName());
-            spinnerTagAdapter.notifyDataSetChanged();
-        }
-
-        List<Answer> getAnswersForSelectedQuestion =
-                db.answerDao().getAllAnswersForQuestion(selectedQuestionID);
-        int correctAnswerNumber = db.questionDao().getCorrectAnswerIDByQuestionID(selectedQuestionID)
-                - 1;
-        int questionTagID = selectedQuestion.getTagID() - 1;
-
-        //Pre-populate fields with the existing data for the selected question
-        Spinner spinnerTagEditID =  binding.spinnerTagEditID;
-        EditText editTextQuestionTitleEdit = binding.editTextQuestionTitleEdit;
-        EditText editTextAnswer1Edit =  binding.editTextAnswer1Edit;
-        EditText editTextAnswer2Edit =  binding.editTextAnswer2Edit;
-        EditText editTextAnswer3Edit =  binding.editTextAnswer3Edit;
-        EditText editTextAnswer4Edit =  binding.editTextAnswer4Edit;
-        Spinner spinnerCorrectAnswerEditID =  binding.spinnerCorrectAnswerEditID;
-
-        spinnerTagEditID.setSelection(questionTagID);
-        editTextQuestionTitleEdit.setText(selectedQuestion.getTitle());
-        editTextAnswer1Edit.setText(getAnswersForSelectedQuestion.get(0).getText());
-        editTextAnswer2Edit.setText(getAnswersForSelectedQuestion.get(1).getText());
-        editTextAnswer3Edit.setText(getAnswersForSelectedQuestion.get(2).getText());
-        editTextAnswer4Edit.setText(getAnswersForSelectedQuestion.get(3).getText());
-        spinnerCorrectAnswerEditID.setSelection(correctAnswerNumber);
 
         //Update question in the database
         submitQMButtonEdit.setOnClickListener(new View.OnClickListener() {
