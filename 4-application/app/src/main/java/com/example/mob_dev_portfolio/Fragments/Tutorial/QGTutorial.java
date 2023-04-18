@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentQuizGameTutorialBinding;
 
 /**
@@ -40,6 +42,12 @@ public class QGTutorial extends Fragment {
         View root = binding.getRoot();
 
         ImageView quizGameTutorialGIF = binding.quizGameTutorialImageView;
+
+        Glide.with(getContext())
+                .asGif()
+                .load(R.drawable.qgtutorial)
+                .placeholder(R.drawable.placeholder)
+                .into(quizGameTutorialGIF);
 
         Toast.makeText(getContext(), "Tutorial displays in vertical orientation only",
                 Toast.LENGTH_SHORT).show();
