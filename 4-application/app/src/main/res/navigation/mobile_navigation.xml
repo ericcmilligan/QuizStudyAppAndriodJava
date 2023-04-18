@@ -205,5 +205,26 @@
             app:popUpTo="@id/nav_home"
             app:popUpToInclusive="true"
             />
+        <action
+            android:id="@+id/action_nav_question_manager_tutorial_to_nav_quiz_game_tutorial"
+            app:destination="@id/nav_quiz_game_tutorial"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/nav_quiz_game_tutorial"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_quiz_game_tutorial"
+        android:name="com.example.mob_dev_portfolio.Fragments.Tutorial.QGTutorial"
+        android:label="Quiz Game Tutorial Screen"
+        tools:layout="@layout/fragment_quiz_game_tutorial">
+        <action
+            android:id="@+id/action_nav_quiz_game_tutorial_to_nav_question_manager_tutorial"
+            app:destination="@id/nav_question_manager_tutorial"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/nav_question_manager_tutorial"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 </navigation>
