@@ -10,26 +10,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            >
+            android:gravity="center">
             <ImageView
-                android:id="@+id/quiz_game_tutorial_image_view"
+                android:id="@+id/high_score_tutorial_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="GIF showing how to use the high score screen"
                 android:layout_centerInParent="true"
-                android:scaleType="centerCrop"
+                android:scaleType="fitXY"
                 />
         </LinearLayout>
         <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical"
             >
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/highScorePreviousTutorialButton"
@@ -52,7 +50,7 @@
                 android:clickable="true"
                 android:contentDescription="Go back to home screen"
                 android:ems="10"
-                android:src="@drawable/ic_baseline_arrow_forward_24" />
+                android:src="@drawable/ic_menu_home" />
         </FrameLayout>
     </LinearLayout>
 </ScrollView>
