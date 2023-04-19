@@ -58,6 +58,8 @@ public class QGTutorial extends Fragment {
                 Toast.LENGTH_SHORT).show();
         Toast.makeText(getContext(), "Click the front arrow to go the next tutorial for the app",
                 Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Click the home button to return to the home screen",
+                Toast.LENGTH_SHORT).show();
 
         //Set up button for going to the previous tutorial screen
         FloatingActionButton qgTutPreviousTutButton = binding.quizGamePreviousTutorialButton;

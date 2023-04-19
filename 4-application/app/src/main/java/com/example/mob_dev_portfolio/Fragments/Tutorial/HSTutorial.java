@@ -48,7 +48,7 @@ public class HSTutorial extends Fragment {
 
         Glide.with(getContext())
                 .asGif()
-                .load(R.drawable.qgtutorial)
+                .load(R.drawable.hstutorial)
                 .placeholder(R.drawable.placeholder)
                 .into(highScoreTutorialGIF);
 
