@@ -9,6 +9,9 @@ import com.example.mob_dev_portfolio.Entities.Answer;
 
 import java.util.List;
 
+/**
+ * A DAO class for the answer table in the database.
+ */
 @Dao
 public interface AnswerDao {
     @Query("SELECT * FROM Answer")

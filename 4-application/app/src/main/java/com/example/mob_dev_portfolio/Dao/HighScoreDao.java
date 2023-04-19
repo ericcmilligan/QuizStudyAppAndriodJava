@@ -10,6 +10,9 @@ import com.example.mob_dev_portfolio.Entities.Highscore;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * A DAO class for the high-score table in the database.
+ */
 @Dao
 public interface HighScoreDao {
     @Query("SELECT * FROM Highscore")

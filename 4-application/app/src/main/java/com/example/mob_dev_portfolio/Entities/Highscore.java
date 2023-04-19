@@ -7,6 +7,9 @@ import androidx.room.PrimaryKey;
 
 import java.time.LocalDateTime;
 
+/**
+ * An Entity class for a high-score within the database.
+ */
 @Entity(foreignKeys = {@ForeignKey(entity = Tag.class,
         parentColumns = "TagID",
         childColumns = "TagID",

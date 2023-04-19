@@ -38,6 +38,9 @@ import java.util.List;
 import java.util.Locale;
 
 
+/**
+ * A fragment that contains the quiz game logic.
+ */
 public class QuizGameFragment extends Fragment {
 
     FragmentQuizGameBinding binding;

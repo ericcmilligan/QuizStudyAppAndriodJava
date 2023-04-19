@@ -9,6 +9,9 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+/**
+ * An Entity class for a question within the database.
+ */
 @Entity(
         indices = {@Index(value = {"Title"},
                 unique = true)},

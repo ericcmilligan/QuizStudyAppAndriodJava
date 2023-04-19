@@ -21,6 +21,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+/**
+ * A custom adapter class for high scores
+ */
 public class HSListAdapter extends RecyclerView.Adapter<HSListViewHolder> {
 
     private Context context;

@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import com.example.mob_dev_portfolio.R;
 
 
+/**
+ * A fragment to contain the list of quiz categories(tags).
+ */
 public class QuizCategoryFragment extends Fragment {
 
     public QuizCategoryFragment() {

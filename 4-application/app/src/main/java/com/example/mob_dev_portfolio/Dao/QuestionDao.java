@@ -10,6 +10,9 @@ import com.example.mob_dev_portfolio.Entities.Question;
 
 import java.util.List;
 
+/**
+ * A DAO class for the question table in the database.
+ */
 @Dao
 public interface QuestionDao {
     @Query("SELECT * FROM Question")

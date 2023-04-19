@@ -5,6 +5,9 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+/**
+ * An Entity class for a tag within the database.
+ */
 @Entity(indices = {@Index(value = {"Name"},
         unique = true)})
 public class Tag {

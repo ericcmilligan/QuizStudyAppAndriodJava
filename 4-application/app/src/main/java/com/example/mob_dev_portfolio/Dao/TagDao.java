@@ -11,6 +11,9 @@ import com.example.mob_dev_portfolio.Entities.Tag;
 
 import java.util.List;
 
+/**
+ * A DAO class for the tag table in the database.
+ */
 @Dao
 public interface TagDao {
     @Query("SELECT * FROM Tag")

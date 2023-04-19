@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mob_dev_portfolio.R;
 
+/**
+ * A custom view-holder class that contains the layout for an individual high-score item
+ */
 public class HSListViewHolder extends RecyclerView.ViewHolder {
 
     public TextView highScoreTagTextView;

@@ -1,5 +1,8 @@
 package com.example.mob_dev_portfolio.API;
 
+/**
+ * A data model class for saving the giphy API response into.
+ */
 public class DataModel {
     private String imageUrl;
 
