@@ -1,6 +1,8 @@
 package com.example.mob_dev_portfolio.Fragments.Home;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -34,6 +36,18 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+
+    //Initialize shared preferences
+    SharedPreferences sharedPreferences = null;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        //Load project shared preferences file into the shared preferences variable
+        sharedPreferences = getContext().getSharedPreferences("com.example.mob_dev_portfolio",
+                Context.MODE_PRIVATE);
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -313,6 +327,41 @@ public class HomeFragment extends Fragment {
         });
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //Check if this is the first time the application has been installed
+        if(sharedPreferences.getBoolean("first-run", true)) {
+            //Then launch the pop-up asking the user if they would like to start the in-app tutorial
+            AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
+                    androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
+
+            alert.setTitle("Will you like to launch the in-app tutorial?");
+
+            //Go the in-app tutorial if the user clicks yes
+            alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Navigation.findNavController(getView()).navigate(R.id.action_nav_home_to_nav_question_manager_tutorial);
+                }
+            });
+
+            //If not cancel the pop-up
+            alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //Cancel
+                }
+            });
+
+            alert.show();
+
+            //Set first run to false after this method has finished
+            sharedPreferences.edit().putBoolean("first-run", false).commit();
+        }
     }
 
     @Override
