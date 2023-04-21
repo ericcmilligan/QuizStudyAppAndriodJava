@@ -3,6 +3,7 @@ package com.example.mob_dev_portfolio.Fragments.QuestionManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -23,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.mob_dev_portfolio.Database.QuizDatabase;
+import com.example.mob_dev_portfolio.Entities.Answer;
 import com.example.mob_dev_portfolio.Entities.Question;
 import com.example.mob_dev_portfolio.Entities.Tag;
 import com.example.mob_dev_portfolio.R;
@@ -268,7 +270,7 @@ public class QMListFragment extends Fragment {
                     Tag selectedTag =  db.tagDao().getTagByName(spinnerTagChooser.getSelectedItem().toString());
 
                     AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
-                            R.style.Theme_Mobdevportfolio);
+                            androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
 
                     alert.setTitle("Edit tag");
 
@@ -346,7 +348,7 @@ public class QMListFragment extends Fragment {
                     Tag selectedTag =  db.tagDao().getTagByName(spinnerTagChooser.getSelectedItem().toString());
 
                     AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
-                            R.style.Theme_Mobdevportfolio);
+                            androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
 
                     alert.setTitle("Delete tag");
 
@@ -395,6 +397,70 @@ public class QMListFragment extends Fragment {
                     });
 
                     alert.show();
+                }
+            }
+        });
+
+        FloatingActionButton shareQuestionListButton = (FloatingActionButton) view.findViewById(R.id.shareQuestionsButton);
+
+        shareQuestionListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
+                //Set up variables to share in the email
+                QuizDatabase db = QuizDatabase.getInstance(getContext());
+                Tag selectedTag =  db.tagDao().getTagByName(spinnerTagChooser.getSelectedItem().toString());
+
+                //Share all questions for the selected tag on button click
+                if(selectedTag != null){
+                    String emailSubject = "Questions for tag: " + selectedTag.getName();
+
+                    StringBuilder emailText = new StringBuilder();
+                    List<Question> questionList =
+                            db.questionDao().getQuestionsByTagID(selectedTag.getTagID());
+
+                    for(int i = 0; i <  questionList.size(); i++){
+                        if(i > 0){
+                            emailText.append("\n\n");
+                        }
+
+                        emailText.append("Question Title: ");
+                        emailText.append(questionsList.get(i).getTitle());
+                        emailText.append("\n\n");
+                        emailText.append("Question Answers: ");
+                        List<Answer> questionAnswers =
+                                db.answerDao().getAllAnswersForQuestion(questionsList.get(i).getQuestionID());
+                        if (questionAnswers != null){
+                            for (int z = 0; z <  questionAnswers.size(); z++) {
+                                emailText.append("\n");
+                                emailText.append("Option ").append(Integer.toString(z + 1)).append(": ");
+                                emailText.append(questionAnswers.get(z).getText());
+                            }
+                        }
+                        emailText.append("\n\n");
+                        emailText.append("Correct Answer Number: ");
+                        emailText.append(questionsList.get(i).getCorrectAnswerID().toString());
+                    }
+
+                    //Create email intent
+                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, emailText.toString());
+
+                    //Open email intent
+                    emailIntent.setType("message/rfc822");
+                    v.getContext().startActivity(Intent.createChooser(emailIntent, "Choose an email client"));
+                } else {
+                    Toast.makeText(getContext(), "Please select a tag to share it's questions",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
-                        R.style.Theme_Mobdevportfolio);
+                        androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
 
                 alert.setTitle("Load example questions");
 

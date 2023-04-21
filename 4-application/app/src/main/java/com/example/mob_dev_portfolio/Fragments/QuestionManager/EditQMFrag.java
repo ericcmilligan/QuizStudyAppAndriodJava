@@ -132,9 +132,9 @@ public class EditQMFrag extends Fragment {
                 }
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
-                        R.style.Theme_Mobdevportfolio);
+                        androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
 
-                alert.setTitle("Are you sure you want to delete this question and it's related answers: ");
+                alert.setTitle("Are you sure you want to delete this question and it's related answers?");
                 alert.setMessage(selectedQuestion.getTitle());
 
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -223,7 +223,7 @@ public class EditQMFrag extends Fragment {
                 }
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
-                        R.style.Theme_Mobdevportfolio);
+                        androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
 
                 alert.setTitle("Add tag");
                 alert.setMessage("Add a tag");

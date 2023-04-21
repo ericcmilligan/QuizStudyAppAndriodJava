@@ -70,7 +70,7 @@ public class HSListAdapter extends RecyclerView.Adapter<HSListViewHolder> {
                 String tagName = db.tagDao().getTagNameByID(highscore.getTagID());
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext(),
-                        R.style.Theme_Mobdevportfolio);
+                        androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
 
                 alert.setTitle("Are you sure you want to reset the high-score for this tag?");
                 alert.setMessage(tagName);
