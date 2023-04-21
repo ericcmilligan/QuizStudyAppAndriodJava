@@ -1,5 +1,6 @@
 package com.example.mob_dev_portfolio.Fragments.QuestionManager;
 
+import android.app.DownloadManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +13,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,10 @@ import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentQmListBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -481,6 +487,12 @@ public class QMListFragment extends Fragment {
                         emailText.append("Question Title: ");
                         emailText.append(questionsList.get(i).getTitle());
                         emailText.append("\n\n");
+
+                        String tagName = db.tagDao().getTagNameByID(questionsList.get(i).getTagID());
+                        emailText.append("Question Tag: ");
+                        emailText.append(tagName);
+
+                        emailText.append("\n\n");
                         emailText.append("Question Answers: ");
                         List<Answer> questionAnswers =
                                 db.answerDao().getAllAnswersForQuestion(questionsList.get(i).getQuestionID());
@@ -491,6 +503,7 @@ public class QMListFragment extends Fragment {
                                 emailText.append(questionAnswers.get(z).getText());
                             }
                         }
+
                         emailText.append("\n\n");
                         emailText.append("Correct Answer Number: ");
                         emailText.append(questionsList.get(i).getCorrectAnswerID().toString());
@@ -507,6 +520,175 @@ public class QMListFragment extends Fragment {
                 } else {
                     //Else alert the user to select a tag if not selected
                     Toast.makeText(getContext(), "Please select a tag to share it's questions",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        //Set up floating action button for exporting a tag and its questions
+        FloatingActionButton exportQuestionListButton = (FloatingActionButton) view.findViewById(R.id.exportQuestionsToTextFileButton);
+
+        exportQuestionListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MediaPlayer buttonClickSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.click);
+
+                if(buttonClickSound != null){
+                    buttonClickSound.start();
+                    if(!buttonClickSound.isPlaying()){
+                        buttonClickSound.release();
+                    }
+                }
+
+                //Set up variables for exporting the tag and its questions to a text file
+                QuizDatabase db = QuizDatabase.getInstance(getContext());
+                Tag selectedTag =  db.tagDao().getTagByName(spinnerTagChooser.getSelectedItem().toString());
+
+                //Export all questions for the selected tag on button click
+                if(selectedTag != null) {
+                    //Initialize the string builder to build the text file's text
+                    StringBuilder fileText = new StringBuilder();
+                    //Get all questions for the selected tag
+                    List<Question> questionList =
+                            db.questionDao().getQuestionsByTagID(selectedTag.getTagID());
+
+                    //Tell the user the tag and it's questions are being exported to a text file
+                    Toast.makeText(getContext(),
+                            ("Exporting tag " + selectedTag.getName() +
+                                    " and all its questions to a text file"),
+                            Toast.LENGTH_SHORT).show();
+
+                    fileText.append("Questions for tag: ").append(selectedTag.getName());
+                    fileText.append("\n\n");
+
+                    //For each question in the questions list append the question's information to the string builder
+                    for(int i = 0; i <  questionList.size(); i++){
+                        if(i > 0){
+
+                            fileText.append("\n\n");
+                        }
+
+                        fileText.append("Question Title: ");
+                        fileText.append(questionsList.get(i).getTitle());
+                        fileText.append("\n\n");
+                        fileText.append("Question Answers: ");
+                        List<Answer> questionAnswers =
+                                db.answerDao().getAllAnswersForQuestion(questionsList.get(i).getQuestionID());
+                        if (questionAnswers != null){
+                            for (int z = 0; z <  questionAnswers.size(); z++) {
+                                fileText.append("\n");
+                                fileText.append("Option ").append(Integer.toString(z + 1)).append(": ");
+                                fileText.append(questionAnswers.get(z).getText());
+                            }
+                        }
+                        fileText.append("\n\n");
+                        fileText.append("Correct Answer Number: ");
+                        fileText.append(questionsList.get(i).getCorrectAnswerID().toString());
+                    }
+
+                    //Save the file text into a text file
+                    File downloadDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                    File textFile = new File(downloadDirectory, (selectedTag.getName() + ".txt"));
+
+                    //Try to write the text-file and catch a error if it occurs
+                    try{
+                        FileOutputStream outputStream = new FileOutputStream(textFile);
+                        outputStream.write(fileText.toString().getBytes());
+                        outputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getContext(),("Error exporting to text file as: " +
+                        e.getMessage()), Toast.LENGTH_SHORT).show();
+                    }
+
+                    //Check the text file has been successfully created
+                    if(textFile.isFile()){
+                        //Use the download manager to download the text file to the user's download directory
+                        DownloadManager downloadManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+                        downloadManager.addCompletedDownload(textFile.getName(), textFile.getName(),
+                                true, "text/plain",
+                                textFile.getAbsolutePath(),textFile.length(),true);
+                        Toast.makeText(getContext(),
+                                (textFile.getName() + " exported to download directory")
+                        ,Toast.LENGTH_LONG).show();
+                    }
+                } else if(spinnerTagChooser.getSelectedItem() == "All") {
+                    //Set the string builder for the file text
+                    StringBuilder fileText = new StringBuilder();
+
+                    List<Question> questionList =
+                            db.questionDao().getAllQuestions();
+
+                    //Tell the user that all questions are being exported to a text file
+                    Toast.makeText(getContext(),
+                            ("Exporting all questions to a text file"),
+                            Toast.LENGTH_SHORT).show();
+
+
+                    fileText.append("All Questions Within The Test Quizzer App");
+                    fileText.append("\n\n");
+
+                    //Append every question in the app with it's information to the file text
+                    for (int i = 0; i < questionList.size(); i++) {
+                        if (i > 0) {
+                            fileText.append("\n\n");
+                        }
+
+                        fileText.append("Question Title: ");
+                        fileText.append(questionsList.get(i).getTitle());
+                        fileText.append("\n\n");
+
+                        String tagName = db.tagDao().getTagNameByID(questionsList.get(i).getTagID());
+                        fileText.append("Question Tag: ");
+                        fileText.append(tagName);
+
+                        fileText.append("\n\n");
+                        fileText.append("Question Answers: ");
+                        List<Answer> questionAnswers =
+                                db.answerDao().getAllAnswersForQuestion(questionsList.get(i).getQuestionID());
+                        if (questionAnswers != null) {
+                            for (int z = 0; z < questionAnswers.size(); z++) {
+                                fileText.append("\n");
+                                fileText.append("Option ").append(Integer.toString(z + 1)).append(": ");
+                                fileText.append(questionAnswers.get(z).getText());
+                            }
+                        }
+
+                        fileText.append("\n\n");
+                        fileText.append("Correct Answer Number: ");
+                        fileText.append(questionsList.get(i).getCorrectAnswerID().toString());
+                    }
+
+
+                    //Save the file text into a text file
+                    File downloadDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                    File textFile = new File(downloadDirectory, "AllQuestionsTextQuizzer.txt");
+
+                    //Try to write the text-file and catch a error if it occurs
+                    try{
+                        FileOutputStream outputStream = new FileOutputStream(textFile);
+                        outputStream.write(fileText.toString().getBytes());
+                        outputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getContext(),("Error exporting to text file as: " +
+                                e.getMessage()), Toast.LENGTH_SHORT).show();
+                    }
+
+                    //Check the text file has been successfully created
+                    if(textFile.isFile()){
+                        //Use the download manager to download the text file to the user's download directory
+                        DownloadManager downloadManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+                        downloadManager.addCompletedDownload(textFile.getName(), textFile.getName(),
+                                true, "text/plain",
+                                textFile.getAbsolutePath(),textFile.length(),true);
+                        Toast.makeText(getContext(),
+                                (textFile.getName() + " exported to download directory")
+                                ,Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    //Else alert the user to select a tag if not selected
+                    Toast.makeText(getContext(), "Please select a tag to export its questions",
                             Toast.LENGTH_SHORT).show();
                 }
             }
