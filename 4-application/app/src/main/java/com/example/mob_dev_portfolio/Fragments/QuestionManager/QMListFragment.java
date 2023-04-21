@@ -401,6 +401,7 @@ public class QMListFragment extends Fragment {
             }
         });
 
+        //Set up floating action button for sharing a tag and it's questions information through email on click
         FloatingActionButton shareQuestionListButton = (FloatingActionButton) view.findViewById(R.id.shareQuestionsButton);
 
         shareQuestionListButton.setOnClickListener(new View.OnClickListener() {
@@ -421,12 +422,57 @@ public class QMListFragment extends Fragment {
 
                 //Share all questions for the selected tag on button click
                 if(selectedTag != null){
+                    //Set the subject of the email to the tag name
                     String emailSubject = "Questions for tag: " + selectedTag.getName();
 
+                    //Initialize the string builder to build the email text
                     StringBuilder emailText = new StringBuilder();
+                    //Get all questions for the selected tag
                     List<Question> questionList =
                             db.questionDao().getQuestionsByTagID(selectedTag.getTagID());
 
+                    //For each question in the questions list append the question's information to the string builder
+                    for(int i = 0; i <  questionList.size(); i++){
+                        if(i > 0){
+                            emailText.append("\n\n");
+                        }
+
+                        emailText.append("Question Title: ");
+                        emailText.append(questionsList.get(i).getTitle());
+                        emailText.append("\n\n");
+                        emailText.append("Question Answers: ");
+                        List<Answer> questionAnswers =
+                                db.answerDao().getAllAnswersForQuestion(questionsList.get(i).getQuestionID());
+                        if (questionAnswers != null){
+                            for (int z = 0; z <  questionAnswers.size(); z++) {
+                                emailText.append("\n");
+                                emailText.append("Option ").append(Integer.toString(z + 1)).append(": ");
+                                emailText.append(questionAnswers.get(z).getText());
+                            }
+                        }
+                        emailText.append("\n\n");
+                        emailText.append("Correct Answer Number: ");
+                        emailText.append(questionsList.get(i).getCorrectAnswerID().toString());
+                    }
+
+                    //Create email intent
+                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, emailText.toString());
+
+                    //Open email intent
+                    emailIntent.setType("message/rfc822");
+                    v.getContext().startActivity(Intent.createChooser(emailIntent, "Choose an email client"));
+                } else if(spinnerTagChooser.getSelectedItem() == "All") {
+                    //Set the email subject title
+                    String emailSubject = "All Questions Within The Test Quizzer App";
+
+                    //Set the string builder for the email text
+                    StringBuilder emailText = new StringBuilder();
+                    List<Question> questionList =
+                            db.questionDao().getAllQuestions();
+
+                    //Append every question in the app with it's information to the email text
                     for(int i = 0; i <  questionList.size(); i++){
                         if(i > 0){
                             emailText.append("\n\n");
@@ -459,6 +505,7 @@ public class QMListFragment extends Fragment {
                     emailIntent.setType("message/rfc822");
                     v.getContext().startActivity(Intent.createChooser(emailIntent, "Choose an email client"));
                 } else {
+                    //Else alert the user to select a tag if not selected
                     Toast.makeText(getContext(), "Please select a tag to share it's questions",
                             Toast.LENGTH_SHORT).show();
                 }
