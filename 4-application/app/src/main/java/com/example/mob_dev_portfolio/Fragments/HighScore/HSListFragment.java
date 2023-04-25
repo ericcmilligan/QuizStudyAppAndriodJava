@@ -1,8 +1,10 @@
 package com.example.mob_dev_portfolio.Fragments.HighScore;
 
+import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -82,10 +84,29 @@ public class HSListFragment extends Fragment {
                     }
                 }
 
-                Toast.makeText(getContext(), "Here you can reset/share a high-score by clicking the respective buttons",
+                Toast.makeText(getContext(), "Here you can reset/share a high-score by clicking the respective button",
                         Toast.LENGTH_LONG).show();
                 Toast.makeText(getContext(), "Scroll the list to see high-scores",
                         Toast.LENGTH_LONG).show();
+
+                //Show the user a pop-up with information on the high-score page
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
+                        androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
+
+                alert.setTitle("High-Score Page Help");
+                alert.setMessage(
+                                "1.You can scroll the list to see high-scores for a tag." +
+                                "\n\n" +
+                                "2.You can reset/share a high-score by clicking the respective button."
+                );
+
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+
+                alert.show();
             }
         });
 

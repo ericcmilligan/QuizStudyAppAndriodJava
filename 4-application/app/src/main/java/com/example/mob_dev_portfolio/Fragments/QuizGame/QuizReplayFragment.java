@@ -1,10 +1,12 @@
 package com.example.mob_dev_portfolio.Fragments.QuizGame;
 
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -163,6 +165,26 @@ public class QuizReplayFragment extends Fragment {
                         Toast.LENGTH_SHORT).show();
                 Toast.makeText(getContext(), "Click the quit quiz button to quit the quiz",
                         Toast.LENGTH_SHORT).show();
+
+                //Show the user a pop-up with information on the quiz replay screen
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
+                        androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
+
+                alert.setTitle("Quiz Replay Help");
+                alert.setMessage(
+                                "1.You can click the replay quiz button to take the quiz again."
+                                +
+                                "\n\n" +
+                                "2.You can click the quit quiz button to quit the quiz."
+                );
+
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+
+                alert.show();
             }
         });
 

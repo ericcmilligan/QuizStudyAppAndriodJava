@@ -112,6 +112,28 @@ public class EditQMFrag extends Fragment {
                         , Toast.LENGTH_SHORT).show();
                 Toast.makeText(getActivity().getApplicationContext(), "Click the trash icon to delete this question"
                         , Toast.LENGTH_SHORT).show();
+
+                //Show the user a pop-up with information on editing a question
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
+                        androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
+
+                alert.setTitle("Editing A Question For A Tag Help");
+                alert.setMessage(
+                                "1.Once the question has been edited using the form you can scroll " +
+                                "down and click the submit button to submit." +
+                                "\n\n" +
+                                "2.You can add a new tag by pressing the add new tag button." +
+                                "\n\n" +
+                                "3.You can click the trash icon to delete this question from the tag."
+                );
+
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+
+                alert.show();
             }
         });
 
