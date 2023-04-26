@@ -127,10 +127,12 @@ public class HSListFragment extends Fragment {
 
         List<Highscore> highScores = db.highScoreDao().getAllHighScores();
 
+        //If no high-scores have been created yet inform the user of this
         if(highScores.size() == 0){
             Toast.makeText(getContext(), "Achieve a high-score first to see it here!",
                     Toast.LENGTH_LONG).show();
         } else {
+            //Else add to the high-score list each high-score record in the database
             for(Highscore highscore : highScores){
                 if(highscore.getTagID() != null){
                     highScoresList.add(highscore);

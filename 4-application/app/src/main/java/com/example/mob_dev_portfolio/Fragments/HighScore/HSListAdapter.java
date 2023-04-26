@@ -43,16 +43,20 @@ public class HSListAdapter extends RecyclerView.Adapter<HSListViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull HSListViewHolder holder, int position) {
+        //Get the current high-score item from the list
         Highscore highscore = highScoreList.get(position);
 
+        //Initialize the database and date time formatter variables
         QuizDatabase db = QuizDatabase.getInstance(context);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
+        //Set the high-score list item information
         holder.highScoreTagTextView.setText("Tag Name: " + db.tagDao().getTagNameByID(highscore.getTagID()));
         holder.highScoreTextView.setText("High-Score: " + highscore.getScore());
         holder.highScoreDateTextView.setText("Date Achieved: " + highscore.getDateAchieved().format(formatter));
 
+        //Reset the high-score item's score to 0 on click
         holder.resetHighScoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

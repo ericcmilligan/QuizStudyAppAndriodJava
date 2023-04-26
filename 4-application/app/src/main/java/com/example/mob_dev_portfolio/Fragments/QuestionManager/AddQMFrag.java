@@ -122,7 +122,7 @@ public class AddQMFrag extends Fragment {
                     //After the answers have been submitted assign the correct answer for the question
                     //From the selected answer number in the spinner
                     if(binding.spinnerCorrectAnswerID.getSelectedItemPosition() == 0){
-                        //If a correct answer is not selected use 1 as the default to prevent crashing
+                        //If a correct answer is not selected use 1 as the default
                         db.questionDao().updateQuestionCorrectAnswer(
                                 1
                                 , db.questionDao().getQuestionIDByName(
@@ -365,6 +365,7 @@ public class AddQMFrag extends Fragment {
         });
     }
 
+    //Send the notifications on channel 1
     public void sendOnChannel1(View v, Question question, Tag tag){
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(requireContext(), CHANNEL_DATABASE_ID);
 

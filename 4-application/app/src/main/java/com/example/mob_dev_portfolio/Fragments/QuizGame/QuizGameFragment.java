@@ -384,6 +384,7 @@ public class QuizGameFragment extends Fragment {
         Navigation.findNavController(view).navigate(R.id.action_nav_quiz_game_to_nav_quiz_replay, bundle);
     }
 
+    //Send the notifications on channel 2
     public void sendOnChannel2(View v, Highscore highscore, Tag tag){
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(requireContext(), CHANNEL_GAME_ID);
 

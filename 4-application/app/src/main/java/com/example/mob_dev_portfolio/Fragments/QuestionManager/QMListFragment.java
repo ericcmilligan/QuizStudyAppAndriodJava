@@ -720,6 +720,7 @@ public class QMListFragment extends Fragment {
         });
     }
 
+    //Send the notifications on channel 1
     public void sendOnChannel1Notification1(View v, Tag tag){
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(requireContext(), CHANNEL_DATABASE_ID);
 

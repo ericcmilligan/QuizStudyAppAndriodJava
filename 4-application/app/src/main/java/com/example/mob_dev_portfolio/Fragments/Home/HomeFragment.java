@@ -80,13 +80,14 @@ public class HomeFragment extends Fragment {
 
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
+                        //Try loading the example tags and their questions into the app
                         try{
                             QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
 
                             Tag androidDevelopmentTag =  db.tagDao().getTagByName("Android-Development");
                             Tag javaDevelopmentTag = db.tagDao().getTagByName("Java-Development");
 
-                            //Add android development tag and its questions if it does not exist
+                            //Add android development tag and its questions if it does not exist in the app
                             if(androidDevelopmentTag == null){
                                 db.tagDao().insertAll(new Tag("Android-Development"));
 
@@ -132,7 +133,7 @@ public class HomeFragment extends Fragment {
                                 Tag createdTag = db.tagDao().getTagByID(exampleTag1ID);
                                 Integer highScore =  db.highScoreDao().getHighScorePointsByTagID(createdTag.getTagID());
 
-                                //If high-score is null create a new record for high-score for this tag
+                                //If high-score is null create a new high-score record for this tag
                                 if(highScore == null){
                                     db.highScoreDao().insertAll(
                                             new Highscore(createdTag.getTagID(), 0, LocalDateTime.now())
@@ -142,7 +143,7 @@ public class HomeFragment extends Fragment {
                                 }
                             }
 
-                            //Add java development tag and its questions if it does not exist
+                            //Add java development tag and its questions if it does not exist in the app
                             if (javaDevelopmentTag == null){
                                 db.tagDao().insertAll(new Tag("Java-Development"));
 
@@ -187,7 +188,7 @@ public class HomeFragment extends Fragment {
                                 Tag createdTag = db.tagDao().getTagByID(exampleTag2ID);
                                 Integer highScore =  db.highScoreDao().getHighScorePointsByTagID(createdTag.getTagID());
 
-                                //If high-score is null create a new record for high-score for this tag
+                                //If high-score is null create a new high-score record for this tag
                                 if(highScore == null){
                                     db.highScoreDao().insertAll(
                                             new Highscore(createdTag.getTagID(), 0, LocalDateTime.now())
@@ -210,6 +211,7 @@ public class HomeFragment extends Fragment {
                                             "Error: " + e.getMessage(),
                                             Toast.LENGTH_SHORT).show();
                         }
+                        //Take the user to the question manager to see the example tags and their questions loaded
                         Toast.makeText(getContext(),
                                 "The example tags and their questions have been loaded into the app",
                                 Toast.LENGTH_SHORT).show();
@@ -304,7 +306,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        //Button set up with a onclick listener to assist the user by providing a toast with
+        //Button set up with a onclick listener to assist the user by providing a pop-up with
         //explanation of the functionality for this screen.
         FloatingActionButton homeHelperButton = binding.homeHelperButton;
 

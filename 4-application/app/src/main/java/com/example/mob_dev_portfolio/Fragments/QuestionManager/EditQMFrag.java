@@ -67,7 +67,6 @@ public class EditQMFrag extends Fragment {
         QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
 
         //Get the question and it's answers from the selected question within the question manager
-        Bundle bundleReceived = this.getArguments();
         String bundleReceivedString = this.getArguments().toString();
         String bundleInt = bundleReceivedString.replaceAll("\\D+","");
         Integer selectedQuestionID = Integer.parseInt(bundleInt);
@@ -93,6 +92,7 @@ public class EditQMFrag extends Fragment {
             }
         });
 
+        //Set up the floating action button for providing information on the edit question screen on click
         FloatingActionButton editQuestionHelperButton  = (FloatingActionButton) root.findViewById(R.id.editQuestionHelperButton);
 
         editQuestionHelperButton.setOnClickListener(new View.OnClickListener() {
@@ -167,6 +167,7 @@ public class EditQMFrag extends Fragment {
                                             Toast.LENGTH_SHORT)
                                     .show();
                         }
+                        //Delete the question and it's answers from the database
                         db.answerDao().deleteAnswersByQuestionID(selectedQuestionID);
                         db.questionDao().deleteQuestionByID(selectedQuestionID);
                         Navigation.findNavController(v).navigate(R.id.action_nav_edit_question_to_nav_question_manager);
@@ -366,7 +367,7 @@ public class EditQMFrag extends Fragment {
                     //After the answers have been submitted assign the correct answer for the question
                     //From the selected answer number in the spinner
                     if(binding.spinnerCorrectAnswerEditID.getSelectedItemPosition() == 0){
-                        //If a correct answer is not selected use 1 as the default to prevent crashing
+                        //If a correct answer is not selected use 1 as the default
                         db.questionDao().updateQuestionCorrectAnswer(
                                 1
                                 , db.questionDao().getQuestionIDByName(
@@ -448,6 +449,7 @@ public class EditQMFrag extends Fragment {
         return true;
     }
 
+    //Send the notifications on channel 1
     public void sendOnChannel1(View v, Question question, Tag tag){
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(requireContext(), CHANNEL_DATABASE_ID);
 

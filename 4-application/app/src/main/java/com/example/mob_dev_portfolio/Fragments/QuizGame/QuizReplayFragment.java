@@ -83,7 +83,7 @@ public class QuizReplayFragment extends Fragment {
         String bundleTagIDInt = bundleReceivedTagIDString.replaceAll("\\D+","");
         Integer tagID = Integer.parseInt(bundleTagIDInt);
 
-        //Get high-score to load correct gif type
+        //Get high-score in order to load correct gif type
         QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
         Integer quizHighScoreForTag = db.highScoreDao().getHighScorePointsByTagID(tagID);
 
@@ -206,11 +206,12 @@ public class QuizReplayFragment extends Fragment {
         return root;
     }
 
+    //Getting the data from the API to display a gif for either winning or losing
     public void getGif(RequestQueue requestQueue, String searchTerm){
-        //Getting the data from the API to display a gif for either winning or losing
         //Get imageview to pass
         ImageView quizResultImage = binding.quizReplayImageView;
         SEARCH_TERM = searchTerm;
+        //Construct the API url
         String url = BASE_URL + API_KEY + BEFORE_SEARCH_URL + SEARCH_TERM  + AFTER_SEARCH_URL;
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
