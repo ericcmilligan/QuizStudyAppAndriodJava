@@ -320,10 +320,6 @@ public class HomeFragment extends Fragment {
                     }
                 }
 
-                Toast.makeText(getActivity().getApplicationContext(), "You are on the home page click one of the buttons to" +
-                                " go to a different section"
-                        , Toast.LENGTH_LONG).show();
-
                 //Show the user a pop-up with information on the homepage
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
                         androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);

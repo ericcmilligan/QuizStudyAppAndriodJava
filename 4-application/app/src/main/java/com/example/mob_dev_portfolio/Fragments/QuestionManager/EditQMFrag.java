@@ -108,11 +108,6 @@ public class EditQMFrag extends Fragment {
                     }
                 }
 
-                Toast.makeText(getActivity().getApplicationContext(), "Fill out the form and scroll down to click submit to edit a question"
-                        , Toast.LENGTH_SHORT).show();
-                Toast.makeText(getActivity().getApplicationContext(), "Click the trash icon to delete this question"
-                        , Toast.LENGTH_SHORT).show();
-
                 //Show the user a pop-up with information on editing a question
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
                         androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);

@@ -135,22 +135,6 @@ public class QMListFragment extends Fragment {
                     }
                 }
 
-                //Display toasts with information on using the question manager
-                Toast.makeText(getActivity().getApplicationContext(), "Change the tag through the drop-down list to view questions for a given tag"
-                        , Toast.LENGTH_SHORT).show();
-                Toast.makeText(getActivity().getApplicationContext(), "Scroll questions for the chosen tag in the list and click a question to go to the edit/delete form"
-                        , Toast.LENGTH_SHORT).show();
-                Toast.makeText(getActivity().getApplicationContext(), "Click the plus icon to add a new question"
-                        , Toast.LENGTH_SHORT).show();
-                Toast.makeText(getActivity().getApplicationContext(), "Use the pencil icon to update the selected tag's name"
-                        , Toast.LENGTH_SHORT).show();
-                Toast.makeText(getActivity().getApplicationContext(), "Use the trash icon to delete the tag and its questions"
-                        , Toast.LENGTH_SHORT).show();
-                Toast.makeText(getActivity().getApplicationContext(), "Click the export arrow icon to export the selected tag and it's questions to a text file"
-                        , Toast.LENGTH_SHORT).show();
-                Toast.makeText(getActivity().getApplicationContext(), "Click the share arrow icon to share the selected tag and it's questions i.e by email"
-                        , Toast.LENGTH_SHORT).show();
-
                 //Show the user a pop-up with information on using the question manager
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
                         androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
@@ -166,14 +150,17 @@ public class QMListFragment extends Fragment {
                                 "all it's questions."  +
                                 "\n\n" +
                                 "4.You can scroll the list and click a question to go to the question " +
-                                "manager." +
+                                "manager for that question." +
                                 "\n\n" +
                                 "5.The export arrow icon allows you to export the selected tag " +
                                 "and it's questions to a text file located in the downloads folder " +
-                                "on the device." +
+                                "of your device." +
                                 "\n\n" +
                                 "6.The share arrow icon allows you to share the selected tag and " +
-                                "it's questions i.e by email."
+                                "it's questions i.e by email." +
+                                "\n\n" +
+                                "7.You can change the tag through the drop-down list to view " +
+                                "questions for a given tag."
                 );
 
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

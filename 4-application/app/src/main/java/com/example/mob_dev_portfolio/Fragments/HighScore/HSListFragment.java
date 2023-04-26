@@ -84,11 +84,6 @@ public class HSListFragment extends Fragment {
                     }
                 }
 
-                Toast.makeText(getContext(), "Here you can reset/share a high-score by clicking the respective button",
-                        Toast.LENGTH_LONG).show();
-                Toast.makeText(getContext(), "Scroll the list to see high-scores",
-                        Toast.LENGTH_LONG).show();
-
                 //Show the user a pop-up with information on the high-score page
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
                         androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);

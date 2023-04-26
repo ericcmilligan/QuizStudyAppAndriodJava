@@ -92,9 +92,6 @@ public class QCListFragment extends Fragment {
                     }
                 }
 
-                Toast.makeText(getActivity().getApplicationContext(), "Click a tag within the list" +
-                        " to proceed to play a quiz based on the category", Toast.LENGTH_LONG).show();
-
                 //Show the user a pop-up with information on the quiz game
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
                         androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);

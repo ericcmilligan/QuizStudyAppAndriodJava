@@ -158,14 +158,6 @@ public class QuizReplayFragment extends Fragment {
                     }
                 }
 
-                //Help the user
-                Toast.makeText(getContext(), "Scroll down if you cannot see the buttons",
-                        Toast.LENGTH_LONG).show();
-                Toast.makeText(getContext(), "Click the replay quiz button to take the quiz again",
-                        Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), "Click the quit quiz button to quit the quiz",
-                        Toast.LENGTH_SHORT).show();
-
                 //Show the user a pop-up with information on the quiz replay screen
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
                         androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
