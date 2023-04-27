@@ -622,8 +622,23 @@ public class QMListFragment extends Fragment {
                         outputStream.close();
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Toast.makeText(getContext(),("Error exporting to text file as: " +
-                        e.getMessage()), Toast.LENGTH_SHORT).show();
+                        //Show the user a pop-up explaining why the file could not be exported
+                        AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
+                                androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
+
+                        alert.setTitle("Error Exporting File");
+                        alert.setMessage(
+                                "Error exporting to text file as: " +
+                                        e.getMessage()
+                        );
+
+                        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                // Canceled.
+                            }
+                        });
+
+                        alert.show();
                     }
 
                     //Check the text file has been successfully created
@@ -696,8 +711,24 @@ public class QMListFragment extends Fragment {
                         outputStream.close();
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Toast.makeText(getContext(),("Error exporting to text file as: " +
-                                e.getMessage()), Toast.LENGTH_SHORT).show();
+
+                        //Show the user a pop-up explaining why the file could not be exported
+                        AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
+                                androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
+
+                        alert.setTitle("Error Exporting File");
+                        alert.setMessage(
+                                "Error exporting to text file as: " +
+                                        e.getMessage()
+                        );
+
+                        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                // Canceled.
+                            }
+                        });
+
+                        alert.show();
                     }
 
                     //Check the text file has been successfully created
