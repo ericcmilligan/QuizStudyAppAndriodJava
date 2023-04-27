@@ -44,6 +44,7 @@ public class HSTutorial extends Fragment {
         binding =  FragmentHighScoreTutorialBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        //Use glide image library to display the high score tutorial GIF
         ImageView highScoreTutorialGIF = binding.highScoreTutorialImageView;
 
         Glide.with(getContext())
@@ -52,6 +53,8 @@ public class HSTutorial extends Fragment {
                 .placeholder(R.drawable.placeholder)
                 .into(highScoreTutorialGIF);
 
+        //Tell the user that the tutorial only works in vertical orientation due to the video's
+        //aspect ratio 
         Toast.makeText(getContext(), "Tutorial displays in vertical orientation only",
                 Toast.LENGTH_SHORT).show();
         Toast.makeText(getContext(), "Click the back arrow to go to the previous tutorial for the app",

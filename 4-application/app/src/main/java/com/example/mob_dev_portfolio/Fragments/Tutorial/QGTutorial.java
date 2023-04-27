@@ -44,6 +44,7 @@ public class QGTutorial extends Fragment {
         binding = FragmentQuizGameTutorialBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        //Use glide image library to display the quiz game tutorial GIF
         ImageView quizGameTutorialGIF = binding.quizGameTutorialImageView;
 
         Glide.with(getContext())
@@ -52,6 +53,8 @@ public class QGTutorial extends Fragment {
                 .placeholder(R.drawable.placeholder)
                 .into(quizGameTutorialGIF);
 
+        //Tell the user that the tutorial only works in vertical orientation due to the video's
+        //aspect ratio
         Toast.makeText(getContext(), "Tutorial displays in vertical orientation only",
                 Toast.LENGTH_SHORT).show();
         Toast.makeText(getContext(), "Click the back arrow to go to the previous tutorial for the app",

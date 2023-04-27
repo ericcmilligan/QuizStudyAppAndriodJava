@@ -306,7 +306,7 @@ public class AddQMFrag extends Fragment {
                 alert.setTitle("Add tag");
                 alert.setMessage("Add a tag");
 
-                // Set an EditText view to get user input
+                //Set an EditText view to get user input
                 EditText input = new EditText(getActivity().getApplicationContext());
                 alert.setView(input);
 
