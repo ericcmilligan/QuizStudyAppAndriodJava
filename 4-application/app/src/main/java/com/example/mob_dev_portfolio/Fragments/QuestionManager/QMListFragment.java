@@ -181,7 +181,7 @@ public class QMListFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //Populate the list will all questions by default
+        //Populate the list with all questions by default
         QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
 
         questionsList = (ArrayList<Question>) db.questionDao().getAllQuestions();
@@ -307,7 +307,7 @@ public class QMListFragment extends Fragment {
 
                     alert.setMessage("Edit the tag: " + spinnerTagChooser.getSelectedItem());
 
-                    // Set an EditText view to get user input
+                    //Set an EditText view to get user input
                     EditText input = new EditText(getActivity().getApplicationContext());
                     alert.setView(input);
 
@@ -509,13 +509,13 @@ public class QMListFragment extends Fragment {
                             emailText.append("\n\n");
                         }
 
-                        emailText.append("Question Title: ");
-                        emailText.append(questionsList.get(i).getTitle());
-                        emailText.append("\n\n");
-
                         String tagName = db.tagDao().getTagNameByID(questionsList.get(i).getTagID());
                         emailText.append("Question Tag: ");
                         emailText.append(tagName);
+                        emailText.append("\n\n");
+
+                        emailText.append("Question Title: ");
+                        emailText.append(questionsList.get(i).getTitle());
 
                         emailText.append("\n\n");
                         emailText.append("Question Answers: ");
@@ -674,13 +674,13 @@ public class QMListFragment extends Fragment {
                             fileText.append("\n\n");
                         }
 
-                        fileText.append("Question Title: ");
-                        fileText.append(questionsList.get(i).getTitle());
-                        fileText.append("\n\n");
-
                         String tagName = db.tagDao().getTagNameByID(questionsList.get(i).getTagID());
                         fileText.append("Question Tag: ");
                         fileText.append(tagName);
+                        fileText.append("\n\n");
+
+                        fileText.append("Question Title: ");
+                        fileText.append(questionsList.get(i).getTitle());
 
                         fileText.append("\n\n");
                         fileText.append("Question Answers: ");
@@ -751,7 +751,7 @@ public class QMListFragment extends Fragment {
         });
     }
 
-    //Send the notifications on channel 1
+    //Send notification 1 on channel 1
     public void sendOnChannel1Notification1(View v, Tag tag){
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(requireContext(), CHANNEL_DATABASE_ID);
 
@@ -766,6 +766,7 @@ public class QMListFragment extends Fragment {
         notificationManager.notify(0, notificationBuilder.build());
     }
 
+    //Send notification 2 on channel 1
     public void sendOnChannel1Notification2(View v, Tag tag){
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(requireContext(), CHANNEL_DATABASE_ID);
 

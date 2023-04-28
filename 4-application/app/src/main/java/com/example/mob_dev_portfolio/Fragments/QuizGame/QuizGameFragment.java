@@ -240,6 +240,7 @@ public class QuizGameFragment extends Fragment {
        }
     }
 
+    //Initialize and start the countdown timer
     private void startCountDown(View view) {
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
@@ -257,6 +258,7 @@ public class QuizGameFragment extends Fragment {
         }.start();
     }
 
+    //Update the countdown timer text view text to the time remaining
     private void updateCountDownText() {
         int minutes = (int) (timeLeftInMillis / 1000) / 60;
         int seconds = (int) (timeLeftInMillis / 1000) % 60;
@@ -265,6 +267,7 @@ public class QuizGameFragment extends Fragment {
 
         textViewCountdown.setText(timeFormatted);
 
+        //Set the text colour to red when there is less than 10 seconds remaining on the clock
         if(timeLeftInMillis < 10000){
             textViewCountdown.setTextColor(Color.RED);
         } else {
@@ -294,6 +297,7 @@ public class QuizGameFragment extends Fragment {
                 }
             }
         } else {
+            //Else play an incorrect answer sound effect
             MediaPlayer incorrectAnswerSound = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.incorrect);
             if(incorrectAnswerSound != null){
                 incorrectAnswerSound.start();
@@ -303,9 +307,11 @@ public class QuizGameFragment extends Fragment {
             }
         }
 
+        //Proceed to show the solution
         showSolution();
     }
 
+    //Show the correct answer of the question to the user
     private void showSolution(){
         rb1.setTextColor(Color.RED);
         rb2.setTextColor(Color.RED);
@@ -338,6 +344,7 @@ public class QuizGameFragment extends Fragment {
         }
     }
 
+    //Finish the quiz and proceed to the quiz replay screen
     private void finishQuiz(View view) {
         //Get the Tag ID passed from the bundle
         String bundleReceivedString = this.getArguments().toString();
