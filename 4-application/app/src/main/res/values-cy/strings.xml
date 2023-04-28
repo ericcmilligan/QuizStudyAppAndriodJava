@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Test Quizzer</string>
+    <string name="navigation_drawer_open">Agor drôr llywio</string>
+    <string name="navigation_drawer_close">Caewch y drôr llywio</string>
+    <string name="nav_header_title">Test Quizzer</string>
+    <string name="nav_header_subtitle">Profwch Eich Hun!</string>
+    <string name="nav_header_desc">Pennawd llywio</string>
+    <string name="action_settings">Gosodiadau</string>
+    <string name="menu_home">Cartref</string>
+    <string name="menu_question_manager">Rheolwr Cwestiynau</string>
+    <string name="question_manager">Rheolwr Cwestiynau</string>
+    <string name="correct_answer_id">ID Ateb Cywir</string>
+    <string name="tag_id">ID Tag</string>
+    <string name="back_to_qm">Yn ôl i\'r rheolwr cwestiwn</string>
+    <string name="submit_button">Botwm Cyflwyno</string>
+    <string name="question_title">Teitl y Cwestiwn</string>
+    <string name="tag_for_question">Tag Ar Gyfer Cwestiwn</string>
+    <string name="quiz_categories">Categorïau Cwis</string>
+    <string name="play_quiz">Chwarae Cwis</string>
+    <string name="view_high_scores">Gweld sgoriau uchel</string>
+    <string name="launch_tutorial">Tiwtorial Lansio</string>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Test Quizzer</string>
+    <string name="navigation_drawer_open">Abrir cajón de navegación</string>
+    <string name="navigation_drawer_close">Cerrar cajón de navegación</string>
+    <string name="nav_header_title">Test Quizzer</string>
+    <string name="nav_header_subtitle">" ¡Pruébate!"</string>
+    <string name="nav_header_desc">Encabezado de navegación</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="menu_home">Hogar</string>
+    <string name="menu_question_manager">Administrador de preguntas</string>
+    <string name="question_manager">Administrador de preguntas</string>
+    <string name="correct_answer_id">ID de respuesta correcta</string>
+    <string name="tag_id">ID de etiqueta</string>
+    <string name="back_to_qm">Volver al administrador de preguntas</string>
+    <string name="submit_button">Botón de enviar</string>
+    <string name="question_title">Título de la pregunta</string>
+    <string name="tag_for_question">Etiqueta para pregunta</string>
+    <string name="quiz_categories">Categorías de cuestionarios</string>
+    <string name="play_quiz">Jugar prueba</string>
+    <string name="view_high_scores">Ver puntajes altos</string>
+    <string name="launch_tutorial">Tutorial de lanzamiento</string>
+</resources>
