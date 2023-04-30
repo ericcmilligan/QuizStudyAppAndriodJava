@@ -1,6 +1,8 @@
 package com.example.mob_dev_portfolio.Fragments.HighScore;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -21,7 +23,6 @@ import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databinding.FragmentHsListBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,9 @@ public class HSListFragment extends Fragment {
     HSListAdapter hsListAdapter;
     RecyclerView recyclerView;
 
+    //Initialize shared preferences
+    SharedPreferences sharedPreferences = null;
+
     public HSListFragment() {
 
     }
@@ -42,6 +46,10 @@ public class HSListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Load project shared preferences file into the shared preferences variable
+        sharedPreferences = getContext().getSharedPreferences("com.example.mob_dev_portfolio",
+                Context.MODE_PRIVATE);
     }
 
     @Override
@@ -84,24 +92,7 @@ public class HSListFragment extends Fragment {
                     }
                 }
 
-                //Show the user a pop-up with information on the high-score page
-                AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
-                        androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
-
-                alert.setTitle("High-Score Page Help");
-                alert.setMessage(
-                                "1.You can scroll the list to see high-scores for a tag." +
-                                "\n\n" +
-                                "2.You can reset/share a high-score by clicking the respective button."
-                );
-
-                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Canceled.
-                    }
-                });
-
-                alert.show();
+                showHighScoreHelpPopUp();
             }
         });
 
@@ -143,6 +134,39 @@ public class HSListFragment extends Fragment {
 
     }
 
+    private void showHighScoreHelpPopUp() {
+        //Show the user a pop-up with information on the high-score page
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
+                androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
+
+        alert.setTitle("High-Score Page Help");
+        alert.setMessage(
+                "1.You can scroll the list to see high-scores for a tag." +
+                        "\n\n" +
+                        "2.You can reset/share a high-score by clicking the respective button."
+        );
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+
+        alert.show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //Show high-score help pop up if it is the first time visiting the fragment after install
+        if(sharedPreferences.getBoolean("first-run-hs-help", true)) {
+            showHighScoreHelpPopUp();
+            //Set first run to false after this method has finished
+            sharedPreferences.edit().putBoolean("first-run-hs-help", false).commit();
+        }
+
+    }
 
     @Override
     public void onDestroyView() {

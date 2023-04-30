@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -48,6 +49,9 @@ public class AddQMFrag extends Fragment {
     private NotificationManager notificationManager;
     public static final String CHANNEL_DATABASE_ID = "channel1";
 
+    //Initialize shared preferences
+    SharedPreferences sharedPreferences = null;
+
     public AddQMFrag() {
 
     }
@@ -57,6 +61,9 @@ public class AddQMFrag extends Fragment {
         super.onCreate(savedInstanceState);
         //Set up notification manager
         notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        //Load project shared preferences file into the shared preferences variable
+        sharedPreferences = getContext().getSharedPreferences("com.example.mob_dev_portfolio",
+                Context.MODE_PRIVATE);
     }
 
     @Override
@@ -187,30 +194,34 @@ public class AddQMFrag extends Fragment {
                     }
                 }
 
-                //Show the user a pop-up with information on adding a question
-                AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
-                        androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
-
-                alert.setTitle("Adding A Question For A Tag Help");
-                alert.setMessage(
-                                "1.Once the form has been filled out for the question you can scroll " +
-                                "down and click the submit button to submit." +
-                                "\n\n" +
-                                "2.You can add a new tag by pressing the add new tag button."
-
-                );
-
-                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Canceled.
-                    }
-                });
-
-                alert.show();
+                showAddQuestionHelpPopUp();
             }
         });
 
         return root;
+    }
+
+    private void showAddQuestionHelpPopUp() {
+        //Show the user a pop-up with information on adding a question
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
+                androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
+
+        alert.setTitle("Adding A Question For A Tag Help");
+        alert.setMessage(
+                        "1.Once the form has been filled out for the question you can scroll " +
+                        "down and click the submit button to submit." +
+                        "\n\n" +
+                        "2.You can add a new tag by pressing the add new tag button."
+
+        );
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+
+        alert.show();
     }
 
     //Validate the fields the user has inputted
@@ -389,6 +400,12 @@ public class AddQMFrag extends Fragment {
     public void onResume() {
         super.onResume();
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+        //Show add question help pop up if it is the first time visiting the fragment after install
+        if(sharedPreferences.getBoolean("first-run-aq-help", true)) {
+            showAddQuestionHelpPopUp();
+            //Set first run to false after this method has finished
+            sharedPreferences.edit().putBoolean("first-run-aq-help", false).commit();
+        }
     }
 
     @Override

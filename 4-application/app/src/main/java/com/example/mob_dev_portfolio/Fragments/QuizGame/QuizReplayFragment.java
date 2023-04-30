@@ -1,6 +1,8 @@
 package com.example.mob_dev_portfolio.Fragments.QuizGame;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -57,6 +59,9 @@ public class QuizReplayFragment extends Fragment {
     public static String SEARCH_TERM = "winning";
     public static final String AFTER_SEARCH_URL = "&limit=20&offset=0&rating=g&lang=en";
 
+    //Initialize shared preferences
+    SharedPreferences sharedPreferences = null;
+
     public QuizReplayFragment() {
 
     }
@@ -64,6 +69,9 @@ public class QuizReplayFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Load project shared preferences file into the shared preferences variable
+        sharedPreferences = getContext().getSharedPreferences("com.example.mob_dev_portfolio",
+                Context.MODE_PRIVATE);
     }
 
     @Override
@@ -158,25 +166,7 @@ public class QuizReplayFragment extends Fragment {
                     }
                 }
 
-                //Show the user a pop-up with information on the quiz replay screen
-                AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
-                        androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
-
-                alert.setTitle("Quiz Replay Help");
-                alert.setMessage(
-                                "1.You can click the replay quiz button to take the quiz again."
-                                +
-                                "\n\n" +
-                                "2.You can click the quit quiz button to quit the quiz."
-                );
-
-                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Canceled.
-                    }
-                });
-
-                alert.show();
+                showQRHelpPopUp();
             }
         });
 
@@ -204,6 +194,28 @@ public class QuizReplayFragment extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
         return root;
+    }
+
+    private void showQRHelpPopUp() {
+        //Show the user a pop-up with information on the quiz replay screen
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
+                androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
+
+        alert.setTitle("Quiz Replay Help");
+        alert.setMessage(
+                        "1.You can click the replay quiz button to take the quiz again."
+                        +
+                        "\n\n" +
+                        "2.You can click the quit quiz button to quit the quiz."
+        );
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+
+        alert.show();
     }
 
     //Getting the data from the API to display a gif for either winning or losing
@@ -274,6 +286,12 @@ public class QuizReplayFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+        //Show quiz replay help pop up if it is the first time visiting the fragment after install
+        if(sharedPreferences.getBoolean("first-run-qr-help", true)) {
+            showQRHelpPopUp();
+            //Set first run to false after this method has finished
+            sharedPreferences.edit().putBoolean("first-run-qr-help", false).commit();
+        }
     }
 
     @Override

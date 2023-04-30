@@ -1,6 +1,8 @@
 package com.example.mob_dev_portfolio.Fragments.QuizGame;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -39,6 +41,9 @@ public class QCListFragment extends Fragment {
 
     ListView lv;
 
+    //Initialize shared preferences
+    SharedPreferences sharedPreferences = null;
+
     public QCListFragment() {
 
     }
@@ -46,6 +51,9 @@ public class QCListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Load project shared preferences file into the shared preferences variable
+        sharedPreferences = getContext().getSharedPreferences("com.example.mob_dev_portfolio",
+                Context.MODE_PRIVATE);
     }
 
     @Override
@@ -92,23 +100,7 @@ public class QCListFragment extends Fragment {
                     }
                 }
 
-                //Show the user a pop-up with information on the quiz game
-                AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
-                        androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
-
-                alert.setTitle("Quiz Game Help");
-                alert.setMessage(
-                        "1.You can click a tag within the list to proceed to play a quiz based on the " +
-                                "tag(category)."
-                );
-
-                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Canceled.
-                    }
-                });
-
-                alert.show();
+                showQCHelpPopUp();
             }
         });
 
@@ -174,6 +166,37 @@ public class QCListFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void showQCHelpPopUp() {
+        //Show the user a pop-up with information on the quiz game
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
+                androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
+
+        alert.setTitle("Quiz Game Help");
+        alert.setMessage(
+                "1.You can click a tag within the list to proceed to play a quiz based on the " +
+                        "tag(category)."
+        );
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+
+        alert.show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //Show quiz category help pop up if it is the first time visiting the fragment after install
+        if(sharedPreferences.getBoolean("first-run-qc-help", true)) {
+            showQCHelpPopUp();
+            //Set first run to false after this method has finished
+            sharedPreferences.edit().putBoolean("first-run-qc-help", false).commit();
+        }
     }
 
     @Override

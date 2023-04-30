@@ -3,6 +3,7 @@ package com.example.mob_dev_portfolio.Fragments.QuestionManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -44,6 +45,9 @@ public class EditQMFrag extends Fragment {
     private NotificationManager notificationManager;
     public static final String CHANNEL_DATABASE_ID = "channel1";
 
+    //Initialize shared preferences
+    SharedPreferences sharedPreferences = null;
+
 
     public EditQMFrag() {
 
@@ -55,6 +59,9 @@ public class EditQMFrag extends Fragment {
         super.onCreate(savedInstanceState);
         //Set up notification manager
         notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        //Load project shared preferences file into the shared preferences variable
+        sharedPreferences = getContext().getSharedPreferences("com.example.mob_dev_portfolio",
+                Context.MODE_PRIVATE);
     }
 
     @Override
@@ -108,27 +115,7 @@ public class EditQMFrag extends Fragment {
                     }
                 }
 
-                //Show the user a pop-up with information on editing a question
-                AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
-                        androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
-
-                alert.setTitle("Editing A Question For A Tag Help");
-                alert.setMessage(
-                                "1.Once the question has been edited using the form you can scroll " +
-                                "down and click the submit button to submit." +
-                                "\n\n" +
-                                "2.You can add a new tag by pressing the add new tag button." +
-                                "\n\n" +
-                                "3.You can click the trash icon to delete this question from the tag."
-                );
-
-                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Canceled.
-                    }
-                });
-
-                alert.show();
+                showEditQuestionHelpPopUp();
             }
         });
 
@@ -397,6 +384,30 @@ public class EditQMFrag extends Fragment {
         return root;
     }
 
+    private void showEditQuestionHelpPopUp() {
+        //Show the user a pop-up with information on editing a question
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
+                androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
+
+        alert.setTitle("Editing A Question For A Tag Help");
+        alert.setMessage(
+                        "1.Once the question has been edited using the form you can scroll " +
+                        "down and click the submit button to submit." +
+                        "\n\n" +
+                        "2.You can add a new tag by pressing the add new tag button." +
+                        "\n\n" +
+                        "3.You can click the trash icon to delete this question from the tag."
+        );
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+
+        alert.show();
+    }
+
     private boolean CheckAllFields() {
         //Register all the EditText fields with their IDs.
         EditText editTextQuestionTitle = (EditText) binding.editTextQuestionTitleEdit;
@@ -469,6 +480,12 @@ public class EditQMFrag extends Fragment {
     public void onResume() {
         super.onResume();
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+        //Show edit question help pop up if it is the first time visiting the fragment after install
+        if(sharedPreferences.getBoolean("first-run-eq-help", true)) {
+            showEditQuestionHelpPopUp();
+            //Set first run to false after this method has finished
+            sharedPreferences.edit().putBoolean("first-run-eq-help", false).commit();
+        }
     }
 
     @Override

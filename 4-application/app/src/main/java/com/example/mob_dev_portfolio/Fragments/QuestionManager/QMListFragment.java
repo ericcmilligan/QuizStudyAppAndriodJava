@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -61,6 +62,8 @@ public class QMListFragment extends Fragment {
 
     public static final String CHANNEL_DATABASE_ID = "channel1";
 
+    //Initialize shared preferences
+    SharedPreferences sharedPreferences = null;
 
     public QMListFragment() {
     }
@@ -71,6 +74,9 @@ public class QMListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         //Set up notification manager
         notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        //Load project shared preferences file into the shared preferences variable
+        sharedPreferences = getContext().getSharedPreferences("com.example.mob_dev_portfolio",
+                Context.MODE_PRIVATE);
     }
 
     @Override
@@ -135,46 +141,50 @@ public class QMListFragment extends Fragment {
                     }
                 }
 
-                //Show the user a pop-up with information on using the question manager
-                AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
-                        androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
-
-                alert.setTitle("Question Manager Help");
-                alert.setMessage(
-                                "1.The add(plus) icon allows you to add a new question to the " +
-                                "selected tag in the dropdown." +
-                                "\n\n" +
-                                "2.The edit(pencil) icon allows you to edit the selected tag's name." +
-                                "\n\n" +
-                                "3.The delete(trash) icon allows you to delete the selected tag and " +
-                                "all it's questions."  +
-                                "\n\n" +
-                                "4.You can scroll the list and click a question to go to the question " +
-                                "manager for that question." +
-                                "\n\n" +
-                                "5.The export arrow icon allows you to export the selected tag " +
-                                "and it's questions to a text file located in the downloads folder " +
-                                "of your device." +
-                                "\n\n" +
-                                "6.The share arrow icon allows you to share the selected tag and " +
-                                "it's questions i.e by email." +
-                                "\n\n" +
-                                "7.You can change the tag through the drop-down list to view " +
-                                "questions for a given tag."
-                );
-
-                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Canceled.
-                    }
-                });
-
-                alert.show();
+                showQMHelpPopup();
             }
         });
 
 
         return view;
+    }
+
+    private void showQMHelpPopup() {
+        //Show the user a pop-up with information on using the question manager
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
+                androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
+
+        alert.setTitle("Question Manager Help");
+        alert.setMessage(
+                        "1.The add(plus) icon allows you to add a new question to the " +
+                        "selected tag in the dropdown." +
+                        "\n\n" +
+                        "2.The edit(pencil) icon allows you to edit the selected tag's name." +
+                        "\n\n" +
+                        "3.The delete(trash) icon allows you to delete the selected tag and " +
+                        "all it's questions."  +
+                        "\n\n" +
+                        "4.You can scroll the list and click a question to go to the question " +
+                        "manager for that question." +
+                        "\n\n" +
+                        "5.The export arrow icon allows you to export the selected tag " +
+                        "and it's questions to a text file located in the downloads folder " +
+                        "of your device." +
+                        "\n\n" +
+                        "6.The share arrow icon allows you to share the selected tag and " +
+                        "it's questions i.e by email." +
+                        "\n\n" +
+                        "7.You can change the tag through the drop-down list to view " +
+                        "questions for a given tag."
+        );
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+
+        alert.show();
     }
 
     @Override
@@ -779,6 +789,17 @@ public class QMListFragment extends Fragment {
                 .setAutoCancel(true);
 
         notificationManager.notify(0, notificationBuilder.build());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //Show question manager help pop up if it is the first time visiting the fragment after install
+        if(sharedPreferences.getBoolean("first-run-qm-help", true)) {
+            showQMHelpPopup();
+            //Set first run to false after this method has finished
+            sharedPreferences.edit().putBoolean("first-run-qm-help", false).commit();
+        }
     }
 
     @Override
