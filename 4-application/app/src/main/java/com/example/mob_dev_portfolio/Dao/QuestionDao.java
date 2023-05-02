@@ -22,7 +22,7 @@ public interface QuestionDao {
     Question getQuestionByID(Integer questionID);
 
     @Query("SELECT QuestionID FROM Question WHERE Title = :questionTitle")
-    Integer getQuestionIDByName(String questionTitle);
+    Integer getQuestionIDByTitle(String questionTitle);
 
     @Query("SELECT * FROM Question WHERE Title = :questionTitle")
     Question getQuestionByTitle(String questionTitle);

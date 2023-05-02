@@ -145,14 +145,16 @@ public class EditQMFrag extends Fragment {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //Delete a point from the high-score as the question is deleted
                         if(highScoreValue != null){
-                            db.highScoreDao().updateHighScoreByTagID(selectedQuestion.getTagID(),
-                                    (highScoreValue - 1), LocalDateTime.now());
-                            Toast.makeText(getContext(),
-                                            "Point knocked off high score for tag: " +
-                                                    db.tagDao().getTagNameByID(selectedQuestion.getTagID())
-                                                    +  " as question deleted",
-                                            Toast.LENGTH_SHORT)
-                                    .show();
+                            if(highScoreValue != 0){
+                                db.highScoreDao().updateHighScoreByTagID(selectedQuestion.getTagID(),
+                                        (highScoreValue - 1), LocalDateTime.now());
+                                Toast.makeText(getContext(),
+                                                "Point knocked off high score for tag: " +
+                                                        db.tagDao().getTagNameByID(selectedQuestion.getTagID())
+                                                        +  " as question deleted",
+                                                Toast.LENGTH_SHORT)
+                                        .show();
+                            }
                         }
                         //Delete the question and it's answers from the database
                         db.answerDao().deleteAnswersByQuestionID(selectedQuestionID);
@@ -245,35 +247,41 @@ public class EditQMFrag extends Fragment {
                                             Toast.LENGTH_SHORT)
                                     .show();
                         } else {
-                            db.tagDao().insertAll(new Tag(input.getText().toString()));
+                            if (db.tagDao().getTagByName(input.getText().toString()) == null) {
+                                db.tagDao().insertAll(new Tag(input.getText().toString()));
+                                //Initialize high-score for tag if not created
+                                Tag createdTag = db.tagDao().getTagByName(input.getText().toString());
+                                Integer highScore = db.highScoreDao().getHighScorePointsByTagID(createdTag.getTagID());
 
-                            //Initialize high-score for tag if not created
-                            Tag createdTag = db.tagDao().getTagByName(input.getText().toString());
-                            Integer highScore =  db.highScoreDao().getHighScorePointsByTagID(createdTag.getTagID());
+                                //If high-score is null create a new record for high-score for this tag
+                                if (highScore == null) {
+                                    db.highScoreDao().insertAll(
+                                            new Highscore(createdTag.getTagID(), 0, LocalDateTime.now())
+                                    );
+                                    Toast.makeText(getContext(), "High score initialized for tag: " + createdTag.getName(),
+                                            Toast.LENGTH_SHORT).show();
+                                }
 
-                            //If high-score is null create a new record for high-score for this tag
-                            if(highScore == null){
-                                db.highScoreDao().insertAll(
-                                        new Highscore(createdTag.getTagID(), 0, LocalDateTime.now())
-                                );
-                                Toast.makeText(getContext(), "High score initialized for tag: " + createdTag.getName(),
-                                        Toast.LENGTH_SHORT).show();
-                            }
-
-                            //Set tag selector to newly created tag
-                            spinnerTagAdapter.addAll(createdTag.getName());
-                            spinnerTagAdapter.notifyDataSetChanged();
-                            List<Tag> tagList =  db.tagDao().getAllTags();
-                            int tagListLastIndex = tagList.size();
-                            try{
-                                binding.spinnerTagEditID.setSelection(tagListLastIndex);
-                                Toast.makeText(getContext(), "Set tag selector to newly created tag",
-                                        Toast.LENGTH_SHORT).show();
-                            } catch(Exception e){
-                                Toast.makeText(getContext(), "Error occurred selecting latest tag as: ",
-                                        Toast.LENGTH_SHORT).show();
-                                Toast.makeText(getContext(), e.getMessage(),
-                                        Toast.LENGTH_SHORT).show();
+                                //Set tag selector to newly created tag
+                                spinnerTagAdapter.addAll(createdTag.getName());
+                                spinnerTagAdapter.notifyDataSetChanged();
+                                List<Tag> tagList = db.tagDao().getAllTags();
+                                int tagListLastIndex = tagList.size();
+                                try {
+                                    binding.spinnerTagEditID.setSelection(tagListLastIndex);
+                                    Toast.makeText(getContext(), "Set tag selector to newly created tag",
+                                            Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    Toast.makeText(getContext(), "Error occurred selecting latest tag as: ",
+                                            Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), e.getMessage(),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(getContext(),
+                                                "Tag name must be unique, not saved",
+                                                Toast.LENGTH_SHORT)
+                                        .show();
                             }
                         }
                     }
@@ -319,13 +327,21 @@ public class EditQMFrag extends Fragment {
                         }
                     }
 
-                    db.questionDao().updateQuestion(
-                                    selectedQuestionID,
-                                    db.tagDao().getTagIDByName(
-                                            binding.spinnerTagEditID.getSelectedItem().toString()),
-                                    binding.editTextQuestionTitleEdit.getText().toString()
-                    );
-
+                    //Do not accept the edited question title if the same question title
+                    //already exists in the app for another question as the
+                    //question title is a unique constraint
+                    try{
+                        db.questionDao().updateQuestion(
+                                selectedQuestionID,
+                                db.tagDao().getTagIDByName(
+                                        binding.spinnerTagEditID.getSelectedItem().toString()),
+                                binding.editTextQuestionTitleEdit.getText().toString()
+                        );
+                    } catch(Exception e){
+                        Toast.makeText(getContext(),"Question title not updated, please make sure " +
+                                        "the question title is unique.",
+                                Toast.LENGTH_SHORT).show();
+                    }
 
                     db.answerDao().updateAnswer(
                                     getAnswersForSelectedQuestion.get(0).getAnswerID(),
@@ -357,7 +373,7 @@ public class EditQMFrag extends Fragment {
                         //If a correct answer is not selected use 1 as the default
                         db.questionDao().updateQuestionCorrectAnswer(
                                 1
-                                , db.questionDao().getQuestionIDByName(
+                                , db.questionDao().getQuestionIDByTitle(
                                         binding.editTextQuestionTitleEdit.getText().toString()
                                 ));
                     } else {
@@ -365,7 +381,7 @@ public class EditQMFrag extends Fragment {
                         //From the selected answer number in the spinner
                         db.questionDao().updateQuestionCorrectAnswer(
                                 Integer.parseInt(binding.spinnerCorrectAnswerEditID.getSelectedItem().toString())
-                                , db.questionDao().getQuestionIDByName(
+                                , db.questionDao().getQuestionIDByTitle(
                                         binding.editTextQuestionTitleEdit.getText().toString()
                                 ));
                     }

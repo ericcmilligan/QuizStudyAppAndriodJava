@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -35,10 +34,8 @@ import com.example.mob_dev_portfolio.databinding.FragmentQmListBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -215,7 +212,7 @@ public class QMListFragment extends Fragment {
                 //Getting question title from selected item and passing to edit fragment
                 String selectedQuestionTitle = (String) adapter.getItem(position).toString();
 
-                Integer questionID = db.questionDao().getQuestionIDByName(selectedQuestionTitle);
+                Integer questionID = db.questionDao().getQuestionIDByTitle(selectedQuestionTitle);
 
                 //Put the question id into a bundle
                 Bundle bundle = new Bundle();

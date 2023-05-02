@@ -1,19 +1,15 @@
 package com.example.mob_dev_portfolio.Fragments.QuestionManager;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -108,19 +104,19 @@ public class AddQMFrag extends Fragment {
                     //Insert the user's details for the answer into the database
                     db.answerDao().insertAll(
                             new Answer(
-                                    db.questionDao().getQuestionIDByName(
+                                    db.questionDao().getQuestionIDByTitle(
                                             binding.editTextQuestionTitle.getText().toString()
                                     ),
                                     binding.editTextAnswer1.getText().toString()),
-                            new Answer(db.questionDao().getQuestionIDByName(
+                            new Answer(db.questionDao().getQuestionIDByTitle(
                                     binding.editTextQuestionTitle.getText().toString()
                             ),
                                     binding.editTextAnswer2.getText().toString()),
-                            new Answer(db.questionDao().getQuestionIDByName(
+                            new Answer(db.questionDao().getQuestionIDByTitle(
                                     binding.editTextQuestionTitle.getText().toString()
                             ),
                                     binding.editTextAnswer3.getText().toString()),
-                            new Answer(db.questionDao().getQuestionIDByName(
+                            new Answer(db.questionDao().getQuestionIDByTitle(
                                     binding.editTextQuestionTitle.getText().toString()
                             ),
                                     binding.editTextAnswer4.getText().toString())
@@ -132,7 +128,7 @@ public class AddQMFrag extends Fragment {
                         //If a correct answer is not selected use 1 as the default
                         db.questionDao().updateQuestionCorrectAnswer(
                                 1
-                                , db.questionDao().getQuestionIDByName(
+                                , db.questionDao().getQuestionIDByTitle(
                                         binding.editTextQuestionTitle.getText().toString()
                                 ));
                     } else {
@@ -140,7 +136,7 @@ public class AddQMFrag extends Fragment {
                         //From the selected answer number in the spinner
                         db.questionDao().updateQuestionCorrectAnswer(
                                 Integer.parseInt(binding.spinnerCorrectAnswerID.getSelectedItem().toString())
-                                , db.questionDao().getQuestionIDByName(
+                                , db.questionDao().getQuestionIDByTitle(
                                         binding.editTextQuestionTitle.getText().toString()
                                 ));
                     }
@@ -330,38 +326,44 @@ public class AddQMFrag extends Fragment {
                                             Toast.LENGTH_SHORT)
                                     .show();
                         } else {
-                            db.tagDao().insertAll(new Tag(input.getText().toString()));
+                            if (db.tagDao().getTagByName(input.getText().toString()) == null) {
+                                    db.tagDao().insertAll(new Tag(input.getText().toString()));
+                                    //Initialize high-score for tag if not created
+                                    Tag createdTag = db.tagDao().getTagByName(input.getText().toString());
+                                    Integer highScore = db.highScoreDao().getHighScorePointsByTagID(createdTag.getTagID());
 
-                            //Initialize high-score for tag if not created
-                            Tag createdTag = db.tagDao().getTagByName(input.getText().toString());
-                            Integer highScore =  db.highScoreDao().getHighScorePointsByTagID(createdTag.getTagID());
+                                    //If high-score is null create a new record for high-score for this tag
+                                    if (highScore == null) {
+                                        db.highScoreDao().insertAll(
+                                                new Highscore(createdTag.getTagID(), 0, LocalDateTime.now())
+                                        );
+                                        Toast.makeText(getContext(), "High score initialized for tag: " + createdTag.getName(),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
 
-                            //If high-score is null create a new record for high-score for this tag
-                            if(highScore == null){
-                                db.highScoreDao().insertAll(
-                                        new Highscore(createdTag.getTagID(), 0, LocalDateTime.now())
-                                );
-                                Toast.makeText(getContext(), "High score initialized for tag: " + createdTag.getName(),
-                                        Toast.LENGTH_SHORT).show();
-                            }
-
-                            //Set tag selector to newly created tag
-                            spinnerTagAdapter.addAll(createdTag.getName());
-                            spinnerTagAdapter.notifyDataSetChanged();
-                            List<Tag> tagList =  db.tagDao().getAllTags();
-                            int tagListLastIndex = tagList.size();
-                            try{
-                                binding.spinnerTagID.setSelection(tagListLastIndex);
-                                Toast.makeText(getContext(), "Set tag selector to newly created tag",
-                                        Toast.LENGTH_SHORT).show();
-                            } catch(Exception e){
-                                Toast.makeText(getContext(), "Error occurred selecting latest tag as: ",
-                                        Toast.LENGTH_SHORT).show();
-                                Toast.makeText(getContext(), e.getMessage(),
-                                        Toast.LENGTH_SHORT).show();
+                                    //Set tag selector to newly created tag
+                                    spinnerTagAdapter.addAll(createdTag.getName());
+                                    spinnerTagAdapter.notifyDataSetChanged();
+                                    List<Tag> tagList = db.tagDao().getAllTags();
+                                    int tagListLastIndex = tagList.size();
+                                    try {
+                                        binding.spinnerTagID.setSelection(tagListLastIndex);
+                                        Toast.makeText(getContext(), "Set tag selector to newly created tag",
+                                                Toast.LENGTH_SHORT).show();
+                                    } catch (Exception e) {
+                                        Toast.makeText(getContext(), "Error occurred selecting latest tag as: ",
+                                                Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), e.getMessage(),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(getContext(),
+                                                    "Tag name must be unique, not saved",
+                                                    Toast.LENGTH_SHORT)
+                                            .show();
+                                }
                             }
                         }
-                    }
                 });
 
                 //Allow the user to exit the add tag pop-up without adding a tag
