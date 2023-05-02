@@ -328,7 +328,10 @@ public class HomeFragment extends Fragment {
 
                 alert.setTitle("Homepage Help");
                 alert.setMessage(
-                                "1.Click one of the buttons to go to a different section of the app."
+                                "1.Click one of the buttons to go to a different section of the app."+
+                                 "\n\n" +
+                                "2.You can load the example tags and their questions into the app by " +
+                                        "clicking the load example tags button."
                 );
 
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

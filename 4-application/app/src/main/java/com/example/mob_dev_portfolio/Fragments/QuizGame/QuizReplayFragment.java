@@ -174,7 +174,7 @@ public class QuizReplayFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         //Set gif retrieved from API depending on winning/losing condition state
-        if(quizScore > quizHighScoreForTag | quizScore.equals(quizHighScoreForTag)){
+        if(quizScore > quizHighScoreForTag | quizScore.equals(quizHighScoreForTag) & quizScore > 0){
             getGif(requestQueue, "win");
         } else {
             getGif(requestQueue, "lose");
