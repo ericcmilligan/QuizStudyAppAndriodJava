@@ -14,6 +14,6 @@ this into the app developed, but I felt it would confuse the use of the app whic
 question sets.
 
 With more time for extra features, I would have liked to include an accessibility mode to enable users with different
-disabilities to use the app. I would have also had liked to include online account features, so a user
-can for example login with a Google account and have their tag with the questions saved to their
-Google account for backup. 
+disabilities to use the app. I would have also had liked to include online account features, such as login with a
+Google account, to allow tags with their questions to be saved to a user's Google account for backup, an alternative
+backup option was implemented towards the end of the project as I included a questions to file export feature.
