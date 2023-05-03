@@ -278,6 +278,80 @@ public class QuestionManagerTestSuite {
         submitDeleteTag.perform(scrollTo(), click());
     }
 
+    //Test a question can be edited
+    @Test
+    public void testEditingAQuestion(){
+        //Initialize shared preferences
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.mob_dev_portfolio",
+                Context.MODE_PRIVATE);
+
+        //Stop first time helper pop-ups from appearing
+        sharedPreferences.edit().putBoolean("first-run", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-qm-help", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-aq-help", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-eq-help", false).commit();
+
+        //Load example tags with their questions into the app
+        ViewInteraction loadExampleQuestionsButton = onView(
+                allOf(withId(R.id.load_example_questions_button), withText("Load Example Questions"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        2),
+                                0)));
+        loadExampleQuestionsButton.perform(scrollTo(), click());
+
+        //Confirm the example tags with their questions are to be loaded into the app
+        ViewInteraction confirmLoadExampleQuestions = onView(
+                allOf(withClassName(is("androidx.appcompat.widget.AppCompatButton")), withText("Yes"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(androidx.appcompat.R.id.buttonPanel),
+                                        0),
+                                3)));
+        confirmLoadExampleQuestions.perform(scrollTo(), click());
+
+        //Go to the edit question form for the selected question within the question manager
+        DataInteraction goToEditQuestionFormForSelectedQuest = onData(anything())
+                .inAdapterView(allOf(withId(R.id.question_list_view),
+                        childAtPosition(
+                                withClassName(is("android.widget.LinearLayout")),
+                                0)))
+                .atPosition(7);
+        goToEditQuestionFormForSelectedQuest.perform(click());
+
+        //Change answer 3 text from "James Gosling" to "James Glossy"
+        ViewInteraction changeAnswer3 = onView(
+                allOf(withId(R.id.editTextAnswer3Edit), withText("James Gosling"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        5),
+                                1)));
+        changeAnswer3.perform(scrollTo(), replaceText("James Glossy"));
+
+        //Close the text input pop-up for answer 3
+        ViewInteraction closeTextInput = onView(
+                allOf(withId(R.id.editTextAnswer3Edit), withText("James Glossy"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        5),
+                                1),
+                        isDisplayed()));
+        closeTextInput.perform(closeSoftKeyboard());
+
+        //Update the edited question within the database
+        ViewInteraction updateQuestionButton = onView(
+                allOf(withId(R.id.submitButtonEdit), withText("Submit Button"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        8),
+                                0)));
+        updateQuestionButton.perform(scrollTo(), click());
+    }
+
     private static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {
 
