@@ -1,6 +1,7 @@
 package com.example.mob_dev_portfolio;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -12,6 +13,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 
 import android.content.Context;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -32,6 +35,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * An espresso test suite for testing the question manager section of the app
+ */
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class QuestionManagerTestSuite {
@@ -40,6 +46,7 @@ public class QuestionManagerTestSuite {
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
+    //Test if a question can be added to a tag
     @Test
     public void testAddingAQuestionToATag() {
         //Initialize shared preferences
@@ -103,7 +110,7 @@ public class QuestionManagerTestSuite {
                                 1)));
         answer2EditText.perform(scrollTo(), replaceText("Example 2"), closeSoftKeyboard());
 
-        //Input "Example 3" as the text for the answer 2 field
+        //Input "Example 3" as the text for the answer 3 field
         ViewInteraction answer3EditText = onView(
                 allOf(withId(R.id.editTextAnswer3),
                         childAtPosition(
@@ -113,7 +120,7 @@ public class QuestionManagerTestSuite {
                                 1)));
         answer3EditText.perform(scrollTo(), replaceText("Example 3"), closeSoftKeyboard());
 
-        //Input "Example 4" as the text for the answer 2 field
+        //Input "Example 4" as the text for the answer 4 field
         ViewInteraction answer4EditText = onView(
                 allOf(withId(R.id.editTextAnswer4),
                         childAtPosition(
@@ -123,7 +130,7 @@ public class QuestionManagerTestSuite {
                                 1)));
         answer4EditText.perform(scrollTo(), replaceText("Example 4"), closeSoftKeyboard());
 
-        //Submit the new question into the database
+        //Can submit the new question into the database
         ViewInteraction submitNewQuestion = onView(
                 allOf(withId(R.id.submitButton), withText("Submit Button"),
                         childAtPosition(
@@ -132,6 +139,143 @@ public class QuestionManagerTestSuite {
                                         8),
                                 0)));
         submitNewQuestion.perform(scrollTo(), click());
+    }
+
+    //Test a tag name can be edited
+    @Test
+    public void testEditingATagName() {
+        //Initialize shared preferences
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.mob_dev_portfolio",
+                Context.MODE_PRIVATE);
+
+        //Stop first time helper pop-ups from appearing
+        sharedPreferences.edit().putBoolean("first-run", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-qm-help", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-aq-help", false).commit();
+
+        //Visit the question manager by clicking the button on the homepage
+        ViewInteraction goToQuestionManagerButton = onView(
+                allOf(withId(R.id.question_manager_button), withText("Question Manager"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        3),
+                                0)));
+        goToQuestionManagerButton.perform(scrollTo(), click());
+
+        //Open the tag spinner
+        ViewInteraction openTagSpinner = onView(
+                allOf(withId(R.id.tagChooserSpinner),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        2),
+                                1),
+                        isDisplayed()));
+        openTagSpinner.perform(click());
+
+        //Change selected tag to default
+        DataInteraction changeTagToDefault = onData(anything())
+                .inAdapterView(childAtPosition(
+                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
+                        0))
+                .atPosition(1);
+        changeTagToDefault.perform(click());
+
+        //Click edit tag button to open edit text pop-up for editing the selected tag's name
+        ViewInteraction editTagButton = onView(
+                allOf(withId(R.id.qmEditTagButton), withContentDescription("Edit tag button"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        3),
+                                2),
+                        isDisplayed()));
+        editTagButton.perform(click());
+
+        //Input "Test Tag" into the edit text pop-up
+        ViewInteraction editTagName = onView(
+                allOf(childAtPosition(
+                                allOf(withId(androidx.appcompat.R.id.custom),
+                                        childAtPosition(
+                                                withId(androidx.appcompat.R.id.customPanel),
+                                                0)),
+                                0),
+                        isDisplayed()));
+        editTagName.perform(replaceText("Test Tag"), closeSoftKeyboard());
+
+        //Click "Ok" to submit the edited tag's name
+        ViewInteraction submitEditedTagName = onView(
+                allOf(withClassName(is("androidx.appcompat.widget.AppCompatButton")), withText("Ok"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(androidx.appcompat.R.id.buttonPanel),
+                                        0),
+                                3)));
+        submitEditedTagName.perform(scrollTo(), click());
+    }
+
+    //Test a tag can be deleted
+    @Test
+    public void testDeletingATag(){
+        //Initialize shared preferences
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.mob_dev_portfolio",
+                Context.MODE_PRIVATE);
+
+        //Stop first time helper pop-ups from appearing
+        sharedPreferences.edit().putBoolean("first-run", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-qm-help", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-aq-help", false).commit();
+
+        //Visit the question manager by clicking the button on the homepage
+        ViewInteraction goToQuestionManagerButton = onView(
+                allOf(withId(R.id.question_manager_button), withText("Question Manager"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        3),
+                                0)));
+        goToQuestionManagerButton.perform(scrollTo(), click());
+
+        //Open the tag spinner
+        ViewInteraction openTagSpinner = onView(
+                allOf(withId(R.id.tagChooserSpinner),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        2),
+                                1),
+                        isDisplayed()));
+        openTagSpinner.perform(click());
+
+        //Change selected tag to default
+        DataInteraction changeTagToDefault = onData(anything())
+                .inAdapterView(childAtPosition(
+                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
+                        0))
+                .atPosition(1);
+        changeTagToDefault.perform(click());
+
+        //Open delete tag pop-up
+        ViewInteraction deleteTagButton = onView(
+                allOf(withId(R.id.qmDeleteTagButton), withContentDescription("Delete tag button"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        3),
+                                3),
+                        isDisplayed()));
+        deleteTagButton.perform(click());
+
+        //Delete the default tag from the database
+        ViewInteraction submitDeleteTag = onView(
+                allOf(withClassName(is("androidx.appcompat.widget.AppCompatButton")), withText("Yes"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(androidx.appcompat.R.id.buttonPanel),
+                                        0),
+                                3)));
+        submitDeleteTag.perform(scrollTo(), click());
     }
 
     private static Matcher<View> childAtPosition(
