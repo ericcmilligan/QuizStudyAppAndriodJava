@@ -151,10 +151,6 @@ public class QuestionManagerTestSuite {
     //Test a tag name can be edited
     @Test
     public void testEditingATagName() {
-        //Clear database for test
-        QuizDatabase db = QuizDatabase.getInstance(getApplicationContext());
-        db.clearAllTables();
-
         //Initialize shared preferences
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.mob_dev_portfolio",
                 Context.MODE_PRIVATE);
@@ -228,11 +224,7 @@ public class QuestionManagerTestSuite {
 
     //Test a tag can be deleted
     @Test
-    public void testDeletingATag(){
-        //Clear database for test
-        QuizDatabase db = QuizDatabase.getInstance(getApplicationContext());
-        db.clearAllTables();
-
+    public void testDeletingATag(){;
         //Initialize shared preferences
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.mob_dev_portfolio",
                 Context.MODE_PRIVATE);
