@@ -22,11 +22,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.room.Database;
 import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
+
+import com.example.mob_dev_portfolio.Database.QuizDatabase;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -49,6 +52,10 @@ public class QuestionManagerTestSuite {
     //Test if a question can be added to a tag
     @Test
     public void testAddingAQuestionToATag() {
+        //Clear database for test
+        QuizDatabase db = QuizDatabase.getInstance(getApplicationContext());
+        db.clearAllTables();
+
         //Initialize shared preferences
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.mob_dev_portfolio",
                 Context.MODE_PRIVATE);
@@ -144,6 +151,10 @@ public class QuestionManagerTestSuite {
     //Test a tag name can be edited
     @Test
     public void testEditingATagName() {
+        //Clear database for test
+        QuizDatabase db = QuizDatabase.getInstance(getApplicationContext());
+        db.clearAllTables();
+
         //Initialize shared preferences
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.mob_dev_portfolio",
                 Context.MODE_PRIVATE);
@@ -218,6 +229,10 @@ public class QuestionManagerTestSuite {
     //Test a tag can be deleted
     @Test
     public void testDeletingATag(){
+        //Clear database for test
+        QuizDatabase db = QuizDatabase.getInstance(getApplicationContext());
+        db.clearAllTables();
+
         //Initialize shared preferences
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.mob_dev_portfolio",
                 Context.MODE_PRIVATE);
@@ -281,6 +296,10 @@ public class QuestionManagerTestSuite {
     //Test a question can be edited
     @Test
     public void testEditingAQuestion(){
+        //Clear database for test
+        QuizDatabase db = QuizDatabase.getInstance(getApplicationContext());
+        db.clearAllTables();
+
         //Initialize shared preferences
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.mob_dev_portfolio",
                 Context.MODE_PRIVATE);
@@ -350,6 +369,55 @@ public class QuestionManagerTestSuite {
                                         8),
                                 0)));
         updateQuestionButton.perform(scrollTo(), click());
+    }
+
+    //Test a tag with it's questions can be shared
+    @Test
+    public void testShareTagAndQuestions(){
+        //Clear database for test
+        QuizDatabase db = QuizDatabase.getInstance(getApplicationContext());
+        db.clearAllTables();
+
+        //Initialize shared preferences
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.mob_dev_portfolio",
+                Context.MODE_PRIVATE);
+
+        //Stop first time helper pop-ups from appearing
+        sharedPreferences.edit().putBoolean("first-run", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-qm-help", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-aq-help", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-eq-help", false).commit();
+
+        //Load example tags with their questions into the app
+        ViewInteraction loadExampleQuestionsButton = onView(
+                allOf(withId(R.id.load_example_questions_button), withText("Load Example Questions"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        2),
+                                0)));
+        loadExampleQuestionsButton.perform(scrollTo(), click());
+
+        //Confirm the example tags with their questions are to be loaded into the app
+        ViewInteraction confirmLoadExampleQuestions = onView(
+                allOf(withClassName(is("androidx.appcompat.widget.AppCompatButton")), withText("Yes"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(androidx.appcompat.R.id.buttonPanel),
+                                        0),
+                                3)));
+        confirmLoadExampleQuestions.perform(scrollTo(), click());
+
+        //Test the tag and it's questions can be shared
+        ViewInteraction shareTagAndQuestionsButton = onView(
+                allOf(withId(R.id.shareQuestionsButton), withContentDescription("Share question list"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        0),
+                                1),
+                        isDisplayed()));
+        shareTagAndQuestionsButton.perform(click());
     }
 
     private static Matcher<View> childAtPosition(
