@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.os.Environment;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -637,9 +639,23 @@ public class QMListFragment extends Fragment {
                         alert.setMessage(
                                 "Error exporting to text file as: " +
                                         e.getMessage()
+                                        + "\n\n" +
+                                        "If the permission is denied, in the app settings for this app, " +
+                                        "within permissions you can enable the storage permission to fix this."
                         );
 
-                        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        //Take the user to the settings page of the app to enable storage permission
+                        alert.setPositiveButton("Go to settings for app", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                        Uri.fromParts("package", getActivity().getPackageName(), null));
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        });
+
+                        //Take the user back to the app
+                        alert.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 // Canceled.
                             }
@@ -717,8 +733,6 @@ public class QMListFragment extends Fragment {
                         outputStream.write(fileText.toString().getBytes());
                         outputStream.close();
                     } catch (IOException e) {
-                        e.printStackTrace();
-
                         //Show the user a pop-up explaining why the file could not be exported
                         AlertDialog.Builder alert = new AlertDialog.Builder(getContext(),
                                 androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert);
@@ -727,9 +741,23 @@ public class QMListFragment extends Fragment {
                         alert.setMessage(
                                 "Error exporting to text file as: " +
                                         e.getMessage()
+                                + "\n\n"
+                                + "If the permission is denied, in the app settings for this app, " +
+                                        "you can enable the storage permission to fix this."
                         );
 
-                        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        //Take the user to the settings page of the app to enable storage permission
+                        alert.setPositiveButton("Go to settings for app", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                        Uri.fromParts("package", getActivity().getPackageName(), null));
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        });
+
+                        //Take the user back to the app
+                        alert.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 // Canceled.
                             }

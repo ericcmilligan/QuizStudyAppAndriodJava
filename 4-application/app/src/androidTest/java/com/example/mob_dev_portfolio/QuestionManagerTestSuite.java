@@ -323,13 +323,13 @@ public class QuestionManagerTestSuite {
         confirmLoadExampleQuestions.perform(scrollTo(), click());
 
         //Go to the edit question form for the selected question within the question manager
-        DataInteraction goToEditQuestionFormForSelectedQuest = onData(anything())
+        DataInteraction goToEditQuestionFormForSelectedQuestion = onData(anything())
                 .inAdapterView(allOf(withId(R.id.question_list_view),
                         childAtPosition(
                                 withClassName(is("android.widget.LinearLayout")),
                                 0)))
                 .atPosition(7);
-        goToEditQuestionFormForSelectedQuest.perform(click());
+        goToEditQuestionFormForSelectedQuestion.perform(click());
 
         //Change answer 3 text from "James Gosling" to "James Glossy"
         ViewInteraction changeAnswer3 = onView(
@@ -410,6 +410,122 @@ public class QuestionManagerTestSuite {
                                 1),
                         isDisplayed()));
         shareTagAndQuestionsButton.perform(click());
+    }
+
+    //Test deleting a question
+    @Test
+    public void testDeletingAQuestion(){
+        //Clear database for test
+        QuizDatabase db = QuizDatabase.getInstance(getApplicationContext());
+        db.clearAllTables();
+
+        //Initialize shared preferences
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.mob_dev_portfolio",
+                Context.MODE_PRIVATE);
+
+        //Stop first time helper pop-ups from appearing
+        sharedPreferences.edit().putBoolean("first-run", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-qm-help", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-aq-help", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-eq-help", false).commit();
+
+        //Load example tags with their questions into the app
+        ViewInteraction loadExampleQuestionsButton = onView(
+                allOf(withId(R.id.load_example_questions_button), withText("Load Example Questions"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        2),
+                                0)));
+        loadExampleQuestionsButton.perform(scrollTo(), click());
+
+        //Confirm the example tags with their questions are to be loaded into the app
+        ViewInteraction confirmLoadExampleQuestionsButton = onView(
+                allOf(withClassName(is("androidx.appcompat.widget.AppCompatButton")), withText("Yes"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(androidx.appcompat.R.id.buttonPanel),
+                                        0),
+                                3)));
+        confirmLoadExampleQuestionsButton.perform(scrollTo(), click());
+
+        //Go to the edit question form for the selected question within the question manager
+        DataInteraction goToEditQuestionFormForSelectedQuestion = onData(anything())
+                .inAdapterView(allOf(withId(R.id.question_list_view),
+                        childAtPosition(
+                                withClassName(is("android.widget.LinearLayout")),
+                                0)))
+                .atPosition(7);
+        goToEditQuestionFormForSelectedQuestion.perform(click());
+
+        //Click the delete question button
+        ViewInteraction deleteQuestionButton = onView(
+                allOf(withId(R.id.editQuestionDeleteButton), withContentDescription("Delete Question Button"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        0),
+                                2)));
+        deleteQuestionButton.perform(scrollTo(), click());
+
+        //Confirm deletion of question
+        ViewInteraction confirmDeleteQuestion = onView(
+                allOf(withClassName(is("androidx.appcompat.widget.AppCompatButton")), withText("Yes"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(androidx.appcompat.R.id.buttonPanel),
+                                        0),
+                                3)));
+        confirmDeleteQuestion.perform(scrollTo(), click());
+    }
+
+    //Test exporting a tag and it's questions
+    @Test
+    public void testExportingTagAndQuestionsToFile(){
+        //Clear database for test
+        QuizDatabase db = QuizDatabase.getInstance(getApplicationContext());
+        db.clearAllTables();
+
+        //Initialize shared preferences
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.mob_dev_portfolio",
+                Context.MODE_PRIVATE);
+
+        //Stop first time helper pop-ups from appearing
+        sharedPreferences.edit().putBoolean("first-run", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-qm-help", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-aq-help", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-eq-help", false).commit();
+
+        //Load example tags with their questions into the app
+        ViewInteraction loadExampleQuestionsButton = onView(
+                allOf(withId(R.id.load_example_questions_button), withText("Load Example Questions"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        2),
+                                0)));
+        loadExampleQuestionsButton.perform(scrollTo(), click());
+
+        //Confirm the example tags with their questions are to be loaded into the app
+        ViewInteraction confirmLoadExampleQuestionsButton = onView(
+                allOf(withClassName(is("androidx.appcompat.widget.AppCompatButton")), withText("Yes"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(androidx.appcompat.R.id.buttonPanel),
+                                        0),
+                                3)));
+        confirmLoadExampleQuestionsButton.perform(scrollTo(), click());
+
+        //Export the tag and it's questions to a file located in the downloads directory
+        ViewInteraction exportQuestionsToFileButton = onView(
+                allOf(withId(R.id.exportQuestionsToTextFileButton), withContentDescription("Export question list to text file"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        0),
+                                0),
+                        isDisplayed()));
+        exportQuestionsToFileButton.perform(click());
     }
 
     private static Matcher<View> childAtPosition(
