@@ -285,6 +285,101 @@ public class QuestionManagerTestSuite {
         submitDeleteTag.perform(scrollTo(), click());
     }
 
+    //Test adding a tag
+    @Test
+    public void testAddingATag(){
+        //Initialize shared preferences
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.mob_dev_portfolio",
+                Context.MODE_PRIVATE);
+
+        //Stop first time helper pop-ups from appearing
+        sharedPreferences.edit().putBoolean("first-run", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-qm-help", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-aq-help", false).commit();
+        sharedPreferences.edit().putBoolean("first-run-eq-help", false).commit();
+
+        //Visit the question manager by clicking the button on the homepage
+        ViewInteraction goToQuestionManagerButton = onView(
+                allOf(withId(R.id.question_manager_button), withText("Question Manager"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        3),
+                                0)));
+        goToQuestionManagerButton.perform(scrollTo(), click());
+
+        //Click add question floating action button to go the add question form
+        ViewInteraction addQuestionFloatingActionButton = onView(
+                allOf(withId(R.id.addQuestionButton), withContentDescription("Add question"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        3),
+                                4),
+                        isDisplayed()));
+        addQuestionFloatingActionButton.perform(click());
+
+        //Click the add tag floating button
+        ViewInteraction addTagFloatingActionButton = onView(
+                allOf(withId(R.id.addTagButton), withText("Add tag"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        1),
+                                2)));
+        addTagFloatingActionButton.perform(scrollTo(), click());
+
+        //Type the tag name "New" into the edit text
+        ViewInteraction newTagNameEditText = onView(
+                allOf(childAtPosition(
+                                allOf(withId(androidx.appcompat.R.id.custom),
+                                        childAtPosition(
+                                                withId(androidx.appcompat.R.id.customPanel),
+                                                0)),
+                                0),
+                        isDisplayed()));
+        newTagNameEditText.perform(replaceText("New"), closeSoftKeyboard());
+
+        //Confirm new tag is to be added
+        ViewInteraction confirmAddTag = onView(
+                allOf(withClassName(is("androidx.appcompat.widget.AppCompatButton")), withText("Ok"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(androidx.appcompat.R.id.buttonPanel),
+                                        0),
+                                3)));
+        confirmAddTag.perform(scrollTo(), click());
+
+        //Go back to the question manager
+        ViewInteraction backToQuestionManagerButton = onView(
+                allOf(withId(R.id.backToQMButton), withContentDescription("Back to question manager"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        0),
+                                0)));
+        backToQuestionManagerButton.perform(scrollTo(), click());
+
+        //Open the tag chooser spinner
+        ViewInteraction openTagSpinner = onView(
+                allOf(withId(R.id.tagChooserSpinner),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        2),
+                                1),
+                        isDisplayed()));
+        openTagSpinner.perform(click());
+
+        //Select the "New" tag created
+        DataInteraction selectAddedTag = onData(anything())
+                .inAdapterView(childAtPosition(
+                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
+                        0))
+                .atPosition(2);
+        selectAddedTag.perform(click());
+    }
+
     //Test a question can be edited
     @Test
     public void testEditingAQuestion(){
