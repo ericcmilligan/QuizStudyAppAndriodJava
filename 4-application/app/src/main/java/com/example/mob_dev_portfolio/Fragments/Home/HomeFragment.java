@@ -331,7 +331,7 @@ public class HomeFragment extends Fragment {
                                 "1.Click one of the buttons to go to a different section of the app."+
                                  "\n\n" +
                                 "2.You can load the example tags and their questions into the app by " +
-                                        "clicking the load example tags button."
+                                        "clicking the load example questions button."
                 );
 
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

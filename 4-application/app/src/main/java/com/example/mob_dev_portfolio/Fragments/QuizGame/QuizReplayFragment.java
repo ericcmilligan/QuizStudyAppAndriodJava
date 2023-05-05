@@ -166,6 +166,7 @@ public class QuizReplayFragment extends Fragment {
                     }
                 }
 
+                //Show the quiz replay help pop-up
                 showQRHelpPopUp();
             }
         });

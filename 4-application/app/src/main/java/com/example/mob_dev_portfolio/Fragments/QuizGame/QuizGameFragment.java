@@ -170,6 +170,7 @@ public class QuizGameFragment extends Fragment {
             }
         }
 
+        //When the user chooses to go to the next question check if the current question is answered
         buttonConfirmNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,14 +184,18 @@ public class QuizGameFragment extends Fragment {
                     }
                 }
 
+                //If not already answered and a radio button is checked, then check the answer selected
                 if(!answered){
                     if(rb1.isChecked() || rb2.isChecked() || rb3.isChecked() || rb4.isChecked()){
                         checkAnswer(view);
                     } else {
+                        //Else ask the user to select an answer
                         Toast.makeText(getContext(), "Please select an answer", Toast.LENGTH_SHORT)
                                 .show();
                     }
                 } else {
+                    //Once the answer is reported as correct/incorrect and the answer has been revealed
+                    //go to the next question
                     showNextQuestion(view);
                 }
             }
