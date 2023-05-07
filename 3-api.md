@@ -24,6 +24,5 @@ are not enabled on their device.
 
 To share the student's high scores I will use intents to allow the student to send an email
 containing the high score. I decided to use intents as they are built into android and there
-is ample documentation. I could have also used JavaMail API using Gmail authentication,
-but I feel this would be overkill for the required purpose. 
+is ample documentation. 
  
