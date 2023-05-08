@@ -55,6 +55,7 @@ public class QuizGameTestSuite {
         db.clearAllTables();
     }
 
+    //Test playing a quiz game all the way through to the end screen
     @Test
     public void testPlayingQuizGame() {
         //Initialize shared preferences
