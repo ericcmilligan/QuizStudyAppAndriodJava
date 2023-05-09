@@ -20,7 +20,7 @@ import com.example.mob_dev_portfolio.Entities.Tag;
 import com.example.mob_dev_portfolio.TypeConverters.LocalDateTimeConverter;
 
 /**
- * A class for setting the quiz app room database.
+ * A class for setting up the quiz app room database.
  */
 @Database(entities = {Answer.class, Question.class, Tag.class, Highscore.class}, version = 1)
 @TypeConverters({LocalDateTimeConverter.class})

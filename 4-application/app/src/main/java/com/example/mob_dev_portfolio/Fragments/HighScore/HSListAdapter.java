@@ -22,7 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
- * A custom adapter class for high scores
+ * A custom adapter class for displaying high scores
  */
 public class HSListAdapter extends RecyclerView.Adapter<HSListViewHolder> {
 

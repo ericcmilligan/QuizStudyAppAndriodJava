@@ -30,6 +30,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
 import com.example.mob_dev_portfolio.Database.QuizDatabase;
+import com.example.mob_dev_portfolio.Entities.Tag;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -75,7 +76,7 @@ public class QuestionManagerTestSuite {
                                 0)));
         goToQuestionManagerButton.perform(scrollTo(), click());
 
-        //Click add question floating action button to go the add question form
+        //Click the add question floating action button to go to the add question form
         ViewInteraction addQuestionFloatingActionButton = onView(
                 allOf(withId(R.id.addQuestionButton), withContentDescription("Add question"),
                         childAtPosition(
@@ -151,6 +152,13 @@ public class QuestionManagerTestSuite {
     //Test a tag name can be edited
     @Test
     public void testEditingATagName() {
+        //Clear database for test
+        QuizDatabase db = QuizDatabase.getInstance(getApplicationContext());
+        db.clearAllTables();
+
+        //Add default tag
+        db.tagDao().insertAll(new Tag("Default"));
+
         //Initialize shared preferences
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.mob_dev_portfolio",
                 Context.MODE_PRIVATE);
@@ -211,7 +219,7 @@ public class QuestionManagerTestSuite {
                         isDisplayed()));
         editTagName.perform(replaceText("Test Tag"), closeSoftKeyboard());
 
-        //Click "Ok" to submit the edited tag's name
+        //Click "Ok" to submit the edited tag name
         ViewInteraction submitEditedTagName = onView(
                 allOf(withClassName(is("androidx.appcompat.widget.AppCompatButton")), withText("Ok"),
                         childAtPosition(
@@ -224,7 +232,14 @@ public class QuestionManagerTestSuite {
 
     //Test a tag can be deleted
     @Test
-    public void testDeletingATag(){;
+    public void testDeletingATag(){
+        //Clear database for test
+        QuizDatabase db = QuizDatabase.getInstance(getApplicationContext());
+        db.clearAllTables();
+
+        //Add default tag
+        db.tagDao().insertAll(new Tag("Default"));
+
         //Initialize shared preferences
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.mob_dev_portfolio",
                 Context.MODE_PRIVATE);
@@ -288,6 +303,13 @@ public class QuestionManagerTestSuite {
     //Test adding a tag
     @Test
     public void testAddingATag(){
+        //Clear database for test
+        QuizDatabase db = QuizDatabase.getInstance(getApplicationContext());
+        db.clearAllTables();
+
+        //Add default tag
+        db.tagDao().insertAll(new Tag("Default"));
+
         //Initialize shared preferences
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.mob_dev_portfolio",
                 Context.MODE_PRIVATE);
@@ -308,7 +330,7 @@ public class QuestionManagerTestSuite {
                                 0)));
         goToQuestionManagerButton.perform(scrollTo(), click());
 
-        //Click add question floating action button to go the add question form
+        //Click the add question floating action button to go to the add question form
         ViewInteraction addQuestionFloatingActionButton = onView(
                 allOf(withId(R.id.addQuestionButton), withContentDescription("Add question"),
                         childAtPosition(
@@ -360,7 +382,7 @@ public class QuestionManagerTestSuite {
                                 0)));
         backToQuestionManagerButton.perform(scrollTo(), click());
 
-        //Open the tag chooser spinner
+        //Open the tag spinner
         ViewInteraction openTagSpinner = onView(
                 allOf(withId(R.id.tagChooserSpinner),
                         childAtPosition(
@@ -458,7 +480,7 @@ public class QuestionManagerTestSuite {
         updateQuestionButton.perform(scrollTo(), click());
     }
 
-    //Test a tag with it's questions can be shared
+    //Test a tag with its questions can be shared
     @Test
     public void testShareTagAndQuestions(){
         //Clear database for test
@@ -495,7 +517,7 @@ public class QuestionManagerTestSuite {
                                 3)));
         confirmLoadExampleQuestions.perform(scrollTo(), click());
 
-        //Test the tag and it's questions can be shared
+        //Test the tag and its questions can be shared
         ViewInteraction shareTagAndQuestionsButton = onView(
                 allOf(withId(R.id.shareQuestionsButton), withContentDescription("Share question list"),
                         childAtPosition(
@@ -574,7 +596,7 @@ public class QuestionManagerTestSuite {
         confirmDeleteQuestion.perform(scrollTo(), click());
     }
 
-    //Test exporting a tag and it's questions
+    //Test exporting a tag and its questions
     @Test
     public void testExportingTagAndQuestionsToFile(){
         //Clear database for test
@@ -611,7 +633,7 @@ public class QuestionManagerTestSuite {
                                 3)));
         confirmLoadExampleQuestionsButton.perform(scrollTo(), click());
 
-        //Export the tag and it's questions to a file located in the downloads directory
+        //Export the tag and its questions to a file located in the downloads directory
         ViewInteraction exportQuestionsToFileButton = onView(
                 allOf(withId(R.id.exportQuestionsToTextFileButton), withContentDescription("Export question list to text file"),
                         childAtPosition(

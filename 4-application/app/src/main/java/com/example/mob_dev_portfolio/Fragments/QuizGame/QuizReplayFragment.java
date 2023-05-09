@@ -77,7 +77,6 @@ public class QuizReplayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //Access the binding, view, bundle and quiz database within this fragment
         binding = FragmentQuizReplayBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 

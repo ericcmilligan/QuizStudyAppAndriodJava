@@ -512,7 +512,7 @@ public class QMListFragment extends Fragment {
                     List<Question> questionList =
                             db.questionDao().getAllQuestions();
 
-                    //Append every question in the app with it's information to the email text
+                    //Append every question in the app with its information to the email text
                     for(int i = 0; i <  questionList.size(); i++){
                         if(i > 0){
                             emailText.append("\n\n");

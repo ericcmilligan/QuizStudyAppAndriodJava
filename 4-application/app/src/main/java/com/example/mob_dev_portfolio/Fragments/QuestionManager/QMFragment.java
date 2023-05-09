@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.example.mob_dev_portfolio.R;
 
 /**
- * A fragment to hold the question listview.
+ * A fragment to hold the question list fragment.
  */
 public class QMFragment extends Fragment {
 

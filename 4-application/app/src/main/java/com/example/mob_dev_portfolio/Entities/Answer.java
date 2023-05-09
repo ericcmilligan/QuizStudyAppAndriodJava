@@ -6,7 +6,7 @@ import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 /**
- * An Entity class for a answer within the database.
+ * An Entity class for an answer within the database.
  */
 @Entity(foreignKeys = {@ForeignKey(entity = Question.class,
         parentColumns = "QuestionID",

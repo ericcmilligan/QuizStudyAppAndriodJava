@@ -69,7 +69,7 @@ public class AddQMFrag extends Fragment {
         View root = binding.getRoot();
         QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
 
-        //Register the buttons used for the question submission and the adding a tag popup
+        //Register the button used for question submission
         Button submitQMButton = (Button) root.findViewById(R.id.submitButton);
 
         //Submit question into the database

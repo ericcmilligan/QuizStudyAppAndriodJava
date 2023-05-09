@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * A fragment to provide navigation to the different screens in the app
+ * A fragment to provide navigation to the different sections in the app
  */
 public class HomeFragment extends Fragment {
 
