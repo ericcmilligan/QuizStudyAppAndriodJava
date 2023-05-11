@@ -109,7 +109,7 @@ public class HighScoreTestSuite {
                                 0)));
         goToHighScoresButton.perform(scrollTo(), click());
 
-        //Reset the high score for the tag "Default
+        //Reset the high score for the tag "Default"
         ViewInteraction resetHighScoreButton = onView(
                 allOf(withId(R.id.resetHighScoreButton), withText("Reset"),
                         childAtPosition(

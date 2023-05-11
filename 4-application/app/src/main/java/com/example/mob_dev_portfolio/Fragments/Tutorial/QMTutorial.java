@@ -24,6 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  */
 public class QMTutorial extends Fragment {
 
+    //Set up fragment binding variable
     private FragmentQuestionManagerTutorialBinding binding;
 
     public QMTutorial() {

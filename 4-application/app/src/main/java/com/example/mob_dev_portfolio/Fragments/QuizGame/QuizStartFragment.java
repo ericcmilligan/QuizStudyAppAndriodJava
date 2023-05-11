@@ -22,6 +22,7 @@ import com.example.mob_dev_portfolio.databinding.FragmentQuizStartBinding;
  */
 public class QuizStartFragment extends Fragment {
 
+    //Set up fragment binding variable
     private FragmentQuizStartBinding binding;
 
     public QuizStartFragment() {
@@ -38,8 +39,11 @@ public class QuizStartFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentQuizStartBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        //Initialize the quiz database
         QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
 
+        //Set up text view variables for the tag category and high-score achieved text
         TextView tagCategoryText = binding.quizStartCategoryText;
         TextView highScoreText = binding.quizStartHighscoreText;
 

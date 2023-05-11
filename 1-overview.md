@@ -11,7 +11,7 @@ to create a quiz I.e. questions for the programming tag are used to create a qui
 
 The main purpose of the app is for the questions in a tag to be played through as a quiz and have the score tracked. 
 Features I wish to include are a high score screen to view when high scores were achieved, 
-along with a share option for student's to share their quiz high scores I.e. by email.
+along with a share option for students to share their quiz high scores I.e. by email.
 
 The motivation to develop this app comes from experience of using existing revision tools to help
 memorize information for tests. The reason I wish to create an app for this purpose 

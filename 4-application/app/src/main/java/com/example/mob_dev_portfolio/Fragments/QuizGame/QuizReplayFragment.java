@@ -49,6 +49,7 @@ import java.util.Objects;
  */
 public class QuizReplayFragment extends Fragment {
 
+    //Set up fragment binding variable
     private FragmentQuizReplayBinding binding;
 
     //Variables for Giphy API

@@ -24,6 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  */
 public class HSTutorial extends Fragment {
 
+    //Set up fragment binding variable
     private FragmentHighScoreTutorialBinding binding;
 
     public HSTutorial() {

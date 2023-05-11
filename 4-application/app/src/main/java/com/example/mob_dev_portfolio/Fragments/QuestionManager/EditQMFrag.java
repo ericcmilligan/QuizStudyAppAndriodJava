@@ -40,6 +40,8 @@ import java.util.List;
  */
 public class EditQMFrag extends Fragment {
 
+    //Set up variables for the fragment binding, form validation, notification manager and
+    //notification channel
     private FragmentEditQuestionBinding binding;
     boolean isAllFieldsChecked = false;
     private NotificationManager notificationManager;
@@ -71,9 +73,11 @@ public class EditQMFrag extends Fragment {
         binding = FragmentEditQuestionBinding.inflate(inflater,
                 container, false);
         View root = binding.getRoot();
+
+        //Initialize app database
         QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
 
-        //Get the question and it's answers from the selected question within the question manager
+        //Get the question and its answers from the selected question within the question manager
         String bundleReceivedString = this.getArguments().toString();
         String bundleInt = bundleReceivedString.replaceAll("\\D+","");
         Integer selectedQuestionID = Integer.parseInt(bundleInt);
@@ -188,6 +192,7 @@ public class EditQMFrag extends Fragment {
             spinnerTagAdapter.notifyDataSetChanged();
         }
 
+        //Save the answers, correct answer number and tag ID for the selected question into variables
         List<Answer> getAnswersForSelectedQuestion =
                 db.answerDao().getAllAnswersForQuestion(selectedQuestionID);
         int correctAnswerNumber = db.questionDao().getCorrectAnswerIDByQuestionID(selectedQuestionID)

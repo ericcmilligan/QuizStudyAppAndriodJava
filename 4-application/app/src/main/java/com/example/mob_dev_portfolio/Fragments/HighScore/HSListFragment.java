@@ -31,6 +31,8 @@ import java.util.List;
  */
 public class HSListFragment extends Fragment {
 
+    //Set up variables for the fragment binding, high score array list, high score list adapter
+    //and recycler view
     FragmentHsListBinding binding;
     ArrayList<Highscore> highScoresList = new ArrayList<Highscore>();
     HSListAdapter hsListAdapter;
@@ -114,6 +116,7 @@ public class HSListFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Get a list of high scores from the app database
         QuizDatabase db = QuizDatabase.getInstance(getContext());
 
         List<Highscore> highScores = db.highScoreDao().getAllHighScores();

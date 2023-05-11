@@ -35,6 +35,7 @@ import java.util.List;
  */
 public class HomeFragment extends Fragment {
 
+    //Set up variable for the fragment binding
     private FragmentHomeBinding binding;
 
     //Initialize shared preferences

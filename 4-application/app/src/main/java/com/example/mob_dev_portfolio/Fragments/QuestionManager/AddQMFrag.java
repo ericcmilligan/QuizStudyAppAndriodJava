@@ -40,6 +40,8 @@ import java.util.List;
  */
 public class AddQMFrag extends Fragment {
 
+    //Set up variables for the fragment binding, form validation, notification manager and
+    //notification channel
     private FragmentAddQuestionBinding binding;
     boolean isAllFieldsChecked = false;
     private NotificationManager notificationManager;
@@ -67,6 +69,8 @@ public class AddQMFrag extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentAddQuestionBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        //Initialize the app database
         QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
 
         //Register the button used for question submission
@@ -269,7 +273,7 @@ public class AddQMFrag extends Fragment {
             return false;
         }
 
-        // after all validation is complete with no errors return true.
+        //after all validation is complete with no errors return true.
         return true;
     }
 

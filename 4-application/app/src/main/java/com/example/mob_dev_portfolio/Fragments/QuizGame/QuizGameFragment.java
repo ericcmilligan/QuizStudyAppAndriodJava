@@ -43,6 +43,7 @@ import java.util.Locale;
  */
 public class QuizGameFragment extends Fragment {
 
+    //Set up fragment binding variable
     FragmentQuizGameBinding binding;
 
     //Set up countdown variable
@@ -71,6 +72,7 @@ public class QuizGameFragment extends Fragment {
     private ColorStateList textColorDefaultRb;
     private ColorStateList textColorDefaultCd;
 
+    //Initialize countdown timer variables
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis;
 
@@ -82,6 +84,7 @@ public class QuizGameFragment extends Fragment {
     private int questionCountTotal;
     private Question currentQuestion;
 
+    //Score related variables for quiz game
     private int score;
     private Boolean answered = false;
 
@@ -154,6 +157,7 @@ public class QuizGameFragment extends Fragment {
 
             showNextQuestion(view);
         } else {
+            //On saved instance state change, load the saved variables
             questionsList = savedInstanceState.getParcelableArrayList(KEY_QUESTION_LIST);
             questionCountTotal = questionsList.size();
             questionCounter = savedInstanceState.getInt(KEY_QUESTION_COUNT);
@@ -207,7 +211,7 @@ public class QuizGameFragment extends Fragment {
         //Initialize the database
         QuizDatabase db = QuizDatabase.getInstance(getActivity().getApplicationContext());
 
-        //Set radio button's to default text color on next question
+        //Set radio buttons to default text color on next question
        rb1.setTextColor(textColorDefaultRb);
        rb2.setTextColor(textColorDefaultRb);
        rb3.setTextColor(textColorDefaultRb);
@@ -222,7 +226,7 @@ public class QuizGameFragment extends Fragment {
 
            textViewQuestion.setText(currentQuestion.getTitle());
 
-           //Get answers for current question and save into a list.
+           //Get answers for the current question and save into a list.
            List<Answer> questionAnswers = db.answerDao().getAllAnswersForQuestion(currentQuestion.getQuestionID());
 
            rb1.setText(questionAnswers.get(0).getText());

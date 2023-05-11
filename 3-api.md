@@ -17,7 +17,7 @@ and therefore has abundant documentation.
 I will use Volley an HTTP library to connect to the external GIPHY api in order to load a GIF on the quiz end screen,
 I am using Volley for this as it is developed by Google, and therefore the library should be reliable.
 
-To send alerts to the users on their high scores, quiz set creation save and end of game
+To send alerts to the students on high scores, question submission and end of game
 quiz score I will be using toasts as it is a standard convention in android. I have used
 notifications for this feature as well, with toasts as the back-up alert option, if notifications
 are not enabled on their device.

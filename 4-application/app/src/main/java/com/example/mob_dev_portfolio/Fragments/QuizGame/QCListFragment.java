@@ -33,6 +33,7 @@ import java.util.List;
  */
 public class QCListFragment extends Fragment {
 
+    //Set up the variables for the fragment binding, tags list, array adapter and listview
     FragmentQcListBinding binding;
 
     List<String> tagsList = new ArrayList<>();
@@ -64,7 +65,7 @@ public class QCListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_qc_list, container, false);
 
-        //Set up button to allow user to go back to homepage
+        //Set up button to allow user to go back to the homepage
         FloatingActionButton backToHomeButton = (FloatingActionButton) view.findViewById(R.id.backToHomeQCButton);
 
         backToHomeButton.setOnClickListener(new View.OnClickListener() {

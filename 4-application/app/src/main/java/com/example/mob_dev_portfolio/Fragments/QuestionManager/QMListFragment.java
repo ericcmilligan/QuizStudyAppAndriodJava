@@ -47,6 +47,8 @@ import java.util.List;
 public class QMListFragment extends Fragment {
 
 
+    //Set up variables for the fragment binding, question title list, questions list, array adapter,
+    //listview, notification manager and notification channel.
     FragmentQmListBinding binding;
 
     ArrayList<String> questionTitleList = new ArrayList<>();
@@ -399,7 +401,7 @@ public class QMListFragment extends Fragment {
                     alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                                 try{
-                                    //Get all questions for the tag and delete the answers for each question and the question
+                                    //Get all questions for the tag and delete the answers for each question
                                     List<Question> questionsForTag = db.questionDao().getQuestionsByTagID(selectedTag.getTagID());
                                     for(Question question : questionsForTag){
                                         db.answerDao().deleteAnswersByQuestionID(question.getQuestionID());
@@ -441,7 +443,7 @@ public class QMListFragment extends Fragment {
             }
         });
 
-        //Set up floating action button for sharing a tag and it's questions information through email on click
+        //Set up floating action button for sharing a tag and its questions information through email on click
         FloatingActionButton shareQuestionListButton = (FloatingActionButton) view.findViewById(R.id.shareQuestionsButton);
 
         shareQuestionListButton.setOnClickListener(new View.OnClickListener() {
@@ -586,7 +588,7 @@ public class QMListFragment extends Fragment {
                     List<Question> questionList =
                             db.questionDao().getQuestionsByTagID(selectedTag.getTagID());
 
-                    //Tell the user the tag and it's questions are being exported to a text file
+                    //Tell the user the tag and its questions are being exported to a text file
                     Toast.makeText(getContext(),
                             ("Exporting tag " + selectedTag.getName() +
                                     " and all its questions to a text file"),
@@ -595,7 +597,7 @@ public class QMListFragment extends Fragment {
                     fileText.append("Questions for tag: ").append(selectedTag.getName());
                     fileText.append("\n\n");
 
-                    //For each question in the questions list append the question's information to the string builder
+                    //For each question in the questions list append the question information to the string builder
                     for(int i = 0; i <  questionList.size(); i++){
                         if(i > 0){
 
@@ -691,7 +693,7 @@ public class QMListFragment extends Fragment {
                     fileText.append("All Questions Within The Test Quizzer App");
                     fileText.append("\n\n");
 
-                    //Append every question in the app with it's information to the file text
+                    //Append every question in the app with its information to the file text
                     for (int i = 0; i < questionList.size(); i++) {
                         if (i > 0) {
                             fileText.append("\n\n");

@@ -26,6 +26,7 @@ import java.util.ArrayList;
  */
 public class HSListAdapter extends RecyclerView.Adapter<HSListViewHolder> {
 
+    //Set up context and high score array list variables
     private Context context;
     private ArrayList<Highscore> highScoreList;
 

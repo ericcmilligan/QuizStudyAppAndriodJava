@@ -37,12 +37,11 @@ should be notified of this.
 
 ### Performance
 
-1. The app should respond to the student's option click within the quiz within 2 seconds
-2. The app should be able to handle a large number of quiz sets and categories without
-slowing down.
+1. The app should respond to the user's option click within the quiz within 2 seconds
+2. The app should be able to handle a large number of quiz sets without slowing down.
 3. The quiz should be optimized to use minimal system resources such as battery and 
 memory.
-4. The app should time out of the quiz game after 10 seconds of non-user input.
+4. The app should time out of the quiz game after 30 seconds of non-user input.
 
 ### Usability
 
